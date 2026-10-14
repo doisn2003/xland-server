@@ -1,0 +1,25 @@
+{
+  "name": "xland-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": "24.19.0", "npm": "11.17.0" },
+  "packageManager": "npm@11.17.0",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "lint": "eslint src tests scripts",
+    "typecheck": "tsc --noEmit",
+    "check:foundation": "node scripts/verify-foundation.mjs",
+    "test": "node --import tsx --test tests/unit/*.test.ts",
+    "test:integration": "node scripts/not-yet-available.mjs integration",
+    "test:contract": "node scripts/not-yet-available.mjs contract",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/server.js"
+  },
+  "dependencies": { "dotenv": "18.0.8", "express": "5.3.0" },
+  "devDependencies": {
+    "@types/express": "5.0.6", "@types/node": "24.19.2",
+    "eslint": "10.12.0", "typescript-eslint": "8.71.2",
+    "tsx": "4.23.15", "typescript": "5.9.3"
+  }
+}
