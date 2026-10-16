@@ -5,6 +5,7 @@ Node24.19.0/npm11.17.0. API `/api/v1`; opaque sessions24h. C-3 remains the histo
 The A-09 Supabase mock target is now provisioned: PostgreSQL17.6, environment `supabase_mock`, approved fingerprint03d6c297d77a1029, xland/xland_meta only. Metadata outside XLand is preserved. Current preview backend connects to Supabase at `http://127.0.0.1:3001/api/v1`:
 
 ```powershell
+node scripts/start-evidence-run.mjs
 node scripts/supabase-preflight.mjs
 node --import tsx scripts/provision-supabase-mock.ts
 node --env-file=.env.supabase-mock --import tsx src/server.ts
