@@ -11,7 +11,7 @@ probe.close();
 await once(probe, 'close');
 const child = spawn(process.execPath, ['dist/server.js'], {
   cwd: fileURLToPath(new URL('../', import.meta.url)),
-  env: { ...process.env, NODE_ENV: 'test', PORT: String(port) },
+  env: { ...process.env, NODE_ENV: 'test', PORT: String(port), XLAND_API_MODE:'bootstrap' },
   stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true,
 });
 let output = '';

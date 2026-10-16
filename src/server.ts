@@ -1,15 +1,14 @@
 import 'dotenv/config';
-import { createApp } from './app.js';
+import { runtime } from './runtime.js';
 import { parseEnvironment } from './config/environment.js';
 
 const env = parseEnvironment(process.env);
-// DB repository readiness is wired in Phase 2; liveness is not DB readiness.
-const app = createApp({ checkReadiness: async () => false });
-const server = app.listen(env.port, '0.0.0.0', () => {
-  console.info(JSON.stringify({ event: 'server_started', port: env.port, phase: 1 }));
+const configured=await runtime(process.env);
+const server = configured.app.listen(env.port, '0.0.0.0', () => {
+  console.info(JSON.stringify({ event: 'server_started', port: env.port, phase: 2, mode:process.env.XLAND_API_MODE??'api' }));
 });
 function shutdown() {
-  server.close(() => process.exit(0));
+  server.close(() => {void configured.close().then(()=>process.exit(0));});
   const timeout = setTimeout(() => process.exit(1), 10000);
   timeout.unref();
 }
