@@ -7,7 +7,8 @@ export function databaseTarget(env: NodeJS.ProcessEnv, test: boolean): DatabaseT
   if (!value || environment !== (test ? 'test' : 'development')) {
     throw new Error('Database target must have an explicit isolated test/development classification');
   }
-  const url = new URL(value);
+  let url:URL;
+  try{url=new URL(value);}catch{throw new Error('Invalid database target');}
   if (!['postgres:', 'postgresql:'].includes(url.protocol)) throw new Error('Invalid database target');
   if (test && (value === env.DATABASE_URL || !url.pathname.startsWith('/xland_test_'))) {
     throw new Error('Tests require a dedicated xland_test_* database, separate from DATABASE_URL');

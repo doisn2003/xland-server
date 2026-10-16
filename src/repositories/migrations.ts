@@ -16,7 +16,7 @@ export async function migrate(pool: Pool): Promise<string[]> {
       REVOKE ALL ON SCHEMA xland_meta FROM PUBLIC;
       CREATE TABLE IF NOT EXISTS xland_meta.migrations(id text PRIMARY KEY, digest text NOT NULL, applied_at timestamptz NOT NULL DEFAULT now())`);
     for (const file of (await readdir(resolve('supabase/migrations'))).filter(f => f.endsWith('.sql')).sort()) {
-      const sql = await readFile(resolve('supabase/migrations', file), 'utf8');
+      const sql = (await readFile(resolve('supabase/migrations', file), 'utf8')).replace(/\r\n/g,'\n');
       const digest = createHash('sha256').update(sql).digest('hex');
       const prior = await client.query('SELECT digest FROM xland_meta.migrations WHERE id=$1', [file]);
       if (prior.rowCount) {

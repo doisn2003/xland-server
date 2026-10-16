@@ -42,11 +42,12 @@ export class CoreService {
     const hash=this.cursor.fingerprint(body);
     await c.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[identity.userId+operation+key]);
     const old=await c.query('SELECT request_hash,response_public FROM xland.idempotency_records WHERE user_id=$1 AND operation=$2 AND key=$3',[identity.userId,operation,key]);
-    if(old.rowCount){if(old.rows[0].request_hash!==hash)throw new DomainError(409,'IDEMPOTENCY_CONFLICT','Idempotency-Key đã dùng cho nội dung khác');return old.rows[0].response_public as Wire;}
+    const scope=identity.userId+':'+operation+':'+key;
+    if(old.rowCount){if(old.rows[0].request_hash!==hash)throw new DomainError(409,'IDEMPOTENCY_CONFLICT','Idempotency-Key đã dùng cho nội dung khác');return this.cursor.open(old.rows[0].response_public as Record<string,string>,scope) as Wire;}
     const created=await create();
-    // Responses stored here contain public resource IDs, never login/token/contact snapshots.
+    // Authenticated ciphertext preserves the original retry response without raw contacts in this cache.
     await c.query(`INSERT INTO xland.idempotency_records(user_id,operation,key,request_hash,resource_id,response_status,response_public,expires_at)
-      VALUES($1,$2,$3,$4,$5,201,$6,$7)`,[identity.userId,operation,key,hash,created.id,JSON.stringify(created.data),new Date(this.now().getTime()+86400000)]);
+      VALUES($1,$2,$3,$4,$5,201,$6,$7)`,[identity.userId,operation,key,hash,created.id,JSON.stringify(this.cursor.seal(created.data,scope)),new Date(this.now().getTime()+86400000)]);
     return created.data;
   }
   newId():string {return randomUUID();}

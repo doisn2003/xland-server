@@ -3,15 +3,28 @@ import type { Request, Response } from 'express';
 import { z } from 'zod';
 import type { CoreService } from '../../services/core.js';
 import type { Identity } from '../../services/auth.js';
-import { parse, uuid, loginSchema, propertyQuery } from '../../schemas/http.js';
+import { parse, uuid, loginSchema, propertyQuery,profileInput,settingsInput,pagination,supportInput,dates,bookingInput,changeInput,bookingStatuses,feedQuery,registrationInput,text,financeInput } from '../../schemas/http.js';
 import { DomainError } from '../../domain/errors.js';
+import { AccountService } from '../../services/account.js';
+import { BookingService,depositPolicy } from '../../services/bookings.js';
+import { SocialService } from '../../services/social.js';
+import { CommunityService } from '../../services/community.js';
 
-export function apiRouter(service:CoreService):Router {
+export function apiRouter(service:CoreService,avatarOrigins:readonly string[]=[]):Router {
   const router=Router();
+  const accounts=new AccountService(service,avatarOrigins);const bookings=new BookingService(service);
+  const social=new SocialService(service);const community=new CommunityService(service);
   const id=(req:Request,name:string)=>parse(uuid,req.params[name]);
   const identity=(res:Response)=>res.locals.identity as Identity|null;
+  const key=(req:Request)=>parse(z.string().regex(/^[\x21-\x7e]{16,128}$/),req.headers['idempotency-key']);
   router.use(async(req,res,next)=>{
     res.locals.identity=req.method==='POST'&&req.path==='/auth/sessions'?null:await service.auth.identify(req.headers.authorization);
+    next();
+  });
+  router.use((req,_res,next)=>{
+    if(req.method!=='GET')parse(z.object({}).strict(),req.query);
+    if(req.method==='DELETE')parse(z.object({}).strict(),req.body??{});
+    if(req.method==='GET'&&![/^\/(properties(\/count)?|feed|clubs|events)$/, /^\/me\/(saved-videos|following|event-registrations|saved-events|bookings|support-requests|finance-plans)$/, /^\/catalog\/locations$/, /^\/properties\/[^/]+\/(availability|area)$/, /^\/consultants\/[^/]+\/(videos|properties|reviews|availability)$/, /^\/videos\/[^/]+\/comments$/, /^\/bookings\/[^/]+\/payments$/].some(p=>p.test(req.path)))parse(z.object({}).strict(),req.query);
     next();
   });
   router.post('/auth/sessions',async(req,res)=>{
@@ -24,6 +37,56 @@ export function apiRouter(service:CoreService):Router {
   });
   router.delete('/auth/sessions/current',async(_req,res)=>{const auth=identity(res);service.user(auth);await service.auth.logout(auth!);res.json({data:null});});
   router.get('/me/profile',async(req,res)=>{parse(z.object({}).strict(),req.query);res.setHeader('Cache-Control','no-store');res.json({data:await service.auth.profile(service.user(identity(res)))});});
+  router.get('/feed',async(req,res)=>res.json(await social.feed(identity(res),parse(feedQuery,req.query))));
+  router.get('/videos/:videoId',async(req,res)=>res.json({data:await service.read(identity(res),c=>social.get(c,id(req,'videoId')))}));
+  router.get('/videos/:videoId/comments',async(req,res)=>res.json(await social.comments(identity(res),id(req,'videoId'),parse(pagination.strict(),req.query))));
+  router.post('/videos/:videoId/comments',async(req,res)=>{service.user(identity(res));const input=parse(z.object({text:text(1000)}).strict(),req.body);res.status(201).json({data:await social.createComment(identity(res),id(req,'videoId'),input.text,key(req))});});
+  router.delete('/videos/:videoId/comments/:commentId',async(req,res)=>{await social.deleteComment(identity(res),id(req,'videoId'),id(req,'commentId'));res.json({data:null});});
+  for(const kind of ['like','saved'] as const){
+    router.put(`/videos/:videoId/${kind}`,async(req,res)=>{parse(z.object({}).strict(),req.body??{});res.json({data:await social.state(identity(res),id(req,'videoId'),kind,true)});});
+    router.delete(`/videos/:videoId/${kind}`,async(req,res)=>res.json({data:await social.state(identity(res),id(req,'videoId'),kind,false)}));
+  }
+  router.put('/authors/:authorId/follow',async(req,res)=>{parse(z.object({}).strict(),req.body??{});res.json({data:await social.state(identity(res),id(req,'authorId'),'follow',true)});});
+  router.delete('/authors/:authorId/follow',async(req,res)=>res.json({data:await social.state(identity(res),id(req,'authorId'),'follow',false)}));
+  router.get('/me/saved-videos',async(req,res)=>res.json(await social.saved(identity(res),parse(pagination.strict(),req.query))));
+  router.get('/me/following',async(req,res)=>res.json(await social.following(identity(res),parse(pagination.strict(),req.query))));
+  router.get('/videos/:videoId/share',async(req,res)=>res.json({data:await service.share(identity(res),'videos',id(req,'videoId'))}));
+  router.get('/consultants/:consultantId',async(req,res)=>res.json({data:await community.consultant(identity(res),id(req,'consultantId'))}));
+  router.get('/consultants/:consultantId/videos',async(req,res)=>res.json(await social.consultantVideos(identity(res),id(req,'consultantId'),parse(pagination.strict(),req.query))));
+  router.get('/consultants/:consultantId/properties',async(req,res)=>res.json(await community.consultantProperties(identity(res),id(req,'consultantId'),parse(pagination.strict(),req.query))));
+  router.get('/consultants/:consultantId/reviews',async(req,res)=>res.json(await community.reviews(identity(res),id(req,'consultantId'),parse(pagination.strict(),req.query))));
+  router.get('/events',async(req,res)=>res.json(await community.events(identity(res),parse(pagination.extend({status:z.enum(['open','sold_out','closed','cancelled']).optional()}).strict(),req.query))));
+  router.get('/events/:eventId',async(req,res)=>res.json({data:await service.read(identity(res),c=>community.get(c,id(req,'eventId')))}));
+  router.put('/events/:eventId/saved',async(req,res)=>{parse(z.object({}).strict(),req.body??{});res.json({data:await community.saved(identity(res),id(req,'eventId'),true)});});
+  router.delete('/events/:eventId/saved',async(req,res)=>res.json({data:await community.saved(identity(res),id(req,'eventId'),false)}));
+  router.post('/events/:eventId/registrations',async(req,res)=>{service.user(identity(res));res.status(201).json({data:await community.register(identity(res),id(req,'eventId'),parse(registrationInput,req.body),key(req))});});
+  router.get('/me/event-registrations',async(req,res)=>res.json(await community.registrations(identity(res),parse(pagination.strict(),req.query))));
+  router.get('/me/saved-events',async(req,res)=>res.json(await community.events(identity(res),parse(pagination.strict(),req.query),true)));
+  router.get('/events/:eventId/share',async(req,res)=>res.json({data:await service.share(identity(res),'events',id(req,'eventId'))}));
+  router.patch('/me/profile',async(req,res)=>{service.user(identity(res));res.json({data:await accounts.profile(identity(res),parse(profileInput,req.body))});});
+  router.get('/me/settings',async(req,res)=>{parse(z.object({}).strict(),req.query);res.json({data:await accounts.settings(identity(res))});});
+  router.patch('/me/settings',async(req,res)=>{service.user(identity(res));res.json({data:await accounts.settings(identity(res),parse(settingsInput,req.body))});});
+  router.get('/clubs',async(req,res)=>res.json(await accounts.clubs(identity(res),parse(pagination.strict(),req.query))));
+  router.get('/clubs/:clubId',async(req,res)=>res.json({data:await accounts.getClub(identity(res),id(req,'clubId'))}));
+  router.post('/support-requests',async(req,res)=>{service.user(identity(res));res.status(201).json({data:await accounts.createSupport(identity(res),parse(supportInput,req.body),key(req))});});
+  router.get('/me/support-requests',async(req,res)=>res.json(await accounts.supports(identity(res),parse(pagination.strict(),req.query))));
+  router.get('/me/finance-plans',async(req,res)=>res.json(await accounts.plans(identity(res),parse(pagination.strict(),req.query))));
+  router.delete('/me/finance-plans/:planId',async(req,res)=>{await accounts.deletePlan(identity(res),id(req,'planId'));res.json({data:null});});
+  router.get('/properties/:propertyId/availability',async(req,res)=>res.json({data:await bookings.availability(identity(res),id(req,'propertyId'),parse(dates,req.query))}));
+  router.get('/consultants/:consultantId/availability',async(req,res)=>res.json({data:await bookings.availability(identity(res),id(req,'consultantId'),parse(dates,req.query),true)}));
+  router.get('/booking-deposit-policy',(_req,res)=>res.json({data:depositPolicy}));
+  router.post('/bookings',async(req,res)=>{service.user(identity(res));res.status(201).json({data:await bookings.create(identity(res),parse(bookingInput,req.body),key(req))});});
+  router.get('/me/bookings',async(req,res)=>res.json(await bookings.list(identity(res),parse(pagination.extend({status:z.enum(bookingStatuses).optional()}).strict(),req.query))));
+  router.get('/bookings/:bookingId',async(req,res)=>{service.user(identity(res));res.json({data:await service.read(identity(res),c=>bookings.get(c,id(req,'bookingId')))});});
+  for(const kind of ['cancellation','reschedule'])router.post(`/bookings/:bookingId/${kind}-requests`,async(req,res)=>{
+    service.user(identity(res));key(req);const input=parse(changeInput,req.body);
+    if((kind==='reschedule'&&!input.requestedSlotId)||(kind==='cancellation'&&input.requestedSlotId))throw new DomainError(400,'INVALID_INPUT','requestedSlotId không hợp lệ cho yêu cầu');
+    await bookings.changeGate(identity(res),id(req,'bookingId'));
+  });
+  router.get('/bookings/:bookingId/payments',async(req,res)=>res.json(await bookings.payments(identity(res),id(req,'bookingId'),parse(pagination.strict(),req.query))));
+  router.get('/payments/:paymentId',async(req,res)=>res.json({data:await bookings.getPayment(identity(res),id(req,'paymentId'))}));
+  router.post('/payments/:paymentId/refresh',async(req,res)=>{service.user(identity(res));parse(z.object({}).strict(),req.body??{});res.json({data:await bookings.getPayment(identity(res),id(req,'paymentId'))});});
+  router.post('/bookings/:bookingId/payment-intents',async(req,res)=>{service.user(identity(res));key(req);parse(z.object({}).strict(),req.body??{});await bookings.paymentGate(identity(res),id(req,'bookingId'));});
   router.get('/properties/count',async(req,res)=>{
     const query=parse(propertyQuery.omit({cursor:true,limit:true}),req.query);
     res.json(await service.properties.search({...query,limit:20},identity(res)?.userId??null,true));
@@ -47,7 +110,7 @@ export function apiRouter(service:CoreService):Router {
   });
   router.get('/properties/:propertyId/share',async(req,res)=>res.json({data:await service.share(identity(res),'properties',id(req,'propertyId'))}));
   // Explicit policy gates exist before a provider/calculator implementation.
-  router.post('/finance/estimates',()=>{throw new DomainError(409,'FEATURE_NOT_ENABLED','SPEC-001 chưa được khóa');});
-  router.post('/me/finance-plans',(_req,res)=>{service.user(identity(res));throw new DomainError(409,'FEATURE_NOT_ENABLED','SPEC-001 chưa được khóa');});
+  router.post('/finance/estimates',(req)=>{parse(financeInput,req.body);throw new DomainError(409,'FEATURE_NOT_ENABLED','SPEC-001 chưa được khóa');});
+  router.post('/me/finance-plans',(req,res)=>{service.user(identity(res));key(req);parse(z.object({label:text(100),input:financeInput}).strict(),req.body);throw new DomainError(409,'FEATURE_NOT_ENABLED','SPEC-001 chưa được khóa');});
   return router;
 }

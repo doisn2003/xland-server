@@ -77,6 +77,8 @@ export async function seed(pool: Pool, accounts: SeedAccount[], clock = new Date
       await insert(c,'site_visit_slots',{id:s.id,property_id:s.propertyId,consultant_id:s.consultantId,starts_at:starts.toISOString(),ends_at:new Date(starts.getTime()+90*60000).toISOString(),time_zone:s.timeZone,max_attendees:6,max_bookings:1,status:'open',approximate_meeting_lat:area.latitude,approximate_meeting_lng:area.longitude,radius_m:area.radiusM,label:area.label,is_illustrative:true});
     }
     for(const club of f.clubs)await insert(c,'clubs',{id:club.id,title:club.title,summary:club.summary,description:club.description,region_label:club.regionLabel,activities:JSON.stringify(club.activities),media:'[]',is_illustrative:true});
+    const review=f.sampleTypes.ConsultantReview!;
+    await insert(c,'consultant_reviews',{id:review.id,consultant_id:review.consultantId,public_author_label:review.authorDisplayName,rating:review.rating,body:review.text,created_at:review.createdAt,is_illustrative:true});
     await c.query('COMMIT');
     return {accounts:accounts.length,properties:f.properties.length,videos:f.feedVideos.length};
   } catch(error) {await c.query('ROLLBACK');throw error;}finally{c.release();}

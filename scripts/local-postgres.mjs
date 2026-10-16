@@ -13,7 +13,7 @@ export async function localPostgres() {
   await mkdir(dir, { recursive: true });
   let config;
   try { config = JSON.parse(await readFile(resolve(dir,'cluster.json'),'utf8')); }
-  catch { config = { port: 55439, password: randomBytes(32).toString('base64url') }; await writeFile(resolve(dir,'cluster.json'),JSON.stringify(config),{mode:0o600}); }
+  catch(error) { if(error.code!=='ENOENT')throw new Error('Existing local cluster config is unreadable; preserve it for review');config = { port: 55439, password: randomBytes(32).toString('base64url') }; await writeFile(resolve(dir,'cluster.json'),JSON.stringify(config),{mode:0o600}); }
   const postgres = new EmbeddedPostgres({ databaseDir: resolve(dir,'postgres'), user:'postgres', password:config.password,
     port:config.port, persistent:true, authMethod:'scram-sha-256',
     postgresFlags:['-h','127.0.0.1'], initdbFlags:['--encoding=UTF8','--locale=C'], onLog:()=>{}, onError:()=>{} });
@@ -21,8 +21,9 @@ export async function localPostgres() {
   const rootUrl = `postgresql://postgres:${config.password}@127.0.0.1:${config.port}/postgres`;
   let probe = new pg.Client({connectionString:rootUrl,connectionTimeoutMillis:1000});
   try { await probe.connect(); await probe.end(); }
-  catch {
+  catch(error) {
     await probe.end().catch(()=>{});
+    if(error.code==='28P01'||error.code==='28000')throw new Error('Local cluster authentication failed; existing private credentials are preserved');
     try { await readFile(resolve(dir,'postgres','PG_VERSION')); } catch { await postgres.initialise(); }
     if (process.platform === 'win32') {
       // pg_ctl launches a restricted Windows token; direct postgres spawn rejects Administrator.

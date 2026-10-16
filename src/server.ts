@@ -4,7 +4,7 @@ import { parseEnvironment } from './config/environment.js';
 
 const env = parseEnvironment(process.env);
 const configured=await runtime(process.env);
-const server = configured.app.listen(env.port, '0.0.0.0', () => {
+const server = configured.app.listen(env.port, process.env.BIND_HOST??(env.nodeEnv==='production'?'0.0.0.0':'127.0.0.1'), () => {
   console.info(JSON.stringify({ event: 'server_started', port: env.port, phase: 2, mode:process.env.XLAND_API_MODE??'api' }));
 });
 function shutdown() {

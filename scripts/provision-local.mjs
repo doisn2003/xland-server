@@ -5,6 +5,7 @@ import pg from 'pg';
 import { localPostgres } from './local-postgres.mjs';
 import { migrate } from '../src/repositories/migrations.ts';
 import { seed, loadFixture } from '../src/repositories/seed.ts';
+import { backupLocal,restoreLogical } from './backup-local.mjs';
 
 const cluster=await localPostgres();
 const root=new pg.Pool({connectionString:cluster.rootUrl});
@@ -25,9 +26,18 @@ try {
 if(values.DATABASE_URL!==connectionString)throw new Error('Local environment target changed; manual review required');
 const pool=new pg.Pool({connectionString});
 try {
+  const exists=(await pool.query("SELECT to_regclass('xland_meta.migrations') IS NOT NULL present")).rows[0].present;
+  const backup=exists?await backupLocal(connectionString):null;
+  let restoreVerification=null;
+  if(backup){
+    const restoreName='xland_test_restore_'+randomBytes(8).toString('hex');const admin=new pg.Pool({connectionString:cluster.rootUrl});
+    try{await admin.query(`CREATE DATABASE ${restoreName} TEMPLATE template0 ENCODING 'UTF8' LC_COLLATE 'C' LC_CTYPE 'C'`);}finally{await admin.end();}
+    const restoreUrl=new URL(connectionString);restoreUrl.pathname='/'+restoreName;const restorePool=new pg.Pool({connectionString:restoreUrl.toString()});
+    try{await migrate(restorePool);restoreVerification=await restoreLogical(restorePool,backup.file);}finally{await restorePool.end();}
+  }
   const migrations=await migrate(pool);
   const fixture=await loadFixture();
   const account={id:String(fixture.sampleTypes.UserProfile.id),username:values.DEMO_USERNAME,password:values.DEMO_PASSWORD};
   const once=await seed(pool,[account]);const twice=await seed(pool,[account]);
-  console.log(JSON.stringify({environment:'isolated-local-development',database,migrations,once,twice,baseUrl:'http://127.0.0.1:3000/api/v1',credentialLocation:'private .env.local; never print to Markdown',backup:'new isolated DB; migration transaction rollback; no DROP/TRUNCATE'}));
+  console.log(JSON.stringify({environment:'isolated-local-development',database,migrations,once,twice,baseUrl:'http://127.0.0.1:3000/api/v1',credentialLocation:'private .env.local; never print to Markdown',backup:backup?{format:backup.format,sha256:backup.sha256,bytes:backup.bytes,location:'private ignored .backups/',restoreVerification}:'new isolated DB; transaction rollback'}));
 }finally{await pool.end();}
