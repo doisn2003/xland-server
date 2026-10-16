@@ -15,7 +15,7 @@ export async function testApi() {
   const target=databaseTarget({TEST_DATABASE_URL:context.connectionString,TEST_DATABASE_ENVIRONMENT:'test'},true);
   const db=new Database(target.connectionString,8);const auth=new AuthService(db);await auth.initialize();
   const service=new CoreService(db,auth,new CursorCodec(randomBytes(32)),()=>new Date(),'https://xland.example.test/');
-  const server=createApp({checkReadiness:()=>db.ready(),api:apiRouter(service),allowedOrigins:['http://localhost:5555']}).listen(0,'127.0.0.1');await once(server,'listening');
+  const server=createApp({checkReadiness:()=>db.ready(),api:apiRouter(service,['https://media.xland.test']),allowedOrigins:['http://localhost:5555']}).listen(0,'127.0.0.1');await once(server,'listening');
   const address=server.address();if(!address||typeof address==='string')throw new Error('Missing test listener');
   const base=`http://127.0.0.1:${address.port}/api/v1`;
   const request=async(path:string,method='GET',body?:unknown,token?:string,key?:string)=>{

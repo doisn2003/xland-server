@@ -9,6 +9,14 @@ const digestRows=rows=>createHash('sha256').update(JSON.stringify(rows.map(row=>
 export async function backupLocal(connectionString) {
   const url=new URL(connectionString);
   if(!['127.0.0.1','localhost','::1'].includes(url.hostname)||url.pathname!=='/xland_dev_p2')throw new Error('Local backup requires the owned isolated development DB');
+  return backupApplication(connectionString,'isolated-local-development','xland_dev_p2');
+}
+export async function backupSupabaseMock(connectionString){
+  const url=new URL(connectionString);const fingerprint=createHash('sha256').update(url.hostname+url.pathname).digest('hex').slice(0,16);
+  if(fingerprint!=='03d6c297d77a1029')throw new Error('A-09 backup target mismatch');
+  return backupApplication(connectionString,'supabase_mock','supabase_mock');
+}
+async function backupApplication(connectionString,environment,label){
   await mkdir('.backups',{recursive:true});
   // Embedded binaries omit pg_dump. Snapshot every application table consistently;
   // exact numeric/timestamp/bytea representations are preserved for a verified restore.
@@ -25,10 +33,10 @@ export async function backupLocal(connectionString) {
     }
     await c.query('COMMIT');
   }catch(error){await c.query('ROLLBACK');throw error;}finally{c.release();await pool.end();}
-  const file=resolve('.backups',`xland_dev_p2_${new Date().toISOString().replace(/[^0-9]/g,'')}.json`);
+  const file=resolve('.backups',`${label}_${new Date().toISOString().replace(/[^0-9]/g,'')}.json`);
   await writeFile(file,JSON.stringify({format:'xland-logical-v1',createdAt:new Date().toISOString(),migrations,tables}),{mode:0o600});
   const bytes=await readFile(file);
-  return {file,format:'xland-logical-v1',sha256:createHash('sha256').update(bytes).digest('hex'),bytes:bytes.length,database:'xland_dev_p2',environment:'isolated-local-development',tables:tables.length};
+  return {file,format:'xland-logical-v1',sha256:createHash('sha256').update(bytes).digest('hex'),bytes:bytes.length,database:label,environment,tables:tables.length};
 }
 export async function restoreLogical(pool,file) {
   const snapshot=JSON.parse(await readFile(file,'utf8'));if(snapshot.format!=='xland-logical-v1')throw new Error('Unknown backup format');

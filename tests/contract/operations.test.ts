@@ -5,8 +5,9 @@ import { createHash,randomUUID } from 'node:crypto';
 import { testApi } from '../helpers/api.js';
 import { assertWire } from '../helpers/wire.js';
 import type { Wire } from '../../src/repositories/properties.js';
+import{evidenceDirectory}from'../../src/config/evidence.js';
 
-test('per-operation C-3 HTTP contract coverage, including explicit policy/dependency gates',async()=>{
+test('per-operation C-4 candidate HTTP coverage, including explicit policy/dependency gates',async()=>{
   const api=await testApi();
   const records:Record<string,Wire>={};
   try{
@@ -27,7 +28,7 @@ test('per-operation C-3 HTTP contract coverage, including explicit policy/depend
     const login=await call('U01','/auth/sessions','POST',{username:api.context.first.username,password:api.context.first.password});
     assert.deepEqual(Object.keys(login as object).sort(),['accessToken','session']);token=(login as {accessToken:string}).accessToken;assert.match(token,/^[A-Za-z0-9_-]{43}$/);assertWire((login as Wire).session,'Session');
     await call('U04','/auth/session','GET',undefined,'Session');await call('U05','/me/profile','GET',undefined,'UserProfile');await call('U06','/me/profile','PATCH',{displayName:'Người dùng demo'},'UserProfile');
-    records.U06!.limitation='Dart explicit-null clear pending DELTA-P2-001; HTTP PATCH tested';
+    records.U06!.limitation='A-07 clear/keep/set candidate; unchanged HTTP omission/null; B review/A lock pending';
     await call('U07','/me/settings','GET',undefined,'UserSettings');await call('U08','/me/settings','PATCH',{notificationConsent:true},'UserSettings');
     const search=await call('D01','/properties');assertWire(search,'List<Property>');await call('D02','/properties/count');
     await call('D03','/catalog/locations','GET',undefined,'FilterCatalog');await call('D04','/properties/'+property,'GET',undefined,'Property');
@@ -57,12 +58,13 @@ test('per-operation C-3 HTTP contract coverage, including explicit policy/depend
     await call('K01','/clubs','GET',undefined,'Page<Club>');await call('K02','/clubs/'+club,'GET',undefined,'Club');
     await call('S01','/support-requests','POST',fixture.sampleTypes.SupportRequestInput,'SupportRequest',201);await call('S02','/me/support-requests','GET',undefined,'Page<SupportRequest>');
     const finance=fixture.sampleTypes.SavedFinancePlan!.input;
-    await call('N01','/finance/estimates','POST',finance,undefined,409,'blocked_SPEC-001');await call('N02','/me/finance-plans','POST',{label:'Minh họa',input:finance},undefined,409,'blocked_SPEC-001');
+    await call('N01','/finance/estimates','POST',finance,'FinanceResult');await call('N02','/me/finance-plans','POST',{label:'Minh họa',input:finance},'SavedFinancePlan',201);
     const plan=randomUUID();await api.db.pool.query('INSERT INTO xland.saved_finance_plans(id,user_id,property_id,label,input,price_snapshot) VALUES($1,$2,$3,$4,$5,$6)',[plan,api.context.first.id,property,'Fixture minh họa chưa có result',JSON.stringify(finance),'2400000000']);
     await call('N03','/me/finance-plans','GET',undefined,'Page<SavedFinancePlan>');await call('N04','/me/finance-plans/'+plan,'DELETE');await call('U03','/auth/sessions/current','DELETE');
     const active=Object.entries(examples).filter(([,v])=>v.lifecycle==='active_contract').map(([id])=>id).sort();assert.deepEqual(Object.keys(records).sort(),active);assert.equal(active.length,63);
-    const report={timestamp:new Date().toISOString(),contractRevision:'C-3',contractSha256:createHash('sha256').update(await readFile('../brain/02_API_CONTRACT.md')).digest('hex'),environment:'isolated-local-test PostgreSQL17.10',activeOperations:63,successPathTested:Object.values(records).filter(r=>r.successPathTested).length,gatedOrBlocked:Object.values(records).filter(r=>!r.successPathTested).length,notImplemented:['U02 reserved; no route'],operations:Object.fromEntries(Object.entries(records).sort(([a],[b])=>a.localeCompare(b))),limitations:['No live payment, real media/playback/map/document source or production share route acceptance','No calculator formula/rounding until SPEC-001','HTTP contract checks do not imply UI/P3 E2E or G2 acceptance']};
-    await writeFile('../brain/logs/agent-c/evidence/P2/operation-coverage.json',JSON.stringify(report,null,2));
-    console.log(`C-3 coverage: ${report.successPathTested} success paths, ${report.gatedOrBlocked} explicit gates; U02 reserved; no claim of63success APIs.`);
+    const report={timestamp:new Date().toISOString(),contractRevision:'C-4-candidate',contractSha256:createHash('sha256').update(await readFile('../brain/02_API_CONTRACT.md')).digest('hex'),environment:'isolated-local-test PostgreSQL17.10',activeOperations:63,successPathTested:Object.values(records).filter(r=>r.successPathTested).length,gatedOrBlocked:Object.values(records).filter(r=>!r.successPathTested).length,notImplemented:['U02 reserved; no route'],operations:Object.fromEntries(Object.entries(records).sort(([a],[b])=>a.localeCompare(b))),limitations:['No live payment, real media/playback/map/document source or production share route acceptance','C-4 is candidate; B review/A final lock pending','HTTP contract checks do not imply UI/P3 E2E or G2 acceptance']};
+    assert.equal(report.successPathTested,59);assert.equal(report.gatedOrBlocked,4);
+    await writeFile((await evidenceDirectory())+'/operation-coverage.json',JSON.stringify(report,null,2));
+    console.log(`C-4 candidate coverage: ${report.successPathTested} success paths, ${report.gatedOrBlocked} explicit gates; U02 reserved; no claim of63success APIs.`);
   }finally{await api.close();}
 });

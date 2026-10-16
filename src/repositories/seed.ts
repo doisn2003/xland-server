@@ -34,6 +34,7 @@ export async function seed(pool: Pool, accounts: SeedAccount[], clock = new Date
   const c=await pool.connect();
   try {
     await c.query('BEGIN');
+    await c.query('SET LOCAL ROLE xland_seed');
     await c.query('SELECT pg_advisory_xact_lock(783134222)');
     for(let i=0;i<identities.length;i++) {
       const a=identities[i]!;

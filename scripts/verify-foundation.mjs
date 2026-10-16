@@ -6,7 +6,7 @@ import { join } from 'node:path';
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const fixture = JSON.parse(readFileSync(join(root, 'brain/logs/agent-c/fixtures/v0.1.json'), 'utf8').replace(/^\uFEFF/, ''));
 const examples = JSON.parse(readFileSync(join(root, 'brain/logs/agent-c/fixtures/operations.v0.1.json'), 'utf8').replace(/^\uFEFF/, ''));
-const schema = JSON.parse(readFileSync(join(root, 'brain/logs/agent-c/fixtures/schema.C3.json'), 'utf8'));
+const schema = JSON.parse(readFileSync(join(root, 'brain/logs/agent-c/fixtures/schema.C4.candidate.json'), 'utf8'));
 const properties = new Map(fixture.properties.map(p => [p.id, p]));
 assert.equal(properties.size, 4);
 assert.deepEqual(fixture.properties.map(p => [p.priceTotal, p.areaM2]), [
@@ -49,7 +49,8 @@ assert.deepEqual(reservedOperations.map(([key]) => key), examples.operationSumma
 assert.equal(examples.U02.lifecycle, 'reserved');
 assert.equal(examples.U02.implemented, false);
 assert.ok(!('request' in examples.U02) && !('response' in examples.U02));
-assert.equal(examples.operationSummary.businessApisImplemented, 0);
+assert.equal(examples.operationSummary.runtimeSuccessPathCount, 59);
+assert.equal(examples.operationSummary.runtimeGatedPathCount, 4);
 const routes = new Set();
 const contract = readFileSync(join(root, 'brain/02_API_CONTRACT.md'), 'utf8');
 const contractOperations = [...contract.matchAll(/^\| ([A-Z]\d{2}) \| (GET|POST|PUT|DELETE|PATCH) ([^|]+?) \|/gm)];
@@ -65,12 +66,17 @@ for (const [key, example] of activeOperations) {
   routes.add(signature);
   assert.ok('body' in example.response);
 }
-for (const key of ['P03', 'B06', 'B07', 'N01', 'N02']) assert.equal(examples[key].response.status, 409);
+for (const key of ['P03', 'B06', 'B07']) assert.equal(examples[key].response.status, 409);
+assert.equal(examples.N01.response.status,200);assert.equal(examples.N02.response.status,201);
+assert.equal(fixture.sampleTypes.FinanceResult.formulaVersion,'xland-loan-v1');
+assert.equal(fixture.sampleTypes.FinanceResult.monthlyPaymentVnd,'10796711');
+assert.equal(fixture.sampleTypes.ProfileUpdate.clearAvatar,false);
+assert.equal(fixture.sampleTypes.ProfileUpdate.clearContactPhone,false);
 assert.equal(fixture.sampleTypes.DepositPolicy.chargeBasis, null);
 assert.equal(fixture.sampleTypes.DepositPolicy.livePaymentEnabled, false);
 assert.equal(fixture.sampleTypes.SavedFinancePlan.result, null);
-assert.equal(fixture.contractRevision, 'C-3');
-assert.equal(examples.contractRevision, 'C-3');
+assert.equal(fixture.contractRevision, 'C-4-candidate');
+assert.equal(examples.contractRevision, 'C-4-candidate');
 assert.equal(examples.F01.request.query.feedScope, 'recommended');
 assert.equal(examples.variants.F01Following.request.query.feedScope, 'following');
 assert.equal(examples.variants.F01FollowingGuest.response.status, 401);
@@ -127,4 +133,5 @@ const feedInterface = readFileSync(join(root, 'xland-mobile/lib/domain/repositor
 assert.ok(feedInterface.includes('FeedScope feedScope = FeedScope.recommended'));
 const sessionStore = readFileSync(join(root, 'xland-mobile/lib/data/datasources/local/session_store.dart'), 'utf8');
 assert.ok(!sessionStore.includes('refreshToken') && sessionStore.includes('saveAccessToken'));
-console.log(`PASS C-3: canonical properties/videos/legal; ${activeOperations.length} active contract examples; ${reservedOperations.length} reserved (U02); ${schema.tableCount} design tables; auth/feed/filter/settings/support alignment; C boundaries. No DB/auth/API execution.`);
+assert.match(domainSource,/this.clearAvatar = false/);assert.match(domainSource,/this.clearContactPhone = false/);
+console.log(`PASS C-4 candidate design audit: canonical fixtures; ${activeOperations.length} active examples,59success/4gates runtime target; U02 reserved; ${schema.tableCount} tables; A-06/A-07 aligned. Audit alone is not DB/API evidence or A final lock.`);

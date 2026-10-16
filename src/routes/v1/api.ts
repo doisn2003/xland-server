@@ -9,11 +9,13 @@ import { AccountService } from '../../services/account.js';
 import { BookingService,depositPolicy } from '../../services/bookings.js';
 import { SocialService } from '../../services/social.js';
 import { CommunityService } from '../../services/community.js';
+import { FinanceService } from '../../services/finance.js';
 
 export function apiRouter(service:CoreService,avatarOrigins:readonly string[]=[]):Router {
   const router=Router();
   const accounts=new AccountService(service,avatarOrigins);const bookings=new BookingService(service);
   const social=new SocialService(service);const community=new CommunityService(service);
+  const finance=new FinanceService(service);
   const id=(req:Request,name:string)=>parse(uuid,req.params[name]);
   const identity=(res:Response)=>res.locals.identity as Identity|null;
   const key=(req:Request)=>parse(z.string().regex(/^[\x21-\x7e]{16,128}$/),req.headers['idempotency-key']);
@@ -110,7 +112,7 @@ export function apiRouter(service:CoreService,avatarOrigins:readonly string[]=[]
   });
   router.get('/properties/:propertyId/share',async(req,res)=>res.json({data:await service.share(identity(res),'properties',id(req,'propertyId'))}));
   // Explicit policy gates exist before a provider/calculator implementation.
-  router.post('/finance/estimates',(req)=>{parse(financeInput,req.body);throw new DomainError(409,'FEATURE_NOT_ENABLED','SPEC-001 chưa được khóa');});
-  router.post('/me/finance-plans',(req,res)=>{service.user(identity(res));key(req);parse(z.object({label:text(100),input:financeInput}).strict(),req.body);throw new DomainError(409,'FEATURE_NOT_ENABLED','SPEC-001 chưa được khóa');});
+  router.post('/finance/estimates',async(req,res)=>res.json({data:await finance.estimate(identity(res),parse(financeInput,req.body))}));
+  router.post('/me/finance-plans',async(req,res)=>{service.user(identity(res));const input=parse(z.object({label:text(100),input:financeInput}).strict(),req.body);res.status(201).json({data:await finance.save(identity(res),input.label,input.input,key(req))});});
   return router;
 }
