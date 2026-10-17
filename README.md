@@ -2,7 +2,29 @@
 
 Node24.19.0/npm11.17.0. API `/api/v1`; opaque sessions24h. C-3 remains the historical G1 baseline in the Agent C snapshot. `../brain/02_API_CONTRACT.md` is now **C-4 candidate**, pending B review/A final lock. Runtime coverage distinguishes59 successful HTTP paths and4explicit gates; it does not certify provider playback, live payments or UI acceptance.
 
-The A-09 Supabase mock target is now provisioned: PostgreSQL17.6, environment `supabase_mock`, approved fingerprint03d6c297d77a1029, xland/xland_meta only. Metadata outside XLand is preserved. Current preview backend connects to Supabase at `http://127.0.0.1:3001/api/v1`:
+The A-09 Supabase mock target is provisioned: PostgreSQL17.6, environment `supabase_mock`, approved fingerprint03d6c297d77a1029, xland/xland_meta only. A-10 accepts W2 backend/domain/data. Start a local preview per machine session; a previous background listener does not survive restart.
+
+## W3 repeatable preview (no migration or seed)
+
+From `C:\OwnProject\XLAND-PROJECT\xland-server`:
+
+```powershell
+node scripts/preview.mjs start
+node scripts/preview.mjs status
+node scripts/preview.mjs stop
+```
+
+One `start` launches the API3001 and Flutter `lib/bootstrap/dev_main.dart` web-server5555. Open `http://127.0.0.1:5555`. Set `XLAND_FLUTTER_SDK` to an installed SDK folder if it differs from the current XLandTools SDK. `start --api-only` omits Flutter. Workers are hidden on Windows. The supervisor reads `.env.supabase-mock` privately, verifies environment/fingerprint, binds loopback, checks readiness200, canonical list/detail and both guest calculator methods before Ready. It does **not** migrate/reseed. The Flutter process receives the API base URL, never the private DB config. Private demo login remains `.local/supabase-demo-login.json`.
+
+`.local/preview.json` holds supervisor PID, Flutter PID and a private control nonce/pipe; don't print/copy that file. `stop` authenticates to that supervisor and requests Flutter quit, HTTP close and database pool close. It never kills a process selected by port. `.local/preview.log` contains redacted event names/codes; start failures return nonzero. Startup deadline120s; stop deadline15s. A busy API/web port or lock is refused. Inspect `Get-NetTCPConnection -State Listen -LocalPort 3001,5555` and the owning process; an HTTP200 on an occupied port does not confer ownership. If reboot leaves stale lock/state, verify the recorded PID is absent (or unrelated by executable/command line), archive the private files and remove only those stale `.local/preview.lock`/`.local/preview.json` files; do not kill an unrelated/reused PID. Then start again.
+
+Browser CORS permits exactly `http://127.0.0.1:5555` and `http://localhost:5555`. Pick one origin consistently: web secure-storage uses the browser origin's WebCrypto/localStorage, and changing host/port/browser profile loses access to that origin's session. Localhost is for local preview; nonsecure LAN HTTP is not a supported web secure context. Browser storage can be cleared/denied; show typed storage failure, no plaintext fallback. API restart retains sessions in Supabase until expiry/revoke. Android/iOS use the existing secure-storage plugin; native persistence/restart/locked-device acceptance remains pending.
+
+For Android emulator, run Flutter separately with `--dart-define=XLAND_API_BASE_URL=http://10.0.2.2:3001/api/v1`; alternatively an authorized USB debug session can use `adb reverse tcp:3001 tcp:3001` and the localhost default. Confirm reachability/platform debug cleartext config on the selected device; this is not native acceptance. iOS simulator can use host loopback on its Mac host. Physical-device LAN/HTTPS, entitlements/signing/firewall require separate configuration; this script binds loopback and does not change firewall or release settings.
+
+## Explicit provisioning tools (not startup)
+
+Only use these for an authorized provisioning run, not each preview start:
 
 ```powershell
 node scripts/start-evidence-run.mjs
@@ -13,6 +35,21 @@ node --import tsx scripts/verify-supabase-api.ts
 ```
 
 Remote tooling uses the current private `.local/w2-run.json` for versioned evidence; initialize a new run/snapshot before reusing it in a later task. It reads the shared `.env` without changing the original credentials, verifies the A-09 fingerprint/current namespace/ledger, applies additive SQL and seeds without overwriting user mutations. When XLand already contains data, it takes an XLand-only private logical backup and verifies restore into a new local test DB before migration. Never point database-creating integration runners at Supabase. Private demo login is available at ignored `.local/supabase-demo-login.json` (no DB URI); enter it privately into the UI, never copy credentials into source/Markdown. `.env.supabase-mock` remains server-only.
+
+## W3 isolated scenarios and provider demo
+
+```powershell
+$env:XLAND_EVIDENCE_DIR = "C:/OwnProject/XLAND-PROJECT/brain/logs/agent-c/evidence/P2-W3/reviewer-$([DateTime]::UtcNow.ToString('yyyyMMddTHHmmssfffZ'))"
+node scripts/test-postgres.mjs scenarios
+node --import tsx scripts/verify-narrow-runtime.ts
+node --test scripts/local-runner.test.mjs
+# Optional synthetic provider, foreground; Ctrl+C stops this owned process:
+node scripts/demo-provider.mjs
+```
+
+Scenarios create a fresh loopback `xland_test_*` DB, move its demo slot/event to now+7days at10:00 Asia/Ho_Chi_Minh and exercise41 success/error/ownership/retry cases. Full-slot/sold-out/past-date controls affect only that test DB. Private `.local/test-context.json` is replaced per run; run runners sequentially. Narrow-runtime proof uses that isolated context and a generated nonbypass/nonowner login, not the shared remote credential. Recovery probing waits at most90s, existing running/recovering clusters are not started twice, each test child has180s timeout, owned cluster stop is bounded. No reset/DB deletion. Namespace guard stays inside C evidence; reviewers can copy completed evidence to their namespace afterward.
+
+Synthetic provider is loopback5560 with a clearly labelled project-created text guide, generated WAV and browser canvas video demo. It is separate from application repositories/L02. The Dart demo adapter validates local origin, expiry, marker/MIME/size, cancels timed-out streams and sends no session token. `verify-demo-provider.mjs` uses the current private `.local/w3-run.json` evidence pointer and verifies HTTP→Dart→temporary-file write/read/delete plus errors/ranges. Its generated provenance manifest records exact bytes/hashes. No production URL, legal evidence, signed entitlement, native playback or public provider acceptance is implied. See `brain/logs/agent-c/P2_W3_INTEGRATION_HANDOFF.md` for B scenarios and dependencies.
 
 From this directory:
 

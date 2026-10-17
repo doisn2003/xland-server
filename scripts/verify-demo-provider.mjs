@@ -1,0 +1,8 @@
+import {demoServer,provenance} from './demo-provider.mjs';import {readFile,writeFile} from 'node:fs/promises';import {resolve} from 'node:path';import {spawn} from 'node:child_process';import assert from 'node:assert/strict';
+const run=JSON.parse(await readFile('.local/w3-run.json','utf8'));const server=demoServer();await new Promise(r=>server.listen(0,'127.0.0.1',r));const base=`http://127.0.0.1:${server.address().port}`;
+try{
+ const r=await fetch(base+'/demo-tone.wav',{headers:{Range:'bytes=0-43'}});assert.equal(r.status,206);assert.equal((await r.arrayBuffer()).byteLength,44);assert.equal((await fetch(base+'/demo-tone.wav',{headers:{Range:'bytes=999999-'}})).status,416);
+ const sdk=process.env.XLAND_FLUTTER_SDK??'C:/Users/Admin/AppData/Local/XLandTools/flutter-3.47.5';
+ const code=await new Promise((ok,fail)=>{const child=spawn(resolve(sdk,'bin/cache/dart-sdk/bin/dart.exe'),['run','tool/provider_demo_smoke.dart'],{cwd:resolve('../xland-mobile'),windowsHide:true,env:{...process.env,XLAND_DEMO_BASE_URL:base},stdio:['ignore','pipe','pipe']});let output='';child.stdout.on('data',b=>{output+=b;});child.stderr.on('data',()=>{});const timer=setTimeout(()=>child.kill(),30000);child.on('error',fail);child.on('exit',code=>{clearTimeout(timer);console.log(output.trim());ok(code);});});assert.equal(code,0);
+ await writeFile(resolve(run.evidence,'demo-provenance.json'),JSON.stringify({...provenance,timestamp:new Date().toISOString(),httpDartFileLifecyclePass:true,range206And416Pass:true,playerVerified:false,nativeVerified:false,publicProviderVerified:false},null,2));
+}finally{server.closeAllConnections();await new Promise(r=>server.close(r));}
