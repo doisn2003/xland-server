@@ -12,8 +12,9 @@ const child=spawn(process.execPath,['--import','tsx','scripts/closeout-restart-a
 let phase='startup';
 try{
  const port=await new Promise<number>((ok,fail)=>{const timer=setTimeout(()=>{child.kill();fail(Error('Owned probe startup timeout'));},20000);child.once('error',e=>{clearTimeout(timer);fail(e);});child.once('message',m=>{clearTimeout(timer);ok((m as {port:number}).port);});});
- phase='read-own-slot';const slot=(await db.pool.query("SELECT id,property_id,consultant_id,starts_at,(starts_at AT TIME ZONE 'Asia/Ho_Chi_Minh')::date::text AS business_date FROM xland.site_visit_slots WHERE id=$1",[context.slotId])).rows[0]!;
- assert(slot.starts_at>new Date(),'Own slot is past: select a current future slot from API, do not reseed');
+ phase='read-own-slot';let slot=(await db.pool.query("SELECT id,property_id,consultant_id,starts_at,(starts_at AT TIME ZONE 'Asia/Ho_Chi_Minh')::date::text AS business_date FROM xland.site_visit_slots WHERE id=$1",[context.slotId])).rows[0];
+ if(!slot||slot.starts_at<=new Date())slot=(await db.pool.query("SELECT s.id,s.property_id,s.consultant_id,s.starts_at,(s.starts_at AT TIME ZONE 'Asia/Ho_Chi_Minh')::date::text AS business_date FROM xland.site_visit_slots s JOIN xland.properties p ON p.id=s.property_id WHERE s.starts_at>now() AND p.status='listed' ORDER BY s.starts_at,s.id LIMIT 1")).rows[0];
+ assert(slot,'No existing future slot: report unavailable inventory, never reseed to hide it');
  const results=[];
  for(const [kind,id]of [['properties',slot.property_id],['consultants',slot.consultant_id]]){
   phase='get-'+kind;

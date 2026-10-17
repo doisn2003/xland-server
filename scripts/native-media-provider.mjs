@@ -1,0 +1,12 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {mediaDemoServer} from './media-demo-provider.mjs';
+const file='.local/native-media-mode.json';
+writeFileSync(file,JSON.stringify({mode:'normal'}));
+const server=mediaDemoServer(),handler=server.listeners('request')[0];server.removeAllListeners('request');
+server.on('request',(req,res)=>{const mode=JSON.parse(readFileSync(file,'utf8')).mode;if(mode==='expired'||mode==='unavailable'){res.setHeader('Cache-Control','no-store');res.writeHead(mode==='expired'?410:503).end();return;}handler(req,res);});
+let listening=false,stopping=false;
+const stop=()=>{if(stopping)return;stopping=true;clearInterval(timer);server.closeIdleConnections();server.close(()=>process.exit(0));};
+server.on('error',()=>{console.error('Native media port unavailable; preserve existing service');process.exitCode=1;clearInterval(timer);});
+const listen=()=>server.listen(5562,'127.0.0.1',()=>{listening=true;console.log(JSON.stringify({event:'native_media_ready',pid:process.pid,port:5562}));});
+const timer=setInterval(()=>{const mode=JSON.parse(readFileSync(file,'utf8')).mode;if(mode==='stop')stop();else if(mode==='offline'&&listening){listening=false;server.closeIdleConnections();server.close();}else if(mode!=='offline'&&!listening&&!stopping)listen();},300);
+process.once('SIGINT',stop);process.once('SIGTERM',stop);listen();

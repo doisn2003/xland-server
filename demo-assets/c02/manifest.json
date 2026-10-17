@@ -1,0 +1,17 @@
+{
+  "source": "XLand project procedural text/vector generator",
+  "approval": "A-13 synthetic DEMO source only, 2026-10-17",
+  "rights": "Created for XLand integration; no customer/third-party documents",
+  "attribution": "XLand project; standard PDF Helvetica, no font binary embedded",
+  "legalEvidence": false,
+  "legalVerified": false,
+  "file": "xland-demo-file-lifecycle.pdf",
+  "mimeType": "application/pdf",
+  "sizeBytes": 2430,
+  "sha256": "006937b71c6e1116001c434a4a612ee43e8a4d8d13177763ae03341885f498c7",
+  "generator": "scripts/generate-synthetic-document.py",
+  "generatorSha256": "681af556d06470b1695ae32b3f43f326506d71ddb6771214616956d8303e3381",
+  "privateStorageConfigured": false,
+  "httpsSignerConfigured": false,
+  "signedUrlMaxSeconds": 300
+}
