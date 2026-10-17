@@ -12,11 +12,27 @@ export class PropertyRepository {
     const media=await c.query(`SELECT id,kind,public_url,thumbnail_url,duration_seconds,alt_text,is_illustrative FROM xland.property_media WHERE property_id=$1 AND usage='gallery' ORDER BY sort_order`,[p.id]);
     const legal=await c.query(`SELECT count(*)::int total,count(*) FILTER(WHERE status='verified')::int verified FROM xland.property_legal_items WHERE property_id=$1`,[p.id]);
     const saved=await c.query('SELECT EXISTS(SELECT 1 FROM xland.saved_properties WHERE property_id=$1) active',[p.id]);
+    return this.project(p,media.rows,legal.rows[0].total,legal.rows[0].verified,saved.rows[0].active);
+  }
+  private project(p:Wire,media:Wire[],total:number,verified:number,saved:boolean):Wire {
     return {id:p.id,code:p.code,title:p.title,provinceCode:p.province_code,provinceName:p.province,districtCode:p.district_code,districtName:p.district,
       region:p.region,category:p.category,priceTotal:p.price_total,pricePerM2:p.price_per_m2,areaM2:p.area_m2,frontageM:p.frontage_m,depthM:p.depth_m,roadWidthM:p.road_width_m,
       direction:p.direction,landType:p.land_type,status:p.status,approvalStatus:p.approval_status,sourceBadge:p.status_badge,consultantId:p.consultant_id,
-      media:media.rows.map(m=>({id:m.id,kind:m.kind,url:m.public_url,thumbnailUrl:m.thumbnail_url,durationSeconds:m.duration_seconds,altText:m.alt_text,isIllustrative:m.is_illustrative})),
-      highlights:p.highlights,verifiedLegalCount:legal.rows[0].verified,totalLegalCount:legal.rows[0].total,isSaved:saved.rows[0].active,updatedAt:(p.updated_at as Date).toISOString(),isIllustrative:p.is_illustrative};
+      media:media.map(m=>({id:m.id,kind:m.kind,url:m.public_url,thumbnailUrl:m.thumbnail_url,durationSeconds:m.duration_seconds,altText:m.alt_text,isIllustrative:m.is_illustrative})),
+      highlights:p.highlights,verifiedLegalCount:verified,totalLegalCount:total,isSaved:saved,updatedAt:(p.updated_at as Date).toISOString(),isIllustrative:p.is_illustrative};
+  }
+  async getMany(c:PoolClient,ids:string[]):Promise<Map<string,Wire>> {
+    const unique=[...new Set(ids)];const result=new Map<string,Wire>();if(!unique.length)return result;
+    // All queries share the caller's RLS identity and repeatable-read snapshot.
+    // No process cache or secondary/privileged connection is involved.
+    const properties=await c.query<Wire>(`SELECT ${propertyColumns.join(',')} FROM xland.properties WHERE id=ANY($1::uuid[])`,[unique]);
+    const media=await c.query<Wire>("SELECT property_id,id,kind,public_url,thumbnail_url,duration_seconds,alt_text,is_illustrative FROM xland.property_media WHERE property_id=ANY($1::uuid[]) AND usage='gallery' ORDER BY property_id,sort_order",[unique]);
+    const legal=await c.query("SELECT property_id,count(*)::int total,count(*) FILTER(WHERE status='verified')::int verified FROM xland.property_legal_items WHERE property_id=ANY($1::uuid[]) GROUP BY property_id",[unique]);
+    const saved=await c.query('SELECT property_id FROM xland.saved_properties WHERE property_id=ANY($1::uuid[])',[unique]);
+    const groups=new Map<string,Wire[]>();for(const m of media.rows){const id=String(m.property_id);const group=groups.get(id)??[];group.push(m);groups.set(id,group);}
+    const counts=new Map(legal.rows.map(r=>[r.property_id,r]));const active=new Set(saved.rows.map(r=>r.property_id));
+    for(const p of properties.rows){const id=String(p.id),n=counts.get(id);result.set(id,this.project(p,groups.get(id)??[],n?.total??0,n?.verified??0,active.has(id)));}
+    return result;
   }
   async get(c:PoolClient,id:string):Promise<Wire> {
     const result=await c.query<Wire>(`SELECT ${propertyColumns.join(',')} FROM xland.properties WHERE id=$1`,[id]);
