@@ -20,8 +20,8 @@ export class BookingService {
       if(consultant){if(!(await c.query('SELECT id FROM xland.consultants WHERE id=$1',[id])).rowCount)missing();}
       else {const p=await this.core.properties.get(c,id);if(p.status!=='listed')throw new DomainError(409,'PROPERTY_UNAVAILABLE','Bất động sản chưa nhận lịch');}
       const rows=await c.query(`SELECT s.*,xland.slot_booking_count(s.id) used FROM xland.site_visit_slots s JOIN xland.properties p ON p.id=s.property_id
-        WHERE ${consultant?'s.consultant_id':'s.property_id'}=$1 AND p.status='listed' AND s.starts_at>=$2::date AT TIME ZONE 'Asia/Ho_Chi_Minh'
-        AND s.starts_at<($3::date+1) AT TIME ZONE 'Asia/Ho_Chi_Minh' AND s.starts_at>$4 ORDER BY s.starts_at,s.id`,[id,q.fromDate,q.toDate,this.core.now()]);
+        WHERE ${consultant?'s.consultant_id':'s.property_id'}=$1 AND p.status='listed' AND s.starts_at>=($2::date::timestamp AT TIME ZONE 'Asia/Ho_Chi_Minh')
+        AND s.starts_at<(($3::date+1)::timestamp AT TIME ZONE 'Asia/Ho_Chi_Minh') AND s.starts_at>$4 ORDER BY s.starts_at,s.id`,[id,q.fromDate,q.toDate,this.core.now()]);
       return rows.rows.map(r=>this.slot(r));
     });
   }
