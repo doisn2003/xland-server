@@ -1,6 +1,6 @@
 # xland-server — Phase2 local API
 
-Node24.19.0/npm11.17.0. API `/api/v1`; opaque sessions24h. C-3 remains the historical G1 baseline in the Agent C snapshot. `../brain/02_API_CONTRACT.md` is now **C-4 candidate**, pending B review/A final lock. Runtime coverage distinguishes59 successful HTTP paths and4explicit gates; it does not certify provider playback, live payments or UI acceptance.
+Node24.19.0/npm11.17.0. API `/api/v1`; opaque sessions24h. C-3 remains the historical G1 baseline in the Agent C snapshot. `../brain/02_API_CONTRACT.md` is **C-4 LOCKED by A RV-P2-003/baseline08**; its candidate header bytes remain unchanged to preserve the hash. Runtime coverage distinguishes59 successful HTTP paths and4explicit gates; it does not certify provider playback, live payments or UI acceptance.
 
 The A-09 Supabase mock target is provisioned: PostgreSQL17.6, environment `supabase_mock`, approved fingerprint03d6c297d77a1029, xland/xland_meta only. A-10 accepts W2 backend/domain/data. Start a local preview per machine session; a previous background listener does not survive restart.
 
