@@ -6,6 +6,8 @@ The A-09 Supabase mock target is provisioned: PostgreSQL17.6, environment `supab
 
 ## W3 repeatable preview (no migration or seed)
 
+W4: `video_player` is pinned by mobile to2.11.1. C-4 is **LOCKED by A RV-P2-003/baseline08**; its original candidate header bytes remain unchanged. Phase3 stays closed. For synthetic video, first run `node scripts/media-demo-provider.mjs` in an owned foreground terminal; video5560 is project-generated MP4 with provenance in `demo-assets/w4/manifest.json`. Then, when intentionally restarting the owned preview, use `node scripts/preview.mjs start --demo-media` (optional `--demo-media-scenario=expired` or `unavailable`). This only sets development composition flags; no seed/migration/API/policy change. Default start keeps media disabled. Current listeners are not restarted merely by editing this script.
+
 From `C:\OwnProject\XLAND-PROJECT\xland-server`:
 
 ```powershell

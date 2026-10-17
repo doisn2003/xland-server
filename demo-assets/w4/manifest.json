@@ -1,0 +1,33 @@
+{
+  "mode": "synthetic demo only",
+  "source": "XLand project procedural color/text generator; no external property footage",
+  "attribution": "Generated for XLand integration tests; Arial rasterized from local Windows font, not redistributed as a font file",
+  "legalEvidence": false,
+  "video": {
+    "codec": "H264 baseline",
+    "pixelFormat": "yuv420p",
+    "width": 360,
+    "height": 640,
+    "fps": 24,
+    "durationSeconds": 4,
+    "audio": false,
+    "fastStart": true
+  },
+  "generator": "scripts/generate-demo-video.py",
+  "generatorSha256": "357b7ccb4c84720938172cc4e91f153ecc441dda7a4aafdbf9bca4a0753931d3",
+  "encoder": "ffmpeg version 7.1-essentials_build-www.gyan.dev Copyright (c) 2000-2024 the FFmpeg developers",
+  "files": [
+    {
+      "name": "xland-synthetic.mp4",
+      "mimeType": "video/mp4",
+      "sizeBytes": 9517,
+      "sha256": "836bcc7ce7b5c62f225a95d25019649798afbdad49eee87c09dcbd7886a9a476"
+    },
+    {
+      "name": "xland-synthetic.png",
+      "mimeType": "image/png",
+      "sizeBytes": 26304,
+      "sha256": "caad04e454c4a9f60f8c1b7efc9b1eb058109afb4d9d48524ead1881938e04ae"
+    }
+  ]
+}
