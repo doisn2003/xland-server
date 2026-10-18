@@ -1,5 +1,5 @@
 // Freeze the actual working source, including B's untracked files. No Git reset/stash.
-import {readdir,readFile,writeFile,mkdir,copyFile} from 'node:fs/promises';
+import {readdir,readFile,writeFile,mkdir,copyFile,access} from 'node:fs/promises';
 import {resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
@@ -19,6 +19,10 @@ async function files(root,part='') {
 }
 async function manifest(root,paths){return Promise.all(paths.map(async path=>({path,sha256:hash(await readFile(resolve(root,path)))})));}
 const contextPath=resolve('.local/p3-context.json');
+if(['create','seal'].includes(process.argv[2])){
+ let active=false;try{await access('.local/p3-preview.lock');active=true;}catch(e){if(e.code!=='ENOENT')throw e;}
+ if(active)throw Error('Stop the owned P3 instance before changing its snapshot/bundle; shared preview is untouched');
+}
 if(process.argv[2]==='create') {
  const id=new Date().toISOString().replace(/[-:.]/g,'');
  const evidence=resolve('../brain/logs/agent-c/evidence/P3-W0',id),sandbox=resolve('../xland-mobile/.local/p3',id,'mobile');

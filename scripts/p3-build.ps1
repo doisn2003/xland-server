@@ -1,5 +1,6 @@
 $ErrorActionPreference = 'Stop'
 $cServer = Split-Path $PSScriptRoot -Parent
+if (Test-Path -LiteralPath (Join-Path $cServer '.local/p3-preview.lock')) { throw 'Stop the owned P3 instance before rebuilding its bundle; shared preview is untouched' }
 $cContext = Get-Content -LiteralPath (Join-Path $cServer '.local/p3-context.json') -Raw | ConvertFrom-Json
 $cSandbox = [IO.Path]::GetFullPath($cContext.sandbox)
 $cExpected = [IO.Path]::GetFullPath((Join-Path $cServer '../xland-mobile/.local/p3')) + [IO.Path]::DirectorySeparatorChar
