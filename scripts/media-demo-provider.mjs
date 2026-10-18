@@ -8,9 +8,9 @@ const files=new Map([
  ['/demo-poster.png',{bytes:readFileSync(resolve(root,'demo-assets/w4/xland-synthetic.png')),mime:'image/png'}],
 ]);
 export const mediaProvenance=JSON.parse(readFileSync(resolve(root,'demo-assets/w4/manifest.json'),'utf8'));
-export function mediaDemoServer({now=()=>Date.now()}={}){return createServer((req,res)=>{
+export function mediaDemoServer({now=()=>Date.now(),allowedOrigins=['http://127.0.0.1:5555','http://localhost:5555','http://127.0.0.1:5556']}={}){return createServer((req,res)=>{
  const url=new URL(req.url,'http://127.0.0.1');res.setHeader('Cache-Control','no-store');res.setHeader('X-Xland-Demo','synthetic-project-created');
- const allowed=['http://127.0.0.1:5555','http://localhost:5555','http://127.0.0.1:5556'];
+ const allowed=allowedOrigins;
  if(req.headers.origin){if(!allowed.includes(req.headers.origin)){res.writeHead(403).end();return;}res.setHeader('Access-Control-Allow-Origin',req.headers.origin);res.setHeader('Vary','Origin');res.setHeader('Access-Control-Expose-Headers','Content-Length,Content-Range,Accept-Ranges,X-Xland-Demo');}
  if(req.method==='OPTIONS'){res.setHeader('Access-Control-Allow-Methods','GET, HEAD, OPTIONS');res.setHeader('Access-Control-Allow-Headers','Range');res.writeHead(204).end();return;}
  if(!['GET','HEAD'].includes(req.method)){res.writeHead(405).end();return;}
