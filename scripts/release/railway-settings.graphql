@@ -1,0 +1,4 @@
+mutation XlandPilotSettings($service: String!, $environment: String!, $settings: ServiceInstanceUpdateInput!, $limits: ServiceInstanceLimitsUpdateInput!) {
+  settings: serviceInstanceUpdate(serviceId: $service, environmentId: $environment, input: $settings)
+  limits: serviceInstanceLimitsUpdate(input: $limits)
+}

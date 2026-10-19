@@ -1,0 +1,14 @@
+.git/
+.env
+.env.*
+.local/
+.backups/
+node_modules/
+dist/
+coverage/
+demo-assets/
+fixtures/
+tests/
+scripts/
+/config/
+*.log

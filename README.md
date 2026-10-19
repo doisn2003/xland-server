@@ -1,4 +1,8 @@
-# xland-server — Phase2 local API
+# xland-server
+
+## Current internal release — 19 October 2026
+
+The API is deployed on Railway: [readiness](https://xland-server-production.up.railway.app/health/ready). See [delivery milestones and release operations](docs/INTERNAL_RELEASE.md). The released mobile app connects to Railway and does not require a PC server. Earlier local setup instructions follow.
 
 Node24.19.0/npm11.17.0. API `/api/v1`; opaque sessions24h. C-3 remains the historical G1 baseline in the Agent C snapshot. `../brain/02_API_CONTRACT.md` is **C-4 LOCKED by A RV-P2-003/baseline08**; its candidate header bytes remain unchanged to preserve the hash. Runtime coverage distinguishes59 successful HTTP paths and4explicit gates; it does not certify provider playback, live payments or UI acceptance.
 

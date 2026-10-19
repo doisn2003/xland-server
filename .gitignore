@@ -10,3 +10,7 @@ coverage/
 .local/
 .env.local
 .backups/
+
+# Local editor state and diagnostics are not source artifacts.
+.idea/
+*.log
