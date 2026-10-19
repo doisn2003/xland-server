@@ -7,12 +7,15 @@ import { DomainError } from './domain/errors.js';
 export interface AppDependencies {
   checkReadiness: () => Promise<boolean>;
   api?: Router;
+  publicPages?: Router;
   allowedOrigins?: readonly string[];
+  trustProxyHops?: 0 | 1;
 }
 
 export function createApp(deps: AppDependencies) {
   const app = express();
   app.disable('x-powered-by');
+  app.set('trust proxy', deps.trustProxyHops ?? 0);
   app.use((_req, res, next) => {
     res.locals.requestId = randomUUID();
     res.setHeader('X-Request-Id', res.locals.requestId as string);
@@ -39,6 +42,7 @@ export function createApp(deps: AppDependencies) {
     const ready = await deps.checkReadiness().catch(() => false);
     res.status(ready ? 200 : 503).json({ data: { status: ready ? 'ready' : 'not_ready' } });
   });
+  if(deps.publicPages)app.use(deps.publicPages);
   if(deps.api)app.use('/api/v1',deps.api);
   app.use((_req, res) => res.status(404).json({
     error: { code: 'NOT_FOUND', message: 'Resource not found' },

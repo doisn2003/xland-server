@@ -91,7 +91,7 @@ export class PropertyRepository {
     const row=p.rows[0];
     const amenities=await c.query(`SELECT id,category,name,distance_text,icon_type,approximate_lat,approximate_lng FROM xland.property_nearby_amenities WHERE property_id=$1 AND ($2::text IS NULL OR category=$2) ORDER BY sort_order`,[id,category??null]);
     const photos=await c.query(`SELECT id,kind,public_url,thumbnail_url,alt_text,duration_seconds,is_illustrative FROM xland.property_media WHERE property_id=$1 AND usage='area' ORDER BY sort_order`,[id]);
-    return {propertyId:id,location:{latitude:Number(row.approximate_lat),longitude:Number(row.approximate_lng),radiusM:row.approximate_radius_m,label:row.district+' (vị trí khu vực minh họa)'},
+    return {propertyId:id,location:row.approximate_lat===null||row.approximate_lng===null||row.approximate_radius_m===null?null:{latitude:Number(row.approximate_lat),longitude:Number(row.approximate_lng),radiusM:row.approximate_radius_m,label:row.district+' (vị trí khu vực minh họa)'},
       amenities:amenities.rows.map(a=>({id:a.id,propertyId:id,category:a.category,name:a.name,distanceText:a.distance_text,iconType:a.icon_type,latitude:a.approximate_lat===null?null:Number(a.approximate_lat),longitude:a.approximate_lng===null?null:Number(a.approximate_lng)})),
       photos:photos.rows.map(m=>({id:m.id,kind:m.kind,url:m.public_url,thumbnailUrl:m.thumbnail_url,altText:m.alt_text,durationSeconds:m.duration_seconds,isIllustrative:m.is_illustrative})),providerAttribution:'Bản đồ chưa cấu hình; khoảng cách/vị trí chỉ minh họa',externalMapUrl:null};
   }

@@ -1,4 +1,8 @@
 import { Router } from 'express';
+import { extendedAuthRouter } from '../../auth/router.js';
+import type { ExtendedAuthService } from '../../auth/extended-auth.js';
+import type { AreaMapProvider } from '../../maps/area_map_service.js';
+import { areaMapApiRouter } from '../../maps/map_routes.js';
 import type { Request, Response } from 'express';
 import { z } from 'zod';
 import type { CoreService } from '../../services/core.js';
@@ -11,8 +15,9 @@ import { SocialService } from '../../services/social.js';
 import { CommunityService } from '../../services/community.js';
 import { FinanceService } from '../../services/finance.js';
 
-export function apiRouter(service:CoreService,avatarOrigins:readonly string[]=[]):Router {
+export function apiRouter(service:CoreService,avatarOrigins:readonly string[]=[],extendedAuth?:ExtendedAuthService,areaMaps?:AreaMapProvider):Router {
   const router=Router();
+  if(extendedAuth)router.use(extendedAuthRouter(extendedAuth));
   const accounts=new AccountService(service,avatarOrigins);const bookings=new BookingService(service);
   const social=new SocialService(service);const community=new CommunityService(service);
   const finance=new FinanceService(service);
@@ -29,6 +34,7 @@ export function apiRouter(service:CoreService,avatarOrigins:readonly string[]=[]
     if(req.method==='GET'&&![/^\/(properties(\/count)?|feed|clubs|events)$/, /^\/me\/(saved-videos|following|event-registrations|saved-events|bookings|support-requests|finance-plans)$/, /^\/catalog\/locations$/, /^\/properties\/[^/]+\/(availability|area)$/, /^\/consultants\/[^/]+\/(videos|properties|reviews|availability)$/, /^\/videos\/[^/]+\/comments$/, /^\/bookings\/[^/]+\/payments$/].some(p=>p.test(req.path)))parse(z.object({}).strict(),req.query);
     next();
   });
+  if(areaMaps)router.use(areaMapApiRouter(service,areaMaps));
   router.post('/auth/sessions',async(req,res)=>{
     const input=parse(loginSchema,req.body);
     const result=await service.auth.login(input,req.ip??'unknown');res.setHeader('Cache-Control','no-store');res.json({data:result});

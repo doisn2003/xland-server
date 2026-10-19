@@ -24,16 +24,22 @@ export class AuthService {
     if(window.count>=this.maxAttempts||this.attempts.size>10000)throw new DomainError(429,'RATE_LIMITED','Thử lại sau');
     window.count++;this.attempts.set(key,window);
     return this.db.transaction('xland_auth',null,async c=>{
-      const rows=await c.query<{id:string;password_hash:string;status:string}>('SELECT id,password_hash,status FROM xland.user_identities WHERE username_normalized=$1',[username]);
+      const rows=await c.query<{id:string;password_hash:string|null;status:string}>('SELECT id,password_hash,status FROM xland.user_identities WHERE username_normalized=$1',[username]);
       const row=rows.rows[0];
       const verified=await argon2.verify(row?.password_hash??this.dummyHash,input.password);
-      if(!row||row.status!=='active'||!verified)unauthenticated();
-      const token=randomBytes(32).toString('base64url');
-      const digest=createHash('sha256').update(token).digest();
-      const created=this.now();const expires=new Date(created.getTime()+86400000);
-      await c.query('INSERT INTO xland.auth_sessions(id,user_id,token_digest,created_at,expires_at) VALUES($1,$2,$3,$4,$5)',[randomUUID(),row.id,digest,created,expires]);
-      return {accessToken:token,session:{profile:await this.profileUsing(c,row.id),expiresAt:expires.toISOString()}};
+      if(!row||row.status!=='active'||!row.password_hash||!verified)unauthenticated();
+      return this.issueSessionUsing(c,row.id);
     });
+  }
+  /** Server-internal only: caller must establish the identity inside this transaction. */
+  async issueSessionUsing(c:PoolClient,userId:string):Promise<Record<string,unknown>> {
+    const user=await c.query<{status:string}>('SELECT status FROM xland.user_identities WHERE id=$1 FOR SHARE',[userId]);
+    if(user.rows[0]?.status!=='active')unauthenticated();
+    const token=randomBytes(32).toString('base64url');
+    const digest=createHash('sha256').update(token).digest();
+    const created=this.now();const expires=new Date(created.getTime()+86400000);
+    await c.query('INSERT INTO xland.auth_sessions(id,user_id,token_digest,created_at,expires_at) VALUES($1,$2,$3,$4,$5)',[randomUUID(),userId,digest,created,expires]);
+    return {accessToken:token,session:{profile:await this.profileUsing(c,userId),expiresAt:expires.toISOString()}};
   }
   async identify(authorization: string|undefined): Promise<Identity|null> {
     if(authorization===undefined)return null;

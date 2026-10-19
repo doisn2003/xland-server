@@ -14,6 +14,8 @@
     "typecheck": "tsc --noEmit",
     "check:foundation": "node scripts/verify-foundation.mjs",
     "test": "node --import tsx --test tests/unit/*.test.ts",
+    "test:auth": "node --import tsx tests/auth/run-local.mjs",
+    "auth:cleanup": "node --import tsx src/auth/cleanup-cli.ts",
     "test:integration": "node scripts/test-postgres.mjs integration",
     "test:contract": "node scripts/test-postgres.mjs contract",
     "build": "tsc -p tsconfig.build.json",
@@ -23,6 +25,7 @@
     "argon2": "0.45.1",
     "dotenv": "18.0.8",
     "express": "5.3.0",
+    "google-auth-library": "11.3.1",
     "pg": "8.23.1",
     "zod": "4.6.7"
   },
