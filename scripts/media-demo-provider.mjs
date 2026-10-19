@@ -7,7 +7,11 @@ const files=new Map([
  ['/demo-video.mp4',{bytes:readFileSync(resolve(root,'demo-assets/w4/xland-synthetic.mp4')),mime:'video/mp4'}],
  ['/demo-poster.png',{bytes:readFileSync(resolve(root,'demo-assets/w4/xland-synthetic.png')),mime:'image/png'}],
 ]);
-export const mediaProvenance=JSON.parse(readFileSync(resolve(root,'demo-assets/w4/manifest.json'),'utf8'));
+const reportProvenance=JSON.parse(readFileSync(resolve(root,'demo-assets/p3-report-v1/manifest.json'),'utf8'));
+for(const file of reportProvenance.files){
+ files.set('/report/'+file.file,{bytes:readFileSync(resolve(root,'demo-assets/p3-report-v1',file.file)),mime:file.file.endsWith('.mp4')?'video/mp4':'image/png'});
+}
+export const mediaProvenance={...JSON.parse(readFileSync(resolve(root,'demo-assets/w4/manifest.json'),'utf8')),report:reportProvenance};
 export function mediaDemoServer({now=()=>Date.now(),allowedOrigins=['http://127.0.0.1:5555','http://localhost:5555','http://127.0.0.1:5556']}={}){return createServer((req,res)=>{
  const url=new URL(req.url,'http://127.0.0.1');res.setHeader('Cache-Control','no-store');res.setHeader('X-Xland-Demo','synthetic-project-created');
  const allowed=allowedOrigins;

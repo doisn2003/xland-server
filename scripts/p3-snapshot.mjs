@@ -25,7 +25,9 @@ if(['create','seal'].includes(process.argv[2])){
 }
 if(process.argv[2]==='create') {
  const id=new Date().toISOString().replace(/[-:.]/g,'');
- const evidence=resolve('../brain/logs/agent-c/evidence/P3-W0',id),sandbox=resolve('../xland-mobile/.local/p3',id,'mobile');
+ const phase=process.argv.includes('--w1')?'W1':'W0';
+ const reportMode=process.argv.includes('--report');
+ const evidence=resolve(reportMode ? '../brain/logs/agent-a/evidence/P3-REPORT' : '../brain/logs/agent-c/evidence/P3-'+phase,id),sandbox=resolve('../xland-mobile/.local/p3',id,'mobile');
  await mkdir(evidence,{recursive:true});await mkdir(sandbox,{recursive:true});
  let paths=[];
  for(const directory of ['lib','assets','test','integration_test','android','ios','web','tool']) {
@@ -38,7 +40,10 @@ if(process.argv[2]==='create') {
  if(JSON.stringify(before)!==JSON.stringify(copied)||JSON.stringify(before)!==JSON.stringify(after))throw Error('SOURCE_CHANGED_DURING_FREEZE: retry a new snapshot; preserve old evidence');
  const source={timestamp:new Date().toISOString(),mobileHead:execFileSync('git',['rev-parse','HEAD'],{cwd:mobile}).toString().trim(),serverHead:execFileSync('git',['rev-parse','HEAD']).toString().trim(),includesUntrackedPresentationAssetsTests:true,files:copied};
  await writeFile(resolve(evidence,'mobile-source.json'),JSON.stringify(source,null,2));
- const context={id,evidence,sandbox,sourceHash:hash(JSON.stringify(copied)),sdk:resolve('../xland-mobile/.local/flutter-3.47.5-native'),apiPort:3002,webPort:5557,mediaPort:5563,instance:'p3w0'};
+ const reviewed=JSON.parse(await readFile('../brain/logs/agent-a/RV-P3-001/mobile-source-current.json','utf8'));
+ const delta=copied.filter(f=>reviewed.files.find(v=>v.path===f.path)?.sha256!==f.sha256);
+ await writeFile(resolve(evidence,'t0-source-comparison.json'),JSON.stringify({reviewedSourceHash:reviewed.sourceHash,reviewedFiles:reviewed.files.length,removed:reviewed.files.filter(f=>!copied.some(v=>v.path===f.path)).map(f=>f.path),delta,matched:copied.filter(f=>reviewed.files.find(v=>v.path===f.path)?.sha256===f.sha256).length},null,2));
+ const context={id,phase,reportMode,evidence,sandbox,sourceHash:hash(JSON.stringify(copied)),sdk:resolve('../xland-mobile/.local/flutter-3.47.5-native'),apiPort:3002,webPort:5557,mediaPort:5563,instance:'p3w0'};
  await writeFile(contextPath,JSON.stringify(context,null,2),{mode:0o600});
  console.log(JSON.stringify({event:'p3_source_frozen',id,files:copied.length,sourceHash:context.sourceHash,evidence}));
 }else if(process.argv[2]==='seal') {
@@ -49,7 +54,7 @@ if(process.argv[2]==='create') {
  const bundleFiles=await manifest(web,paths),bundleHash=hash(JSON.stringify(bundleFiles));
  const sdk=JSON.parse(await readFile(resolve(c.sdk,'bin/cache/flutter.version.json'),'utf8'));
  if(sdk.flutterVersion!=='3.47.5'&&sdk.frameworkVersion!=='3.47.5')throw Error('Pinned SDK version mismatch');
- const build={timestamp:new Date().toISOString(),sourceHash:c.sourceHash,bundleHash,sdk,sourceFilesUnchanged:true,mode:'DEMO synthetic project-created media; public W0; W1 awaits A/T0',apiBase:`http://127.0.0.1:${c.apiPort}/api/v1`,mediaBase:`http://127.0.0.1:${c.mediaPort}`,files:bundleFiles};
+ const build={timestamp:new Date().toISOString(),sourceHash:c.sourceHash,bundleHash,sdk,sourceFilesUnchanged:true,reportMode:c.reportMode??false,mode:c.phase==='W1'?'W1 DEMO synthetic media; account runner requires exact T0 runtime authorization':'DEMO synthetic project-created media; public W0; W1 awaits A/T0',apiBase:`http://127.0.0.1:${c.apiPort}/api/v1`,mediaBase:`http://127.0.0.1:${c.mediaPort}`,files:bundleFiles};
  await writeFile(resolve(web,'xland-build.json'),JSON.stringify(build,null,2));
  const apk=resolve(c.sandbox,'build/app/outputs/flutter-apk/app-debug.apk');let artifact=c.artifact??null;
  if(artifact&&hash(await readFile(artifact.path))!==artifact.sha256)throw Error('Saved feed artifact changed');

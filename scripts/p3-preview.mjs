@@ -20,13 +20,13 @@ export async function sourceFiles(directory,part=''){
   if(d.isDirectory())result.push(...await sourceFiles(directory,path));else if(d.isFile())result.push({path,sha256:sha(await readFile(resolve(directory,path)))});
  }return result.sort((a,b)=>a.path.localeCompare(b.path));
 }
-export function staticBundle(bundle){
+export function staticBundle(bundle,{mode='DEMO-W0'}={}){
  const mime={'.html':'text/html','.js':'text/javascript','.json':'application/json','.wasm':'application/wasm','.png':'image/png','.svg':'image/svg+xml','.woff2':'font/woff2','.ttf':'font/ttf','.bin':'application/octet-stream'};
  return createServer((req,res)=>{void(async()=>{
   if(!['GET','HEAD'].includes(req.method)){res.writeHead(405).end();return;}
   const path=decodeURIComponent(new URL(req.url,'http://localhost').pathname),file=resolve(bundle,'.'+(path==='/'?'/index.html':path));
   if(!file.startsWith(bundle+sep)){res.writeHead(404).end();return;}
-  try{const bytes=await readFile(file);res.writeHead(200,{'Content-Type':mime[extname(file)]??'application/octet-stream','Content-Length':bytes.length,'Cache-Control':'no-store','X-Xland-Mode':'DEMO-W0'});res.end(req.method==='HEAD'?undefined:bytes);}catch{res.writeHead(404).end();}
+  try{const bytes=await readFile(file);res.writeHead(200,{'Content-Type':mime[extname(file)]??'application/octet-stream','Content-Length':bytes.length,'Cache-Control':'no-store','X-Xland-Mode':mode});res.end(req.method==='HEAD'?undefined:bytes);}catch{res.writeHead(404).end();}
  })().catch(()=>{if(!res.headersSent)res.writeHead(400);res.end();});});
 }
 async function control(state,action){return new Promise((ok,fail)=>{
@@ -59,7 +59,7 @@ async function worker(){
   const listen=async(server,port)=>{servers.push(server);await new Promise((ok,fail)=>{server.once('error',fail);server.listen(port,'127.0.0.1',ok);});};
   const api=createServer(runtime.app);await listen(api,c.apiPort);
   await listen(mediaDemoServer({allowedOrigins:[`http://127.0.0.1:${c.webPort}`,`http://localhost:${c.webPort}`]}),c.mediaPort);
-  await listen(staticBundle(resolve(c.bundle)),c.webPort);
+  await listen(staticBundle(resolve(c.bundle),{mode:c.phase==='W1'?'DEMO-W1':'DEMO-W0'}),c.webPort);
   const ready=await fetch(`http://127.0.0.1:${c.apiPort}/health/ready`,{signal:AbortSignal.timeout(15000)});assert.equal(ready.status,200);
   const nonce=randomBytes(24).toString('hex'),pipe=process.platform==='win32'?`\\\\.\\pipe\\xland-p3-${nonce}`:resolve('.local',`p3-${nonce}.sock`);
   const state={pid:process.pid,pipe,nonce,instance:c.instance,apiBase:`http://127.0.0.1:${c.apiPort}/api/v1`,web:`http://127.0.0.1:${c.webPort}`,media:`http://127.0.0.1:${c.mediaPort}`,sourceHash:c.sourceHash,bundleHash:c.bundleHash,backendSourceHash,environment:target.environment,fingerprint:target.fingerprint,startedAt:new Date().toISOString()};

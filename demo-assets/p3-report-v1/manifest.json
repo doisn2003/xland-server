@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "date": "2026-10-18",
+  "isIllustrative": true,
+  "notice": "AI-generated fictional scenery animated with a slow zoom; not actual property footage. Original synthetic 440Hz tone for playback/mute testing. Not a property/legal/identity representation.",
+  "sourceArtworkManifest": "brain/assets/p3-report-v1/manifest.json",
+  "video": {
+    "codec": "H.264 baseline",
+    "pixelFormat": "yuv420p",
+    "width": 720,
+    "height": 1280,
+    "fps": 24,
+    "durationSeconds": 8,
+    "audio": "AAC 44.1kHz, original quiet synthetic tone"
+  },
+  "files": [
+    {
+      "file": "countryside.mp4",
+      "bytes": 366233,
+      "sha256": "ee9a80a0213761d1b5a844e0d5d0e7a047034502dd3c25569833446a80fbae49",
+      "source": "countryside-portrait.png"
+    },
+    {
+      "file": "countryside.png",
+      "bytes": 3287312,
+      "sha256": "2624b9d8f754d8bbc14132548c88931aa9e12d8580ff803c1f105ace22d528c1",
+      "source": "countryside-portrait.png"
+    },
+    {
+      "file": "coastal.mp4",
+      "bytes": 299778,
+      "sha256": "e8e39e32e9ce836059f31974141eb88cf220301e3ea7763ed37a54ed580b1371",
+      "source": "coastal-landscape.png"
+    },
+    {
+      "file": "coastal.png",
+      "bytes": 3117752,
+      "sha256": "ceeb4cf77a03f6cc5f2a3f3d0977898806bbab5401c245510f3821e2e3a773c1",
+      "source": "coastal-landscape.png"
+    }
+  ]
+}

@@ -1,0 +1,499 @@
+{
+  "owner": "xland-p3-enrichment-v1.1-highlights",
+  "targetFingerprint": "03d6c297d77a1029",
+  "baseManifestSha256": "7a86a89504ae613d07b0ae727f5c735db9befbbf873896d4af027ae5c6de7c46",
+  "revisedManifestSha256": "63da1b5db7a40041f7dcc31a3b7cf9768de70bc75e904b256b7d1a98b4145f57",
+  "revisedDatasetSha256": "dafdecb17e85b046ea8221ef3f623945cbbd084002ed7c6951e91176fb4787f0",
+  "scope": {
+    "table": "properties",
+    "columns": [
+      "highlights"
+    ],
+    "ids": [
+      "2f4a8cad-75e0-594a-a86d-561255207131",
+      "60745fc6-932b-5f6b-a4f5-a829b870e076",
+      "0f5fb984-71ac-554d-ac94-7b2da8e91042",
+      "5022025d-4458-5e43-ae28-ebfc8695e362",
+      "1aa47887-8463-510e-ad2f-615c5cf134fd",
+      "5a10a979-a298-54e0-a1a6-c845e4cdddf3",
+      "ae8cfd08-6bfb-5a59-a585-fbfe4333326e",
+      "ef303eee-beb1-50a0-a796-2dc36a582ee3",
+      "45762d46-7b4f-5724-a077-7896e94e92f8",
+      "aab788b8-2bdc-5824-a19d-202a65a61e0c",
+      "4e3b4322-2dce-5d8e-a002-f8cafc3c19a3",
+      "b141518b-5f64-50fd-a535-d4fc89e80dfd",
+      "5bf96d5f-0af5-5371-aac9-f424c97625b6",
+      "ac2fa0b6-0b65-54b1-ad13-057d6892c17b",
+      "1b255722-8edf-563d-a5ba-8c9742e045de",
+      "820244c3-2498-50fe-a255-06715571da7d"
+    ],
+    "updates": 16,
+    "assetUploads": 0
+  },
+  "changes": [
+    {
+      "table": "properties",
+      "key": {
+        "id": "2f4a8cad-75e0-594a-a86d-561255207131"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Hòa Lạc",
+          "Kích thước tham khảo 5 × 18 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Hòa Lạc"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "5 × 18 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "60745fc6-932b-5f6b-a4f5-a829b870e076"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Hưng Yên",
+          "Kích thước tham khảo 6 × 19 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Hưng Yên"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "6 × 19 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "0f5fb984-71ac-554d-ac94-7b2da8e91042"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Bắc Ninh",
+          "Kích thước tham khảo 7 × 20 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Bắc Ninh"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "7 × 20 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "5022025d-4458-5e43-ae28-ebfc8695e362"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Đà Nẵng",
+          "Kích thước tham khảo 8 × 21 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Đà Nẵng"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "8 × 21 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "1aa47887-8463-510e-ad2f-615c5cf134fd"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Hòa Lạc",
+          "Kích thước tham khảo 5 × 22 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Hòa Lạc"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "5 × 22 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "5a10a979-a298-54e0-a1a6-c845e4cdddf3"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Hưng Yên",
+          "Kích thước tham khảo 6 × 18 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Hưng Yên"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "6 × 18 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "ae8cfd08-6bfb-5a59-a585-fbfe4333326e"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Bắc Ninh",
+          "Kích thước tham khảo 7 × 19 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Bắc Ninh"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "7 × 19 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "ef303eee-beb1-50a0-a796-2dc36a582ee3"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Đà Nẵng",
+          "Kích thước tham khảo 8 × 20 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Đà Nẵng"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "8 × 20 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "45762d46-7b4f-5724-a077-7896e94e92f8"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Hòa Lạc",
+          "Kích thước tham khảo 5 × 21 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Hòa Lạc"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "5 × 21 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "aab788b8-2bdc-5824-a19d-202a65a61e0c"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Hưng Yên",
+          "Kích thước tham khảo 6 × 22 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Hưng Yên"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "6 × 22 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "4e3b4322-2dce-5d8e-a002-f8cafc3c19a3"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Bắc Ninh",
+          "Kích thước tham khảo 7 × 18 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Bắc Ninh"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "7 × 18 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "b141518b-5f64-50fd-a535-d4fc89e80dfd"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Đà Nẵng",
+          "Kích thước tham khảo 8 × 19 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Đà Nẵng"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "8 × 19 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "5bf96d5f-0af5-5371-aac9-f424c97625b6"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Hòa Lạc",
+          "Kích thước tham khảo 5 × 20 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Hòa Lạc"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "5 × 20 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "ac2fa0b6-0b65-54b1-ad13-057d6892c17b"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Hưng Yên",
+          "Kích thước tham khảo 6 × 21 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Hưng Yên"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "6 × 21 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "1b255722-8edf-563d-a5ba-8c9742e045de"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Bắc Ninh",
+          "Kích thước tham khảo 7 × 22 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Bắc Ninh"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "7 × 22 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    },
+    {
+      "table": "properties",
+      "key": {
+        "id": "820244c3-2498-50fe-a255-06715571da7d"
+      },
+      "expected": {
+        "highlights": [
+          "Khu vực tham khảo: Khu vực Đà Nẵng",
+          "Kích thước tham khảo 8 × 18 m",
+          "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+        ]
+      },
+      "values": {
+        "highlights": [
+          {
+            "title": "Khu vực tham khảo",
+            "description": "Khu vực Đà Nẵng"
+          },
+          {
+            "title": "Kích thước tham khảo",
+            "description": "8 × 18 m"
+          },
+          {
+            "title": "Thông tin và lịch xem",
+            "description": "Liên hệ tư vấn để kiểm tra thông tin và lịch xem"
+          }
+        ]
+      }
+    }
+  ]
+}

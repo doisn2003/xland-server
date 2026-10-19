@@ -1,0 +1,82 @@
+[
+  {
+    "key": "northern-garden",
+    "prompt": "Use case: photorealistic-natural. Asset type: original scenery for the XLand fictional mock property dataset. Generate a single wide landscape photograph of a fictional northern Vietnamese suburban garden plot: a small open rectangular grass lawn, narrow concrete lane along the left, distant low tile-roof houses and leafy trees, gentle hazy hills beyond. Natural morning light, credible vegetation, careful editorial photography, eye-level composition. No people, no text, no logo, no watermark, no map, no cadastral boundaries, no stakes, no legal documents. This is invented scenery, not a real advertised property. Landscape 1536x1024.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-c6284f20-5ec5-45b6-be59-f1a17905e61d.png"
+  },
+  {
+    "key": "fictional-advisor-lan",
+    "prompt": "Use case: photorealistic-natural. Asset type: fictional avatar for XLand mock consultant profile. Create one original fictional Vietnamese woman around 35 years old, medium-length dark hair, warm composed expression, light beige blazer over plain ivory shirt, head and shoulders, natural skin texture, soft neutral pale sage studio background. Professional approachable editorial portrait, centered square crop, soft daylight, no lanyard, no text, no logo, no watermark, no real person reference, entirely invented identity.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-2ae05ef2-e39a-44d7-b3f2-aa082a834b54.png"
+  },
+  {
+    "key": "northern-field",
+    "prompt": "Use case: photorealistic-natural. Asset type: original fictional scenery for XLand mock land dataset. A single wide editorial photograph of a broad flat grassy garden plot beside a narrow village lane, red tiled houses far behind, northern Vietnamese delta, soft overcast morning, no hills. Eye level, believable vegetation and ground texture, restrained natural colors. No people, text, logos, watermark, plot boundary graphics, legal documents, cadastral maps or advertising. Entirely invented location, no real listed property. Landscape 1536x1024.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-e23877ab-8b79-4f01-8b0c-026608182ec5.png"
+  },
+  {
+    "key": "northern-lane",
+    "prompt": "Use case: photorealistic-natural. Asset type: original fictional scenery for XLand mock land dataset. A single wide editorial photograph of a small vacant green residential plot framed by low garden walls and a quiet concrete neighborhood lane in a fictional northern Vietnamese village, sunny late afternoon. Eye level, believable vegetation and ground texture, restrained natural colors. No people, text, logos, watermark, plot boundary graphics, legal documents, cadastral maps or advertising. Entirely invented location, no real listed property. Landscape 1536x1024.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-4413f1bf-e502-49c2-a1d4-327408a28514.png"
+  },
+  {
+    "key": "central-garden",
+    "prompt": "Use case: photorealistic-natural. Asset type: original fictional scenery for XLand mock land dataset. A single wide editorial photograph of an open sandy garden plot among low houses and coconut palms in a fictional central Vietnamese coastal neighborhood, distant hills, bright clear morning, no sea frontage claim. Eye level, believable vegetation and ground texture, restrained natural colors. No people, text, logos, watermark, plot boundary graphics, legal documents, cadastral maps or advertising. Entirely invented location, no real listed property. Landscape 1536x1024.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-8edb932f-762c-4e54-bdfe-c740d6f8fcb4.png"
+  },
+  {
+    "key": "central-outskirts",
+    "prompt": "Use case: photorealistic-natural. Asset type: original fictional scenery for XLand mock land dataset. A single wide editorial photograph of a broad open grassy lot beside a modest asphalt lane on fictional central Vietnamese city outskirts, scattered low homes, coastal mountains far away, calm afternoon. Eye level, believable vegetation and ground texture, restrained natural colors. No people, text, logos, watermark, plot boundary graphics, legal documents, cadastral maps or advertising. Entirely invented location, no real listed property. Landscape 1536x1024.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-b472613b-5f19-4209-ab22-2142756f3f41.png"
+  },
+  {
+    "key": "fictional-advisor-quan",
+    "prompt": "Use case: photorealistic-natural. Asset type: entirely fictional avatar for XLand mock consultant. One Vietnamese man around 38, short slightly wavy black hair, navy blazer and pale blue open collar shirt, composed friendly expression, neutral sand studio background. Head and shoulders, centered square composition, soft studio daylight, natural skin texture and distinct facial features. No lanyard, text, logo or watermark. No real person reference; invented identity only.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-07b64ec9-641d-4a35-903e-a3966673e446.png"
+  },
+  {
+    "key": "fictional-advisor-ha",
+    "prompt": "Use case: photorealistic-natural. Asset type: entirely fictional avatar for XLand mock consultant. One Vietnamese woman around 29, tied-back black hair, slate blue blazer and white blouse, attentive expression, warm gray studio background. Head and shoulders, centered square composition, soft studio daylight, natural skin texture and distinct facial features. No lanyard, text, logo or watermark. No real person reference; invented identity only.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-7d6640f8-67a8-4eae-a46a-7288d7aa4bce.png"
+  },
+  {
+    "key": "fictional-advisor-huy",
+    "prompt": "Use case: photorealistic-natural. Asset type: entirely fictional avatar for XLand mock consultant. One Vietnamese man around 44, short salt and pepper hair, rectangular glasses, olive overshirt, calm expression, pale cream studio background. Head and shoulders, centered square composition, soft studio daylight, natural skin texture and distinct facial features. No lanyard, text, logo or watermark. No real person reference; invented identity only.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-fe71d5fb-b13d-4d89-9640-3eeaa1c53e00.png"
+  },
+  {
+    "key": "fictional-advisor-thao",
+    "prompt": "Use case: photorealistic-natural. Asset type: entirely fictional avatar for XLand mock consultant. One Vietnamese woman around 42, short dark bob, muted terracotta jacket and cream blouse, friendly natural smile, pale gray studio background. Head and shoulders, centered square composition, soft studio daylight, natural skin texture and distinct facial features. No lanyard, text, logo or watermark. No real person reference; invented identity only.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-da8e7860-b0e9-42f8-8a71-3c3bc4499446.png"
+  },
+  {
+    "key": "fictional-advisor-binh",
+    "prompt": "Use case: photorealistic-natural. Asset type: entirely fictional avatar for XLand mock consultant. One Vietnamese man around 32, neat short black hair, light gray blazer and plain white shirt, gentle natural smile, pale sage studio background. Head and shoulders, centered square composition, soft studio daylight, natural skin texture and distinct facial features. No lanyard, text, logo or watermark. No real person reference; invented identity only.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-649501e2-2f7c-4f30-9f08-72d9998b2691.png"
+  },
+  {
+    "key": "fictional-advisor-nhi",
+    "prompt": "Use case: photorealistic-natural. Asset type: entirely fictional avatar for XLand mock consultant. One Vietnamese woman around 33, long dark hair over one shoulder, navy blouse, relaxed professional expression, neutral warm beige studio background. Head and shoulders, centered square composition, soft studio daylight, natural skin texture and distinct facial features. No lanyard, text, logo or watermark. No real person reference; invented identity only.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-d36369b2-6554-40bb-99bb-97f1cdbed46c.png"
+  },
+  {
+    "key": "northern-orchard",
+    "prompt": "Use case: photorealistic-natural. Asset type: original scenery for XLand fictional mock property data. A single wide natural editorial photograph of an open grassy plot next to a small citrus orchard and a narrow concrete road in a fictional northern Vietnamese village, low homes far away, soft autumn morning. Eye-level camera, credible ground texture and vegetation, clear useful foreground. Entirely invented location, not actual advertised land. No people, no text, logo or watermark, no cadastral boundaries, no legal documents, no promotional signs. Landscape 1536x1024.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-80f18fdf-fb1c-4663-87a3-92ea8db0dea3.png"
+  },
+  {
+    "key": "northern-corner",
+    "prompt": "Use case: photorealistic-natural. Asset type: original scenery for XLand fictional mock property data. A single wide natural editorial photograph of a tidy vacant corner plot with low grass at the junction of two small village lanes, distant red tile houses and mature trees in a fictional northern Vietnamese delta settlement, warm afternoon. Eye-level camera, credible ground texture and vegetation, clear useful foreground. Entirely invented location, not actual advertised land. No people, no text, logo or watermark, no cadastral boundaries, no legal documents, no promotional signs. Landscape 1536x1024.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-24015ea5-38d9-4517-beff-e2063720bbdc.png"
+  },
+  {
+    "key": "central-palms",
+    "prompt": "Use case: photorealistic-natural. Asset type: original scenery for XLand fictional mock property data. A single wide natural editorial photograph of an open sandy grass garden plot beyond a quiet village road lined with coconut palms in a fictional central Vietnamese neighborhood, modest distant homes, soft clear daylight. Eye-level camera, credible ground texture and vegetation, clear useful foreground. Entirely invented location, not actual advertised land. No people, no text, logo or watermark, no cadastral boundaries, no legal documents, no promotional signs. Landscape 1536x1024.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-5719e29a-fb03-440f-a2fe-f14a496486ea.png"
+  },
+  {
+    "key": "central-hills",
+    "prompt": "Use case: photorealistic-natural. Asset type: original scenery for XLand fictional mock property data. A single wide natural editorial photograph of a broad flat green plot at the edge of a fictional central Vietnamese settlement with hazy low hills and scattered homes, natural cloudy morning. Eye-level camera, credible ground texture and vegetation, clear useful foreground. Entirely invented location, not actual advertised land. No people, no text, logo or watermark, no cadastral boundaries, no legal documents, no promotional signs. Landscape 1536x1024.",
+    "generatedFile": "C:\\Users\\Admin\\.codex\\generated_images\\01a1529a-e8bb-79a2-b51d-e42fe613751f\\exec-e50854f2-5ebe-4023-81a2-ee6f5be6e926.png"
+  }
+]
