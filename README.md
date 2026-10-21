@@ -1,5 +1,15 @@
 # xland-server
 
+Public author profile endpoints are implemented in source. Production completion
+requires a successful backend deployment and `npm run verify:authors`; the client
+uses these endpoints directly with no compatibility fallback. See
+[author API and rollout acceptance](docs/AUTHOR_PROFILES.md).
+
+Share implementation (21 October 2026): public content pages, Open Graph and native
+app association endpoints are deployed on Railway. Android verified links cover
+this workstation's debug certificate and the internal release certificate.
+See [sharing architecture and live verification](docs/SHARING.md).
+
 ## Current internal release — 19 October 2026
 
 The API is deployed on Railway: [readiness](https://xland-server-production.up.railway.app/health/ready). See [delivery milestones and release operations](docs/INTERNAL_RELEASE.md). The released mobile app connects to Railway and does not require a PC server. Earlier local setup instructions follow.

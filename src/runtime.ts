@@ -1,4 +1,7 @@
 import { randomBytes } from 'node:crypto';
+import { Router } from 'express';
+import { sharingConfig } from './sharing/config.js';
+import { sharingRouter } from './sharing/routes.js';
 import { configuredExtendedAuth } from './auth/config.js';
 import { geoapifyConfig } from './maps/geoapify_config.js';
 import { GeoapifyAreaMapService, geoapifyTileRouter } from './maps/geoapify_maps.js';
@@ -16,10 +19,11 @@ export async function runtime(env:NodeJS.ProcessEnv) {
   if(env.XLAND_API_MODE==='bootstrap')return {app:createApp({checkReadiness:async()=>false}),close:async()=>{}};
   const target=databaseTarget(env,env.NODE_ENV==='test');
   if(!env.CURSOR_SECRET||Buffer.byteLength(env.CURSOR_SECRET)<32)throw new Error('Persistent CURSOR_SECRET of at least 32 bytes is required');
-  if(env.PUBLIC_BASE_URL&&!env.PUBLIC_BASE_URL.startsWith('https://'))throw new Error('PUBLIC_BASE_URL requires HTTPS');
+  const sharing=sharingConfig(env);
   const db=new Database(target.connectionString);
   const auth=new AuthService(db);await auth.initialize();
-  const service=new CoreService(db,auth,new CursorCodec(env.CURSOR_SECRET?Buffer.from(env.CURSOR_SECRET):randomBytes(32)),()=>new Date(),env.PUBLIC_BASE_URL);
+  const service=new CoreService(db,auth,new CursorCodec(env.CURSOR_SECRET?Buffer.from(env.CURSOR_SECRET):randomBytes(32)),()=>new Date(),sharing.publicBaseUrl);
   const maps=new GeoapifyAreaMapService(geoapifyConfig(env),new PostgresMapStore(db));
-  return {app:createApp({checkReadiness:()=>db.ready(),api:apiRouter(service,(env.AVATAR_ORIGINS??'').split(',').filter(Boolean),configuredExtendedAuth(db,auth,env),maps),publicPages:geoapifyTileRouter(maps),allowedOrigins:(env.CORS_ORIGINS??'').split(',').filter(Boolean),trustProxyHops:trustedProxyHops(env)}),close:()=>db.close()};
+  const publicPages=Router().use(sharingRouter(service,sharing)).use(geoapifyTileRouter(maps));
+  return {app:createApp({checkReadiness:()=>db.ready(),api:apiRouter(service,(env.AVATAR_ORIGINS??'').split(',').filter(Boolean),configuredExtendedAuth(db,auth,env),maps),publicPages,allowedOrigins:(env.CORS_ORIGINS??'').split(',').filter(Boolean),trustProxyHops:trustedProxyHops(env)}),close:()=>db.close()};
 }

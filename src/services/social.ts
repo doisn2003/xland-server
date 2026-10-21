@@ -12,6 +12,19 @@ export class SocialService {
   async author(c:PoolClient,id:string):Promise<Wire> {
     const result=(await this.authors(c,[id])).get(id);if(!result)missing();return result;
   }
+  async authorProfile(identity:Identity|null,id:string):Promise<Wire>{return this.core.read(identity,async c=>{
+    const author=await this.author(c,id);
+    const r=(await c.query(`SELECT p.is_illustrative,d.id consultant_id,
+      (SELECT count(*)::int FROM xland.videos WHERE author_id=p.id AND deleted_at IS NULL) videos,
+      xland.author_follow_count(p.id)::int followers
+      FROM xland.user_profiles p LEFT JOIN xland.consultants d ON d.id=p.id WHERE p.id=$1`,[id])).rows[0];
+    if(!r)missing();
+    return {...author,videoCount:r.videos,followerCount:r.followers,consultantId:r.consultant_id??null,isIllustrative:r.is_illustrative};
+  });}
+  async authorVideos(identity:Identity|null,id:string,q:PageQuery):Promise<Wire>{return this.core.read(identity,async c=>{
+    await this.author(c,id);
+    return page(c,this.core.cursor,'author-videos',{user:identity?.userId??null,id},q,'t.*','xland.videos t','t.author_id=$1 AND t.deleted_at IS NULL',[id],'t.published_at','DESC','timestamptz',r=>this.video(c,r),rows=>this.videos(c,rows));
+  });}
   private async authors(c:PoolClient,ids:string[]):Promise<Map<string,Wire>> {
     const rows=await c.query(`SELECT p.id,p.display_name,p.public_role,p.avatar_url,p.is_verified,
       d.role consultant_role,d.is_verified consultant_verified,EXISTS(SELECT 1 FROM xland.author_follows f WHERE f.author_id=p.id) following

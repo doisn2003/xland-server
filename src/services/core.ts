@@ -4,7 +4,8 @@ import type { Database } from '../repositories/database.js';
 import { PropertyRepository, type Wire } from '../repositories/properties.js';
 import type { AuthService, Identity } from './auth.js';
 import type { CursorCodec } from './cursor.js';
-import { DomainError, missing, unauthenticated } from '../domain/errors.js';
+import { DomainError, unauthenticated } from '../domain/errors.js';
+import { readShareContent, shareUrl } from '../sharing/content.js';
 
 export class CoreService {
   readonly properties:PropertyRepository;
@@ -31,11 +32,10 @@ export class CoreService {
     });
   }
   async share(identity:Identity|null,kind:'properties'|'videos'|'events',id:string):Promise<Wire> {
-    await this.read(identity,async c=>{
-      const row=await c.query(`SELECT id FROM xland.${kind} WHERE id=$1`,[id]);if(!row.rowCount)missing();
-    });
+    void identity;
+    const content=await this.read(null,c=>readShareContent(c,kind,id));
     if(!this.publicBaseUrl)throw new DomainError(409,'FEATURE_NOT_ENABLED','Liên kết chia sẻ chưa có host công khai');
-    return {url:new URL(`${kind}/${id}`,this.publicBaseUrl.replace(/\/?$/,'/')).toString(),title:'XLand — thông tin minh họa'};
+    return {url:shareUrl(this.publicBaseUrl,kind,id),title:content.title};
   }
   async idempotent(c:PoolClient,identity:Identity,operation:string,key:string,body:unknown,create:()=>Promise<{id:string;data:Wire}>):Promise<Wire> {
     if(!/^[\x21-\x7e]{16,128}$/.test(key))throw new DomainError(400,'INVALID_INPUT','Cần Idempotency-Key hợp lệ');

@@ -31,7 +31,7 @@ export function apiRouter(service:CoreService,avatarOrigins:readonly string[]=[]
   router.use((req,_res,next)=>{
     if(req.method!=='GET')parse(z.object({}).strict(),req.query);
     if(req.method==='DELETE')parse(z.object({}).strict(),req.body??{});
-    if(req.method==='GET'&&![/^\/(properties(\/count)?|feed|clubs|events)$/, /^\/me\/(saved-videos|following|event-registrations|saved-events|bookings|support-requests|finance-plans)$/, /^\/catalog\/locations$/, /^\/properties\/[^/]+\/(availability|area)$/, /^\/consultants\/[^/]+\/(videos|properties|reviews|availability)$/, /^\/videos\/[^/]+\/comments$/, /^\/bookings\/[^/]+\/payments$/].some(p=>p.test(req.path)))parse(z.object({}).strict(),req.query);
+    if(req.method==='GET'&&![/^\/(properties(\/count)?|feed|clubs|events)$/, /^\/me\/(saved-videos|following|event-registrations|saved-events|bookings|support-requests|finance-plans)$/, /^\/catalog\/locations$/, /^\/properties\/[^/]+\/(availability|area)$/, /^\/consultants\/[^/]+\/(videos|properties|reviews|availability)$/, /^\/authors\/[^/]+\/videos$/, /^\/videos\/[^/]+\/comments$/, /^\/bookings\/[^/]+\/payments$/].some(p=>p.test(req.path)))parse(z.object({}).strict(),req.query);
     next();
   });
   if(areaMaps)router.use(areaMapApiRouter(service,areaMaps));
@@ -54,6 +54,8 @@ export function apiRouter(service:CoreService,avatarOrigins:readonly string[]=[]
     router.put(`/videos/:videoId/${kind}`,async(req,res)=>{parse(z.object({}).strict(),req.body??{});res.json({data:await social.state(identity(res),id(req,'videoId'),kind,true)});});
     router.delete(`/videos/:videoId/${kind}`,async(req,res)=>res.json({data:await social.state(identity(res),id(req,'videoId'),kind,false)}));
   }
+  router.get('/authors/:authorId',async(req,res)=>res.json({data:await social.authorProfile(identity(res),id(req,'authorId'))}));
+  router.get('/authors/:authorId/videos',async(req,res)=>res.json(await social.authorVideos(identity(res),id(req,'authorId'),parse(pagination.strict(),req.query))));
   router.put('/authors/:authorId/follow',async(req,res)=>{parse(z.object({}).strict(),req.body??{});res.json({data:await social.state(identity(res),id(req,'authorId'),'follow',true)});});
   router.delete('/authors/:authorId/follow',async(req,res)=>res.json({data:await social.state(identity(res),id(req,'authorId'),'follow',false)}));
   router.get('/me/saved-videos',async(req,res)=>res.json(await social.saved(identity(res),parse(pagination.strict(),req.query))));
