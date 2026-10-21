@@ -36,3 +36,29 @@ completion remains pending. Preserve the existing database/auth variables.
 
 The commit includes the already deployed sharing runtime and public assets so a
 GitHub deployment preserves the currently working content links.
+
+## Push and auto-deploy handoff — 21 October 2026
+
+Both fixes are pushed to `main`: backend `ea60b8c` and mobile `728a944`.
+Git remote refs were checked after each push. Local backend checks and the
+isolated author integration test pass. The client snapshot exported from the
+Git index also passes its author data and navigation tests without unrelated
+working-tree changes.
+
+**Production remains incomplete.** Direct live acceptance still receives 404
+from the author endpoint. The active deployment is still
+`ab5f71f0-afe5-4046-a908-47a3735b07dc`, from before the author change.
+
+The source-connect request recorded `doisn2003/xland-server` on the service, but
+Railway rejected deployment while builds were paused. A separate read confirmed
+there are **no deployment triggers** for this service/environment. Creating the
+`main` GitHub trigger was then rejected because no project member has access to
+the repository. Therefore automatic deployment is not yet configured or queued.
+
+An owner must connect a GitHub account with contributor access to this repository
+to a Railway project member and grant the Railway GitHub App repository access.
+See [Railway's autodeploy access requirements](https://docs.railway.com/deployments/github-autodeploys).
+After access is available, create/verify the `main` trigger on the existing
+service, deploy the pushed commit and rerun `npm run verify:authors`. Do not treat
+the hosting incident ending as proof that either repository access or a pending
+deployment has been resolved.
