@@ -8,7 +8,7 @@ export class Database {
       idleTimeoutMillis: 10000, application_name: 'xland-server' });
     this.pool.on('error', () => { console.error(JSON.stringify({ event: 'database_pool_error' })); });
   }
-  async transaction<T>(role: 'xland_api' | 'xland_auth' | 'xland_payment' | 'xland_maps', userId: string | null,
+  async transaction<T>(role: 'xland_api' | 'xland_auth' | 'xland_payment' | 'xland_maps' | 'xland_admin', userId: string | null,
     work: (client: PoolClient) => Promise<T>, readOnly=false): Promise<T> {
     const client = await this.pool.connect();
     try {

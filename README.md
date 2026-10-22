@@ -1,5 +1,7 @@
 # xland-server
 
+Admin fullstack (22/10/2026): namespace mới `/api/v1/admin`, migration `0012_admin_workspace.sql`, PostgreSQL RBAC/audit và upload Supabase. Chạy `npm run admin:dev` ở cổng 3005; `npm run test:admin` kiểm thử với PostgreSQL cô lập. Tài khoản đã provision theo yêu cầu: `admin / 123456`. Xem [kế hoạch, API và vận hành Admin](../xland-website/xland/docs/ADMIN.md). Các API mobile hiện hữu giữ nguyên.
+
 Public author profile endpoints are implemented in source. Production completion
 requires a successful backend deployment and `npm run verify:authors`; the client
 uses these endpoints directly with no compatibility fallback. See

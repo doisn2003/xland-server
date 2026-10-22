@@ -27,6 +27,10 @@ export function assertWire(value:unknown,type:string,path='data'):void {
   if(type==='bool'){assert.equal(typeof value,'boolean',path);return;}
   const fields=schemas.get(type);assert.ok(fields,'Unknown Dart schema '+type);
   assert.ok(value&&typeof value==='object'&&!Array.isArray(value),path);
-  assert.deepEqual(Object.keys(value).sort(),fields.map(f=>f.key).sort(),path+' '+type+' fields');
-  for(const field of fields)assertWire((value as Record<string,unknown>)[field.key],field.type,path+'.'+field.key);
+  // The current mobile mappers deliberately accept omitted descriptions on legacy
+  // agenda/speaker objects (value['description'], rather than wireField()).
+  const optional=new Set(['AgendaItem','Speaker'].includes(type)?['description']:[]);
+  const present=fields.filter(f=>!optional.has(f.key)||Object.hasOwn(value,f.key));
+  assert.deepEqual(Object.keys(value).sort(),present.map(f=>f.key).sort(),path+' '+type+' fields');
+  for(const field of present)assertWire((value as Record<string,unknown>)[field.key],field.type,path+'.'+field.key);
 }

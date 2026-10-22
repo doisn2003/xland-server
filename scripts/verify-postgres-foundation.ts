@@ -24,9 +24,11 @@ try {
   if(JSON.stringify(once)!==JSON.stringify(twice))throw new Error('Seed replay changed row counts');
   const design=JSON.parse(await readFile('../brain/logs/agent-c/fixtures/schema.C4.candidate.json','utf8')) as {tables:Array<{name:string}>};
   const actual=(await pool.query("SELECT c.relname name,c.relrowsecurity rls,c.relforcerowsecurity forced FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='xland' AND c.relkind='r' ORDER BY c.relname")).rows;
-  if(JSON.stringify(actual.map(r=>r.name))!==JSON.stringify(design.tables.map(t=>t.name).sort())||actual.some(r=>!r.rls||!r.forced))throw new Error('Actual table/RLS state differs from locked schema');
-  const roleState=(await pool.query("SELECT rolname name,rolsuper superuser,rolbypassrls bypass FROM pg_roles WHERE rolname IN ('xland_api','xland_auth','xland_payment') ORDER BY rolname")).rows;
-  if(roleState.length!==3||roleState.some(r=>r.superuser||r.bypass))throw new Error('Unsafe runtime role');
+  // C4 remains the historical baseline; explicitly account for reviewed additive migrations 0009-0012.
+  const expected=[...new Set([...design.tables.map(t=>t.name),'auth_external_identities','auth_otp_challenges','auth_rate_buckets','map_area_cache','map_daily_usage','admin_audit_log'])].sort();
+  if(JSON.stringify(actual.map(r=>r.name))!==JSON.stringify(expected)||actual.some(r=>!r.rls||!r.forced))throw new Error('Actual table/RLS state differs from expected migrations');
+  const roleState=(await pool.query("SELECT rolname name,rolsuper superuser,rolbypassrls bypass,rolcanlogin login FROM pg_roles WHERE rolname IN ('xland_api','xland_auth','xland_payment','xland_maps','xland_admin') ORDER BY rolname")).rows;
+  if(roleState.length!==5||roleState.some(r=>r.superuser||r.bypass||(['xland_maps','xland_admin'].includes(r.name)&&r.login)))throw new Error('Unsafe runtime role');
   const replayMigrations=await migrate(pool);if(replayMigrations.length)throw new Error('Migration replay unexpectedly reapplied SQL');
   const state={testDatabase:name,environment:'isolated-local-test',version:(await pool.query('SHOW server_version')).rows[0],migrations,migrationReplayStable:true,businessTableCount:actual.length,allTablesForcedRls:true,roleState,once,twice,seedReplayStable:true,seedMilliseconds:Date.now()-before};
   await writeFile((await evidenceDirectory())+'/postgres-foundation-'+(process.env.XLAND_EVIDENCE_CASE??name)+'.json',JSON.stringify(state,null,2));
