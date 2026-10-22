@@ -54,6 +54,12 @@ The trigger ID is `a6f0d6f4-d39b-406b-9918-8747b5908530`; a separate read confir
 the saved repository and branch. No further repository permission change is
 required for that trigger.
 
+Railway's branch-list API still reports `GitHub Repo not found`, and the dashboard
+shows `Could not load branches`. This is separate from the confirmed collaborator
+permission and saved trigger. Fetching/building the GitHub source remains
+unverified. Recheck the lookup when Railway recovers; if it still fails, refresh
+the existing `hoangpm127` GitHub connection on Railway before deployment.
+
 **Production remains incomplete.** At 02:20 UTC on 22 October, Railway still
 reported builds/deployments paused. The active and latest deployment were both
 `ab5f71f0-afe5-4046-a908-47a3735b07dc`, from before the author change; no new
