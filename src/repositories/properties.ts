@@ -74,7 +74,8 @@ export class PropertyRepository {
       values.push(q.limit+1);
       const rows=await c.query<Wire>(`SELECT ${propertyColumns.map(n=>'p.'+n).join(',')},p.${order.column}::text cursor_value FROM xland.properties p WHERE ${where}${after} ORDER BY p.${order.column} ${order.direction},p.id ${order.direction} LIMIT $${values.length}`,values);
       const page=rows.rows.slice(0,q.limit);const last=page.at(-1);const hasMore=rows.rows.length>q.limit;
-      const mapped:Wire[]=[];for(const p of page)mapped.push(await this.map(c,p));
+      const projected=await this.getMany(c,page.map(p=>String(p.id)));
+      const mapped:Wire[]=page.map(p=>projected.get(String(p.id))!);
       return {data:mapped,meta:{total,selectedCriteriaCount:selected,hasMore,nextCursor:hasMore&&last?this.cursor.encode({scope:'properties',hash,value:String(last.cursor_value),id:String(last.id)}):null}};
     },true);
   }
