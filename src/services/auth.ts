@@ -41,15 +41,18 @@ export class AuthService {
     await c.query('INSERT INTO xland.auth_sessions(id,user_id,token_digest,created_at,expires_at) VALUES($1,$2,$3,$4,$5)',[randomUUID(),userId,digest,created,expires]);
     return {accessToken:token,session:{profile:await this.profileUsing(c,userId),expiresAt:expires.toISOString()}};
   }
-  async identify(authorization: string|undefined): Promise<Identity|null> {
+  async identify(authorization: string|undefined, requiredRole?: 'admin'): Promise<Identity|null> {
     if(authorization===undefined)return null;
     const matched=/^Bearer ([A-Za-z0-9_-]{43})$/.exec(authorization);
     if(!matched)unauthenticated();
     const digest=createHash('sha256').update(matched[1]!).digest();
     return this.db.transaction('xland_auth',null,async c=>{
-      const result=await c.query<{user_id:string;expires_at:Date}>(`SELECT s.user_id,s.expires_at FROM xland.auth_sessions s
-        JOIN xland.user_identities u ON u.id=s.user_id WHERE s.token_digest=$1 AND s.revoked_at IS NULL AND s.expires_at>$2 AND u.status='active'`,[digest,this.now()]);
+      const result=await c.query<{user_id:string;expires_at:Date;authorized:boolean}>(`SELECT s.user_id,s.expires_at,
+        ($3::text IS NULL OR EXISTS(SELECT 1 FROM xland.user_roles r WHERE r.user_id=s.user_id AND r.role=$3)) authorized
+        FROM xland.auth_sessions s JOIN xland.user_identities u ON u.id=s.user_id
+        WHERE s.token_digest=$1 AND s.revoked_at IS NULL AND s.expires_at>$2 AND u.status='active'`,[digest,this.now(),requiredRole??null]);
       const row=result.rows[0];if(!row)unauthenticated();
+      if(!row.authorized)throw new DomainError(403,'ADMIN_REQUIRED','Tài khoản không có quyền quản trị');
       return {userId:row.user_id,digest,expiresAt:row.expires_at};
     });
   }

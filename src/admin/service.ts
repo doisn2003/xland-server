@@ -10,6 +10,7 @@ import {validateStorageReferences} from './uploads.js';
 type Row=Record<string,unknown>;
 function instant(value:unknown){return value instanceof Date?value.getTime():Date.parse(String(value));}
 export interface Field {name:string;type:string;required:boolean;readonly:boolean;defaultValue:unknown;options?:string[]|undefined;reference?:string|undefined;precision:number|null;scale:number|null}
+interface ColumnMetadata {table_name:string;column_name:string;data_type:string;is_nullable:string;column_default:string|null;is_generated:string;numeric_precision:number|null;numeric_scale:number|null}
 function readColumns(fields:Field[]){return fields.map(f=>{const name='"'+f.name.replaceAll('"','""')+'"';return f.type==='date'?`${name}::text AS ${name}`:name;}).join(',');}
 function fail(field:string,message='Kiểm tra thông tin đầu vào'):never {throw new DomainError(400,'INVALID_INPUT',message,[{field,code:'INVALID_VALUE'}]);}
 function conflict(message:string):never {throw new DomainError(409,'CONFLICT',message);}
@@ -39,8 +40,12 @@ export class AdminService {
   }
   async fields(c:PoolClient,key:string):Promise<Field[]>{
     const e=this.entity(key);
-    const rows=(await c.query(`SELECT column_name,data_type,is_nullable,column_default,is_generated,numeric_precision,numeric_scale
+    const rows=(await c.query<ColumnMetadata>(`SELECT table_name,column_name,data_type,is_nullable,column_default,is_generated,numeric_precision,numeric_scale
       FROM information_schema.columns WHERE table_schema='xland' AND table_name=$1 ORDER BY ordinal_position`,[e.table])).rows;
+    return this.describeFields(key,rows);
+  }
+  private describeFields(key:string,rows:ColumnMetadata[]):Field[]{
+    const e=this.entity(key);
     return rows.map(r=>{
       let value:unknown=null;
       if(r.column_default==='false')value=false;else if(r.column_default==='true')value=true;
@@ -53,7 +58,10 @@ export class AdminService {
   }
   async schema(identity:Identity){return this.transaction(identity,async c=>{
     const result:Record<string,unknown>={};
-    for(const [key,e] of Object.entries(entities))result[key]={...e,fields:await this.fields(c,key)};
+    // A single catalog read replaces one remote query for every Admin module.
+    const rows=(await c.query<ColumnMetadata>(`SELECT table_name,column_name,data_type,is_nullable,column_default,is_generated,numeric_precision,numeric_scale
+      FROM information_schema.columns WHERE table_schema='xland' AND table_name=ANY($1::text[]) ORDER BY table_name,ordinal_position`,[Object.values(entities).map(e=>e.table)])).rows;
+    for(const [key,e] of Object.entries(entities))result[key]={...e,fields:this.describeFields(key,rows.filter(r=>r.table_name===e.table))};
     return result;
   });}
   async overview(identity:Identity){return this.transaction(identity,async c=>({

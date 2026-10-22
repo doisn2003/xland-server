@@ -66,3 +66,19 @@ Keep the existing database and Storage when changing hosts. To return to Railway
 deploy the matching server source there, restore provider variables and change
 Vercel/mobile API plus canonical sharing/App Links together. Verify before
 switching clients; changing a URL does not migrate data or rotate credentials.
+
+## Latency correction — 22 October 2026
+
+The initial deployment passed functional probes but the property form took
+23.34 seconds to become usable. Direct API measurements were 8.25 seconds for
+Admin schema and about 5 seconds for a property record. The database pooler is
+in AWS ap-south-1 (Mumbai), while this free Northflank service is in US Central;
+sequential database round trips amplified that distance.
+
+Admin schema now reads all 15 modules in one catalog query. Session validity and
+Admin membership are checked together on every request. Database role, UTC and
+actor settings are applied in one parameterized, transaction-local query, and
+idle connections remain available for 60 seconds. Transaction rollback, RLS,
+revocation and write-time Admin checks remain enforced. The website loads
+schema, property data and locations in parallel, with no caching of sessions or
+business records. These changes do not require a provider plan upgrade.

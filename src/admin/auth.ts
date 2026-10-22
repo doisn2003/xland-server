@@ -1,7 +1,7 @@
 import {createHash,randomBytes,randomUUID} from 'node:crypto';
 import argon2 from 'argon2';
 import type {Database} from '../repositories/database.js';
-import type {AuthService,Identity} from '../services/auth.js';
+import type {AuthService} from '../services/auth.js';
 import {DomainError,unauthenticated} from '../domain/errors.js';
 import {takeAuthBudget} from '../auth/rate-limit.js';
 
@@ -20,10 +20,9 @@ export class AdminAuth {
       return {...await this.auth.issueSessionUsing(c,row.id),role:'admin'};
     });
   }
-  async require(identity:Identity|null){
+  async require(authorization:string|undefined){
+    const identity=await this.auth.identify(authorization,'admin');
     if(!identity)unauthenticated();
-    const ok=await this.db.transaction('xland_auth',identity.userId,async c=>(await c.query("SELECT 1 FROM xland.user_roles WHERE user_id=$1 AND role='admin'",[identity.userId])).rowCount);
-    if(!ok)throw new DomainError(403,'ADMIN_REQUIRED','Tài khoản không có quyền quản trị');
     return identity;
   }
 }

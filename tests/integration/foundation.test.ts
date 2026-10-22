@@ -80,7 +80,10 @@ test('PostgreSQL vertical slice: auth, filter/cursor, persisted saves, legal ACL
     });
     await t.test('actual API role cannot bypass RLS/columns and pool context clears',async()=>{
       await db.transaction('xland_api',context.first.id,async c=>{
-        const role=await c.query(`SELECT current_user,(SELECT rolbypassrls FROM pg_roles WHERE rolname=current_user) bypass`);assert.equal(role.rows[0].current_user,'xland_api');assert.equal(role.rows[0].bypass,false);
+        const role=await c.query(`SELECT current_user,(SELECT rolbypassrls FROM pg_roles WHERE rolname=current_user) bypass,
+          current_setting('TimeZone') zone,current_setting('xland.user_id') user_id`);
+        assert.equal(role.rows[0].current_user,'xland_api');assert.equal(role.rows[0].bypass,false);
+        assert.equal(role.rows[0].zone,'UTC');assert.equal(role.rows[0].user_id,context.first.id);
         assert.equal((await c.query('SELECT user_id FROM xland.saved_properties WHERE user_id=$1',[context.second.id])).rowCount,0);
       });
       await assert.rejects(db.transaction('xland_api',null,c=>c.query('SELECT password_hash FROM xland.user_identities')));

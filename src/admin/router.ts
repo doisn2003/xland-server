@@ -15,7 +15,7 @@ export async function adminRouter(db:Database,auth:AuthService,env:NodeJS.Proces
     const data=parse(z.object({username:z.string().min(1).max(64),password:z.string().min(1).max(128)}).strict(),req.body);
     res.json({data:await access.login(data.username,data.password,req.ip??'unknown')});
   });
-  router.use(async(req,res,next)=>{res.locals.admin=await access.require(await auth.identify(req.headers.authorization));next();});
+  router.use(async(req,res,next)=>{res.locals.admin=await access.require(req.headers.authorization);next();});
   const identity=(res:{locals:Record<string,unknown>})=>res.locals.admin as Identity;
   router.get('/session',async(_req,res)=>res.json({data:{profile:await auth.profile(identity(res).userId),role:'admin'}}));
   router.delete('/session',async(_req,res)=>{await auth.logout(identity(res));res.json({data:null});});

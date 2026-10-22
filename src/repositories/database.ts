@@ -5,7 +5,7 @@ export class Database {
   readonly pool: pg.Pool;
   constructor(connectionString: string, max = 8) {
     this.pool = new pg.Pool({ connectionString, max, connectionTimeoutMillis: 5000, query_timeout: 10000,
-      idleTimeoutMillis: 10000, application_name: 'xland-server' });
+      idleTimeoutMillis: 60000, application_name: 'xland-server' });
     this.pool.on('error', () => { console.error(JSON.stringify({ event: 'database_pool_error' })); });
   }
   async transaction<T>(role: 'xland_api' | 'xland_auth' | 'xland_payment' | 'xland_maps' | 'xland_admin', userId: string | null,
@@ -13,10 +13,10 @@ export class Database {
     const client = await this.pool.connect();
     try {
       await client.query(readOnly?'BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY':'BEGIN');
-      // Role is a closed union selected by server code, never request data.
-      await client.query(`SET LOCAL ROLE ${role}`);
-      await client.query(`SET LOCAL TIME ZONE 'UTC'`);
-      await client.query(`SELECT set_config('xland.user_id', $1, true)`, [userId ?? '']);
+      // Settings and role membership checks remain transaction-local and run
+      // before application queries, without three separate network round trips.
+      await client.query(`SELECT set_config('role', $1, true), set_config('TimeZone', 'UTC', true),
+        set_config('xland.user_id', $2, true)`, [role, userId ?? '']);
       const result = await work(client);
       await client.query('COMMIT');
       return result;
