@@ -37,7 +37,7 @@ completion remains pending. Preserve the existing database/auth variables.
 The commit includes the already deployed sharing runtime and public assets so a
 GitHub deployment preserves the currently working content links.
 
-## Push and auto-deploy handoff — 21 October 2026
+## Deployment readiness — 22 October 2026
 
 Both fixes are pushed to `main`: backend `ea60b8c` and mobile `728a944`.
 Git remote refs were checked after each push. Local backend checks and the
@@ -45,20 +45,39 @@ isolated author integration test pass. The client snapshot exported from the
 Git index also passes its author data and navigation tests without unrelated
 working-tree changes.
 
-**Production remains incomplete.** Direct live acceptance still receives 404
-from the author endpoint. The active deployment is still
-`ab5f71f0-afe5-4046-a908-47a3735b07dc`, from before the author change.
+Repository access is now ready. The repository owner's Railway GitHub App
+installation already covers this repository. The project member's linked GitHub
+account `hoangpm127` has accepted collaborator access; GitHub confirms
+`push: true` and `admin: false`. Railway successfully created the GitHub trigger
+for `doisn2003/xland-server`, branch `main`, on the existing production service.
+The trigger ID is `a6f0d6f4-d39b-406b-9918-8747b5908530`; a separate read confirms
+the saved repository and branch. No further repository permission change is
+required for that trigger.
 
-The source-connect request recorded `doisn2003/xland-server` on the service, but
-Railway rejected deployment while builds were paused. A separate read confirmed
-there are **no deployment triggers** for this service/environment. Creating the
-`main` GitHub trigger was then rejected because no project member has access to
-the repository. Therefore automatic deployment is not yet configured or queued.
+**Production remains incomplete.** At 02:20 UTC on 22 October, Railway still
+reported builds/deployments paused. The active and latest deployment were both
+`ab5f71f0-afe5-4046-a908-47a3735b07dc`, from before the author change; no new
+deployment was queued. Direct live acceptance still received HTTP 404 for
+Ngoc Anh's author profile. A configured trigger is not deployment acceptance.
 
-An owner must connect a GitHub account with contributor access to this repository
-to a Railway project member and grant the Railway GitHub App repository access.
-See [Railway's autodeploy access requirements](https://docs.railway.com/deployments/github-autodeploys).
-After access is available, create/verify the `main` trigger on the existing
-service, deploy the pushed commit and rerun `npm run verify:authors`. Do not treat
-the hosting incident ending as proof that either repository access or a pending
-deployment has been resolved.
+The remaining work after Railway restores builds/deployments is:
+
+1. Deploy the latest commit from the connected `main` branch to the existing
+   `xland-server` service in `production`. If no deployment starts automatically,
+   use Railway's **Deploy Latest Commit** action. Confirm the deployed Git SHA
+   matches the intended remote `main` commit and includes backend fix `ea60b8c`.
+2. Wait for the Docker build, rollout and `/health/ready` healthcheck to succeed.
+   Preserve the existing database/auth variables; this feature needs no database
+   migration or seed.
+3. Run `npm run verify:authors` against the production origin. Require HTTP 200
+   from both `/api/v1/authors/:authorId` and
+   `/api/v1/authors/:authorId/videos`, with the actual author's identity and
+   author-filtered videos. Ngoc Anh must have `consultantId: null`; the assigned
+   property consultant remains Quang Quan.
+4. Mark the backend rollout complete only after the deployed commit and direct
+   production acceptance both pass. Mobile installation/emulator changes are
+   outside these backend rollout steps.
+
+Automatic deployment is configured for future pushes. The current pushed code
+must still be confirmed on production after the incident; recovery alone does
+not prove that Railway replayed a deployment request made during the pause.
