@@ -8,7 +8,7 @@ import type { Wire } from '../../src/repositories/properties.js';
 test('C4–C7 PostgreSQL workflows: atomic inventory, idempotency, privacy and persisted social/account',async t=>{
   const api=await testApi();
   try {
-    const f=JSON.parse(await readFile('../brain/logs/agent-c/fixtures/v0.1.json','utf8')) as {properties:Wire[];feedVideos:Wire[];consultants:Wire[];slots:Wire[];futureEvents:Wire[];events:Wire[];clubs:Wire[];sampleTypes:Record<string,Wire>};
+    const f=JSON.parse(await readFile('fixtures/contract/v0.1.json','utf8')) as {properties:Wire[];feedVideos:Wire[];consultants:Wire[];slots:Wire[];futureEvents:Wire[];events:Wire[];clubs:Wire[];sampleTypes:Record<string,Wire>};
     const property=String(f.properties[0]!.id),video=String(f.feedVideos[0]!.id),consultant=String(f.consultants[0]!.id),slot=String(f.slots[0]!.id),event=String(f.futureEvents[0]!.id);
     const a=await api.login();const b=await api.login(api.context.second);
     const error=(r:{body:Wire},code:string)=>assert.equal((r.body.error as Wire).code,code);

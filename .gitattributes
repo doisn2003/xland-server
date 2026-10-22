@@ -1,2 +1,5 @@
 *.sql text eol=lf
 *.pdf binary
+# Preserve the exact bytes covered by the independent fixture manifest.
+fixtures/** -text
+tests/fixtures/** -text

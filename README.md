@@ -2,6 +2,21 @@
 
 Admin fullstack (22/10/2026): namespace mới `/api/v1/admin`, migration `0012_admin_workspace.sql`, PostgreSQL RBAC/audit và upload Supabase. Chạy `npm run admin:dev` ở cổng 3005; `npm run test:admin` kiểm thử với PostgreSQL cô lập. Tài khoản đã provision theo yêu cầu: `admin / 123456`. Xem [kế hoạch, API và vận hành Admin](../xland-website/xland/docs/ADMIN.md). Các API mobile hiện hữu giữ nguyên.
 
+## Admin audit fixes — 22 October 2026
+
+Admin uploads now use private staging plus `POST /api/v1/admin/uploads/finalize`.
+Apply migrations 0013–0014 and provision the staging bucket with the guarded
+`npm run admin:setup` before deploying the matching backend and website. Numeric
+and bigint Admin fields require decimal strings. Editing nested video media
+requires its own `_version`, returned by GET video.
+
+QA fixtures are now self-contained and checksummed: see
+[tests/fixtures/README.md](tests/fixtures/README.md). `npm run test:admin` uses an
+isolated local PostgreSQL DB and a Storage HTTP double; the explicit
+`node --import tsx scripts/admin-verify-upload.mjs` additionally checks real
+Supabase uploads and cleans only its own object keys. It uses the private local
+Storage environment overlay and never writes business rows.
+
 Public author profile endpoints are implemented in source. Production completion
 requires a successful backend deployment and `npm run verify:authors`; the client
 uses these endpoints directly with no compatibility fallback. See
@@ -93,7 +108,7 @@ npm run build
 node scripts/smoke-startup.mjs
 ```
 
-Integration/contract runners use real PostgreSQL, create a new `xland_test_*` DB per test file and seed twice. They never use shared DATABASE_URL or clear data. Test DBs are retained. Run the suites sequentially because provisioning replaces a private test context file. Contract checks require sibling mobile/domain and brain baseline in this workspace. Foundation audit validates design fixtures only; startup diagnostic intentionally reports readiness503, while the real API checks PostgreSQL under the actual API role.
+Integration/contract runners use real PostgreSQL, create a new `xland_test_*` DB per test file and seed twice. They never use shared DATABASE_URL or clear data. Test DBs are retained. Run the suites sequentially because provisioning replaces a private test context file. Contract checks use the checksummed mobile/contract snapshots committed here; set `XLAND_MOBILE_ROOT` to compare against an explicit mobile checkout. Foundation audit validates design fixtures only; startup diagnostic intentionally reports readiness503, while the real API checks PostgreSQL under the actual API role.
 
 Runtime SQL uses transaction-local xland_api/auth/payment roles and verified user context. API role has FORCE RLS/column grants; public projections omit exact parcel coordinates, keys and contacts. Deployment requires reviewed narrow login credentials/secrets/provider config. Phase2 intentionally refuses production database classification; enabling/deploying production is a later gate.
 

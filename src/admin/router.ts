@@ -6,6 +6,7 @@ import {parse,uuid} from '../schemas/http.js';
 import {AdminAuth} from './auth.js';
 import {AdminService} from './service.js';
 import {AdminStorage} from './storage.js';
+import {authorizeUpload,finalizeUpload} from './uploads.js';
 
 export async function adminRouter(db:Database,auth:AuthService,env:NodeJS.ProcessEnv){
   const router=Router(),access=new AdminAuth(db,auth),service=new AdminService(db),storage=new AdminStorage(env);
@@ -27,8 +28,18 @@ export async function adminRouter(db:Database,auth:AuthService,env:NodeJS.Proces
   });
   router.post('/uploads',async(req,res)=>{
     const q=parse(z.object({mimeType:z.string().max(100),size:z.number().int().positive(),privateDocument:z.boolean().default(false)}).strict(),req.body);
-    const data=await storage.sign(identity(res).userId,q.mimeType,q.size,q.privateDocument);
-    await service.transaction(identity(res),c=>service.audit(c,identity(res),'upload-authorized','storage',null,[q.mimeType]));
+    const data=await service.transaction(identity(res),async c=>{
+      const result=await authorizeUpload(c,identity(res),storage,q.mimeType,q.size,q.privateDocument);
+      await service.audit(c,identity(res),'upload-authorized','storage',result.uploadId,[q.mimeType]);return result;
+    });
+    res.json({data});
+  });
+  router.post('/uploads/finalize',async(req,res)=>{
+    const q=parse(z.object({uploadId:uuid}).strict(),req.body);
+    const data=await service.transaction(identity(res),async c=>{
+      const result=await finalizeUpload(c,identity(res),storage,q.uploadId);
+      await service.audit(c,identity(res),'upload-verified','storage',q.uploadId,[]);return result;
+    });
     res.json({data});
   });
   router.get('/:entity',async(req,res)=>{

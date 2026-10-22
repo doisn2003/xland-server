@@ -1,0 +1,5280 @@
+{
+  "fixtureVersion": "0.1",
+  "businessVersion": "1.1",
+  "clock": "2026-10-15T02:00:00+07:00",
+  "notice": "Minh họa / test only; không có credential thật hoặc media được cấp quyền",
+  "properties": [
+    {
+      "id": "00000000-0000-4000-8000-000000000005",
+      "code": "XL-028",
+      "title": "Đất nền Hòa Lạc",
+      "provinceCode": "01",
+      "provinceName": "Hà Nội",
+      "districtCode": "demo-hoa-lac",
+      "districtName": "Khu vực Hòa Lạc",
+      "region": "north",
+      "category": "residential",
+      "priceTotal": "2400000000",
+      "pricePerM2": "20000000",
+      "areaM2": "120",
+      "frontageM": "6",
+      "depthM": "20",
+      "roadWidthM": "5",
+      "direction": "southeast",
+      "landType": "residential",
+      "status": "listed",
+      "approvalStatus": "approved",
+      "sourceBadge": "board_source",
+      "consultantId": "00000000-0000-4000-8000-000000000003",
+      "media": [
+        {
+          "id": "00000000-0000-4000-8000-000000000027",
+          "kind": "video",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": 38,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000028",
+          "kind": "video",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": 38,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000029",
+          "kind": "image",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000030",
+          "kind": "image",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000031",
+          "kind": "image",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000032",
+          "kind": "image",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000033",
+          "kind": "image",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000034",
+          "kind": "image",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        }
+      ],
+      "highlights": [
+        {
+          "title": "Khu dân cư hiện hữu",
+          "description": "An ninh, dân trí tốt"
+        },
+        {
+          "title": "Lối tiếp cận được ghi hình",
+          "description": "Video thực tế, rõ ràng"
+        }
+      ],
+      "verifiedLegalCount": 4,
+      "totalLegalCount": 6,
+      "isSaved": false,
+      "updatedAt": "2026-10-15T02:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000035",
+      "code": "XL-029",
+      "title": "Đất nền Hưng Yên",
+      "provinceCode": "33",
+      "provinceName": "Hưng Yên",
+      "districtCode": "demo-33",
+      "districtName": "Khu vực Hưng Yên",
+      "region": "north",
+      "category": "residential",
+      "priceTotal": "1800000000",
+      "pricePerM2": "18000000",
+      "areaM2": "100",
+      "frontageM": null,
+      "depthM": null,
+      "roadWidthM": null,
+      "direction": null,
+      "landType": "residential",
+      "status": "listed",
+      "approvalStatus": "approved",
+      "sourceBadge": "board_source",
+      "consultantId": "00000000-0000-4000-8000-000000000003",
+      "media": [],
+      "highlights": [],
+      "verifiedLegalCount": 0,
+      "totalLegalCount": 0,
+      "isSaved": false,
+      "updatedAt": "2026-10-15T02:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000036",
+      "code": "XL-030",
+      "title": "Đất nền Bắc Ninh",
+      "provinceCode": "27",
+      "provinceName": "Bắc Ninh",
+      "districtCode": "demo-27",
+      "districtName": "Khu vực Bắc Ninh",
+      "region": "north",
+      "category": "residential",
+      "priceTotal": "3000000000",
+      "pricePerM2": "20000000",
+      "areaM2": "150",
+      "frontageM": null,
+      "depthM": null,
+      "roadWidthM": null,
+      "direction": null,
+      "landType": "residential",
+      "status": "listed",
+      "approvalStatus": "approved",
+      "sourceBadge": "board_source",
+      "consultantId": "00000000-0000-4000-8000-000000000003",
+      "media": [],
+      "highlights": [],
+      "verifiedLegalCount": 0,
+      "totalLegalCount": 0,
+      "isSaved": false,
+      "updatedAt": "2026-10-15T02:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000037",
+      "code": "XL-031",
+      "title": "Đất nền Đà Nẵng",
+      "provinceCode": "48",
+      "provinceName": "Đà Nẵng",
+      "districtCode": "demo-48",
+      "districtName": "Khu vực Đà Nẵng",
+      "region": "central",
+      "category": "residential",
+      "priceTotal": "2700000000",
+      "pricePerM2": "27000000",
+      "areaM2": "100",
+      "frontageM": null,
+      "depthM": null,
+      "roadWidthM": null,
+      "direction": null,
+      "landType": "residential",
+      "status": "listed",
+      "approvalStatus": "approved",
+      "sourceBadge": "board_source",
+      "consultantId": "00000000-0000-4000-8000-000000000003",
+      "media": [],
+      "highlights": [],
+      "verifiedLegalCount": 0,
+      "totalLegalCount": 0,
+      "isSaved": false,
+      "updatedAt": "2026-10-15T02:00:00+07:00",
+      "isIllustrative": true
+    }
+  ],
+  "feedVideos": [
+    {
+      "id": "00000000-0000-4000-8000-000000000050",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000027",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Hòa Lạc",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000005",
+        "code": "XL-028",
+        "title": "Đất nền Hòa Lạc",
+        "provinceCode": "01",
+        "provinceName": "Hà Nội",
+        "districtCode": "demo-hoa-lac",
+        "districtName": "Khu vực Hòa Lạc",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "2400000000",
+        "pricePerM2": "20000000",
+        "areaM2": "120",
+        "frontageM": "6",
+        "depthM": "20",
+        "roadWidthM": "5",
+        "direction": "southeast",
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [
+          {
+            "id": "00000000-0000-4000-8000-000000000027",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000028",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000029",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000030",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000031",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000032",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000033",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000034",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          }
+        ],
+        "highlights": [
+          {
+            "title": "Khu dân cư hiện hữu",
+            "description": "An ninh, dân trí tốt"
+          },
+          {
+            "title": "Lối tiếp cận được ghi hình",
+            "description": "Video thực tế, rõ ràng"
+          }
+        ],
+        "verifiedLegalCount": 4,
+        "totalLegalCount": 6,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000052",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000028",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Hòa Lạc",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000005",
+        "code": "XL-028",
+        "title": "Đất nền Hòa Lạc",
+        "provinceCode": "01",
+        "provinceName": "Hà Nội",
+        "districtCode": "demo-hoa-lac",
+        "districtName": "Khu vực Hòa Lạc",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "2400000000",
+        "pricePerM2": "20000000",
+        "areaM2": "120",
+        "frontageM": "6",
+        "depthM": "20",
+        "roadWidthM": "5",
+        "direction": "southeast",
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [
+          {
+            "id": "00000000-0000-4000-8000-000000000027",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000028",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000029",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000030",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000031",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000032",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000033",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000034",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          }
+        ],
+        "highlights": [
+          {
+            "title": "Khu dân cư hiện hữu",
+            "description": "An ninh, dân trí tốt"
+          },
+          {
+            "title": "Lối tiếp cận được ghi hình",
+            "description": "Video thực tế, rõ ràng"
+          }
+        ],
+        "verifiedLegalCount": 4,
+        "totalLegalCount": 6,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000054",
+      "propertyId": "00000000-0000-4000-8000-000000000036",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000055",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Bắc Ninh",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000036",
+        "code": "XL-030",
+        "title": "Đất nền Bắc Ninh",
+        "provinceCode": "27",
+        "provinceName": "Bắc Ninh",
+        "districtCode": "demo-27",
+        "districtName": "Khu vực Bắc Ninh",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "3000000000",
+        "pricePerM2": "20000000",
+        "areaM2": "150",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000056",
+      "propertyId": "00000000-0000-4000-8000-000000000037",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000057",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Đà Nẵng",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000037",
+        "code": "XL-031",
+        "title": "Đất nền Đà Nẵng",
+        "provinceCode": "48",
+        "provinceName": "Đà Nẵng",
+        "districtCode": "demo-48",
+        "districtName": "Khu vực Đà Nẵng",
+        "region": "central",
+        "category": "residential",
+        "priceTotal": "2700000000",
+        "pricePerM2": "27000000",
+        "areaM2": "100",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000058",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000059",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Hòa Lạc",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000005",
+        "code": "XL-028",
+        "title": "Đất nền Hòa Lạc",
+        "provinceCode": "01",
+        "provinceName": "Hà Nội",
+        "districtCode": "demo-hoa-lac",
+        "districtName": "Khu vực Hòa Lạc",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "2400000000",
+        "pricePerM2": "20000000",
+        "areaM2": "120",
+        "frontageM": "6",
+        "depthM": "20",
+        "roadWidthM": "5",
+        "direction": "southeast",
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [
+          {
+            "id": "00000000-0000-4000-8000-000000000027",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000028",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000029",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000030",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000031",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000032",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000033",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000034",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          }
+        ],
+        "highlights": [
+          {
+            "title": "Khu dân cư hiện hữu",
+            "description": "An ninh, dân trí tốt"
+          },
+          {
+            "title": "Lối tiếp cận được ghi hình",
+            "description": "Video thực tế, rõ ràng"
+          }
+        ],
+        "verifiedLegalCount": 4,
+        "totalLegalCount": 6,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000060",
+      "propertyId": "00000000-0000-4000-8000-000000000035",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000061",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Hưng Yên",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000035",
+        "code": "XL-029",
+        "title": "Đất nền Hưng Yên",
+        "provinceCode": "33",
+        "provinceName": "Hưng Yên",
+        "districtCode": "demo-33",
+        "districtName": "Khu vực Hưng Yên",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "1800000000",
+        "pricePerM2": "18000000",
+        "areaM2": "100",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000062",
+      "propertyId": "00000000-0000-4000-8000-000000000036",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000063",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Bắc Ninh",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000036",
+        "code": "XL-030",
+        "title": "Đất nền Bắc Ninh",
+        "provinceCode": "27",
+        "provinceName": "Bắc Ninh",
+        "districtCode": "demo-27",
+        "districtName": "Khu vực Bắc Ninh",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "3000000000",
+        "pricePerM2": "20000000",
+        "areaM2": "150",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000064",
+      "propertyId": "00000000-0000-4000-8000-000000000037",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000065",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Đà Nẵng",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000037",
+        "code": "XL-031",
+        "title": "Đất nền Đà Nẵng",
+        "provinceCode": "48",
+        "provinceName": "Đà Nẵng",
+        "districtCode": "demo-48",
+        "districtName": "Khu vực Đà Nẵng",
+        "region": "central",
+        "category": "residential",
+        "priceTotal": "2700000000",
+        "pricePerM2": "27000000",
+        "areaM2": "100",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000066",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000067",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Hòa Lạc",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000005",
+        "code": "XL-028",
+        "title": "Đất nền Hòa Lạc",
+        "provinceCode": "01",
+        "provinceName": "Hà Nội",
+        "districtCode": "demo-hoa-lac",
+        "districtName": "Khu vực Hòa Lạc",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "2400000000",
+        "pricePerM2": "20000000",
+        "areaM2": "120",
+        "frontageM": "6",
+        "depthM": "20",
+        "roadWidthM": "5",
+        "direction": "southeast",
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [
+          {
+            "id": "00000000-0000-4000-8000-000000000027",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000028",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000029",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000030",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000031",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000032",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000033",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000034",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          }
+        ],
+        "highlights": [
+          {
+            "title": "Khu dân cư hiện hữu",
+            "description": "An ninh, dân trí tốt"
+          },
+          {
+            "title": "Lối tiếp cận được ghi hình",
+            "description": "Video thực tế, rõ ràng"
+          }
+        ],
+        "verifiedLegalCount": 4,
+        "totalLegalCount": 6,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000068",
+      "propertyId": "00000000-0000-4000-8000-000000000035",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000069",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Hưng Yên",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000035",
+        "code": "XL-029",
+        "title": "Đất nền Hưng Yên",
+        "provinceCode": "33",
+        "provinceName": "Hưng Yên",
+        "districtCode": "demo-33",
+        "districtName": "Khu vực Hưng Yên",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "1800000000",
+        "pricePerM2": "18000000",
+        "areaM2": "100",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000070",
+      "propertyId": "00000000-0000-4000-8000-000000000036",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000071",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Bắc Ninh",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000036",
+        "code": "XL-030",
+        "title": "Đất nền Bắc Ninh",
+        "provinceCode": "27",
+        "provinceName": "Bắc Ninh",
+        "districtCode": "demo-27",
+        "districtName": "Khu vực Bắc Ninh",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "3000000000",
+        "pricePerM2": "20000000",
+        "areaM2": "150",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000072",
+      "propertyId": "00000000-0000-4000-8000-000000000037",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000073",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Đà Nẵng",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000037",
+        "code": "XL-031",
+        "title": "Đất nền Đà Nẵng",
+        "provinceCode": "48",
+        "provinceName": "Đà Nẵng",
+        "districtCode": "demo-48",
+        "districtName": "Khu vực Đà Nẵng",
+        "region": "central",
+        "category": "residential",
+        "priceTotal": "2700000000",
+        "pricePerM2": "27000000",
+        "areaM2": "100",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000074",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000075",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Hòa Lạc",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000005",
+        "code": "XL-028",
+        "title": "Đất nền Hòa Lạc",
+        "provinceCode": "01",
+        "provinceName": "Hà Nội",
+        "districtCode": "demo-hoa-lac",
+        "districtName": "Khu vực Hòa Lạc",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "2400000000",
+        "pricePerM2": "20000000",
+        "areaM2": "120",
+        "frontageM": "6",
+        "depthM": "20",
+        "roadWidthM": "5",
+        "direction": "southeast",
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [
+          {
+            "id": "00000000-0000-4000-8000-000000000027",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000028",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000029",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000030",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000031",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000032",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000033",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000034",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          }
+        ],
+        "highlights": [
+          {
+            "title": "Khu dân cư hiện hữu",
+            "description": "An ninh, dân trí tốt"
+          },
+          {
+            "title": "Lối tiếp cận được ghi hình",
+            "description": "Video thực tế, rõ ràng"
+          }
+        ],
+        "verifiedLegalCount": 4,
+        "totalLegalCount": 6,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000076",
+      "propertyId": "00000000-0000-4000-8000-000000000035",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000077",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Hưng Yên",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000035",
+        "code": "XL-029",
+        "title": "Đất nền Hưng Yên",
+        "provinceCode": "33",
+        "provinceName": "Hưng Yên",
+        "districtCode": "demo-33",
+        "districtName": "Khu vực Hưng Yên",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "1800000000",
+        "pricePerM2": "18000000",
+        "areaM2": "100",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000078",
+      "propertyId": "00000000-0000-4000-8000-000000000036",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000079",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Bắc Ninh",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000036",
+        "code": "XL-030",
+        "title": "Đất nền Bắc Ninh",
+        "provinceCode": "27",
+        "provinceName": "Bắc Ninh",
+        "districtCode": "demo-27",
+        "districtName": "Khu vực Bắc Ninh",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "3000000000",
+        "pricePerM2": "20000000",
+        "areaM2": "150",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000080",
+      "propertyId": "00000000-0000-4000-8000-000000000037",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000081",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Đà Nẵng",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000037",
+        "code": "XL-031",
+        "title": "Đất nền Đà Nẵng",
+        "provinceCode": "48",
+        "provinceName": "Đà Nẵng",
+        "districtCode": "demo-48",
+        "districtName": "Khu vực Đà Nẵng",
+        "region": "central",
+        "category": "residential",
+        "priceTotal": "2700000000",
+        "pricePerM2": "27000000",
+        "areaM2": "100",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000082",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000083",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Hòa Lạc",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000005",
+        "code": "XL-028",
+        "title": "Đất nền Hòa Lạc",
+        "provinceCode": "01",
+        "provinceName": "Hà Nội",
+        "districtCode": "demo-hoa-lac",
+        "districtName": "Khu vực Hòa Lạc",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "2400000000",
+        "pricePerM2": "20000000",
+        "areaM2": "120",
+        "frontageM": "6",
+        "depthM": "20",
+        "roadWidthM": "5",
+        "direction": "southeast",
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [
+          {
+            "id": "00000000-0000-4000-8000-000000000027",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000028",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000029",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000030",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000031",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000032",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000033",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000034",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          }
+        ],
+        "highlights": [
+          {
+            "title": "Khu dân cư hiện hữu",
+            "description": "An ninh, dân trí tốt"
+          },
+          {
+            "title": "Lối tiếp cận được ghi hình",
+            "description": "Video thực tế, rõ ràng"
+          }
+        ],
+        "verifiedLegalCount": 4,
+        "totalLegalCount": 6,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000084",
+      "propertyId": "00000000-0000-4000-8000-000000000035",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000085",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Hưng Yên",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000035",
+        "code": "XL-029",
+        "title": "Đất nền Hưng Yên",
+        "provinceCode": "33",
+        "provinceName": "Hưng Yên",
+        "districtCode": "demo-33",
+        "districtName": "Khu vực Hưng Yên",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "1800000000",
+        "pricePerM2": "18000000",
+        "areaM2": "100",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000086",
+      "propertyId": "00000000-0000-4000-8000-000000000036",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000087",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Bắc Ninh",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000036",
+        "code": "XL-030",
+        "title": "Đất nền Bắc Ninh",
+        "provinceCode": "27",
+        "provinceName": "Bắc Ninh",
+        "districtCode": "demo-27",
+        "districtName": "Khu vực Bắc Ninh",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "3000000000",
+        "pricePerM2": "20000000",
+        "areaM2": "150",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000088",
+      "propertyId": "00000000-0000-4000-8000-000000000037",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000089",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Đà Nẵng",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000037",
+        "code": "XL-031",
+        "title": "Đất nền Đà Nẵng",
+        "provinceCode": "48",
+        "provinceName": "Đà Nẵng",
+        "districtCode": "demo-48",
+        "districtName": "Khu vực Đà Nẵng",
+        "region": "central",
+        "category": "residential",
+        "priceTotal": "2700000000",
+        "pricePerM2": "27000000",
+        "areaM2": "100",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000090",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000091",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Hòa Lạc",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000005",
+        "code": "XL-028",
+        "title": "Đất nền Hòa Lạc",
+        "provinceCode": "01",
+        "provinceName": "Hà Nội",
+        "districtCode": "demo-hoa-lac",
+        "districtName": "Khu vực Hòa Lạc",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "2400000000",
+        "pricePerM2": "20000000",
+        "areaM2": "120",
+        "frontageM": "6",
+        "depthM": "20",
+        "roadWidthM": "5",
+        "direction": "southeast",
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [
+          {
+            "id": "00000000-0000-4000-8000-000000000027",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000028",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000029",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000030",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000031",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000032",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000033",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000034",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          }
+        ],
+        "highlights": [
+          {
+            "title": "Khu dân cư hiện hữu",
+            "description": "An ninh, dân trí tốt"
+          },
+          {
+            "title": "Lối tiếp cận được ghi hình",
+            "description": "Video thực tế, rõ ràng"
+          }
+        ],
+        "verifiedLegalCount": 4,
+        "totalLegalCount": 6,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000092",
+      "propertyId": "00000000-0000-4000-8000-000000000035",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000093",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Hưng Yên",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000035",
+        "code": "XL-029",
+        "title": "Đất nền Hưng Yên",
+        "provinceCode": "33",
+        "provinceName": "Hưng Yên",
+        "districtCode": "demo-33",
+        "districtName": "Khu vực Hưng Yên",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "1800000000",
+        "pricePerM2": "18000000",
+        "areaM2": "100",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000094",
+      "propertyId": "00000000-0000-4000-8000-000000000036",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000095",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Bắc Ninh",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000036",
+        "code": "XL-030",
+        "title": "Đất nền Bắc Ninh",
+        "provinceCode": "27",
+        "provinceName": "Bắc Ninh",
+        "districtCode": "demo-27",
+        "districtName": "Khu vực Bắc Ninh",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "3000000000",
+        "pricePerM2": "20000000",
+        "areaM2": "150",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000096",
+      "propertyId": "00000000-0000-4000-8000-000000000037",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000097",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Đà Nẵng",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000037",
+        "code": "XL-031",
+        "title": "Đất nền Đà Nẵng",
+        "provinceCode": "48",
+        "provinceName": "Đà Nẵng",
+        "districtCode": "demo-48",
+        "districtName": "Khu vực Đà Nẵng",
+        "region": "central",
+        "category": "residential",
+        "priceTotal": "2700000000",
+        "pricePerM2": "27000000",
+        "areaM2": "100",
+        "frontageM": null,
+        "depthM": null,
+        "roadWidthM": null,
+        "direction": null,
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [],
+        "highlights": [],
+        "verifiedLegalCount": 0,
+        "totalLegalCount": 0,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    }
+  ],
+  "legalItems": [
+    {
+      "id": "00000000-0000-4000-8000-000000000038",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "title": "Giấy chứng nhận",
+      "subtitle": null,
+      "checkedDate": "2026-09-10",
+      "status": "verified",
+      "sortOrder": 1
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000039",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "title": "Người có quyền bán",
+      "subtitle": null,
+      "checkedDate": "2026-09-10",
+      "status": "verified",
+      "sortOrder": 2
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000040",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "title": "Thông tin thửa đất",
+      "subtitle": null,
+      "checkedDate": "2026-09-09",
+      "status": "verified",
+      "sortOrder": 3
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000041",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "title": "Hiện trạng tiếp cận",
+      "subtitle": null,
+      "checkedDate": "2026-09-09",
+      "status": "verified",
+      "sortOrder": 4
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000042",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "title": "Thông tin quy hoạch",
+      "subtitle": null,
+      "checkedDate": null,
+      "status": "pending",
+      "sortOrder": 5
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000043",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "title": "Hạn chế giao dịch",
+      "subtitle": null,
+      "checkedDate": null,
+      "status": "pending",
+      "sortOrder": 6
+    }
+  ],
+  "documents": [
+    {
+      "id": "00000000-0000-4000-8000-000000000044",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "title": "Bản chụp giấy tờ",
+      "mimeType": "application/pdf",
+      "sizeBytes": 2300000,
+      "uploadedDate": "2026-09-10",
+      "previewUrl": null,
+      "access": "granted",
+      "canDownload": false
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000045",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "title": "Ảnh hiện trạng",
+      "mimeType": "image/jpeg",
+      "sizeBytes": 4100000,
+      "uploadedDate": "2026-09-10",
+      "previewUrl": null,
+      "access": "public_redacted",
+      "canDownload": true
+    }
+  ],
+  "amenities": [
+    {
+      "id": "00000000-0000-4000-8000-000000000046",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "category": "utility",
+      "name": "Trường học",
+      "distanceText": "1 - 3 km",
+      "iconType": "school",
+      "latitude": null,
+      "longitude": null
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000047",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "category": "utility",
+      "name": "Cơ sở y tế",
+      "distanceText": "2 - 5 km",
+      "iconType": "hospital",
+      "latitude": null,
+      "longitude": null
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000048",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "category": "utility",
+      "name": "Chợ và siêu thị",
+      "distanceText": "1 - 3 km",
+      "iconType": "market",
+      "latitude": null,
+      "longitude": null
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000049",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "category": "traffic",
+      "name": "Trục giao thông chính",
+      "distanceText": "2 - 4 km",
+      "iconType": "road",
+      "latitude": null,
+      "longitude": null
+    }
+  ],
+  "consultants": [
+    {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "name": "Minh Anh",
+      "role": "Tư vấn đất nền",
+      "location": "Hà Nội",
+      "isVerified": true,
+      "avatarUrl": null,
+      "coverUrl": null,
+      "videoCount": 24,
+      "followerCount": 1200,
+      "rating": "4.8",
+      "isFollowing": false,
+      "nextAvailableAt": null,
+      "supportRecipientLabel": "Đội hỗ trợ XLand (demo)",
+      "isIllustrative": true
+    }
+  ],
+  "events": [
+    {
+      "id": "00000000-0000-4000-8000-000000000015",
+      "title": "Hiểu hồ sơ đất trước khi xuống tiền",
+      "tags": [
+        "Kiến thức",
+        "Kết nối"
+      ],
+      "media": [],
+      "startsAt": "2026-09-19T19:30:00+07:00",
+      "endsAt": "2026-09-19T21:00:00+07:00",
+      "timeZone": "Asia/Ho_Chi_Minh",
+      "venueName": "X Coffee",
+      "address": "501 Vũ Tông Phan, Hà Nội",
+      "maxSlots": 30,
+      "remainingSlots": 0,
+      "durationMinutes": 90,
+      "ticketPriceVnd": "149000",
+      "status": "closed",
+      "agenda": [
+        {
+          "startsAt": "2026-09-19T19:30:00+07:00",
+          "title": "Đọc hiểu hồ sơ lô đất"
+        },
+        {
+          "startsAt": "2026-09-19T20:00:00+07:00",
+          "title": "Các câu hỏi trước khi giao dịch"
+        },
+        {
+          "startsAt": "2026-09-19T20:30:00+07:00",
+          "title": "Hỏi đáp và kết nối"
+        }
+      ],
+      "speakers": [
+        {
+          "name": "Minh Anh",
+          "role": "Điều phối",
+          "avatarUrl": null
+        },
+        {
+          "name": "Khách mời pháp lý",
+          "role": "Luật sư BĐS (minh họa)",
+          "avatarUrl": null
+        }
+      ],
+      "benefits": [
+        {
+          "title": "Tài liệu sau buổi",
+          "description": "Minh họa"
+        },
+        {
+          "title": "Một đồ uống",
+          "description": "Minh họa"
+        }
+      ],
+      "isSaved": false,
+      "isIllustrative": true
+    }
+  ],
+  "futureEvents": [
+    {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "title": "Hiểu hồ sơ đất trước khi xuống tiền",
+      "tags": [
+        "Kiến thức",
+        "Kết nối"
+      ],
+      "media": [],
+      "startsAt": "2026-11-07T19:30:00+07:00",
+      "endsAt": "2026-11-07T21:00:00+07:00",
+      "timeZone": "Asia/Ho_Chi_Minh",
+      "venueName": "X Coffee",
+      "address": "501 Vũ Tông Phan, Hà Nội",
+      "maxSlots": 30,
+      "remainingSlots": 30,
+      "durationMinutes": 90,
+      "ticketPriceVnd": "149000",
+      "status": "open",
+      "agenda": [
+        {
+          "startsAt": "2026-11-07T19:30:00+07:00",
+          "title": "Đọc hiểu hồ sơ lô đất"
+        },
+        {
+          "startsAt": "2026-11-07T20:00:00+07:00",
+          "title": "Các câu hỏi trước khi giao dịch"
+        },
+        {
+          "startsAt": "2026-11-07T20:30:00+07:00",
+          "title": "Hỏi đáp và kết nối"
+        }
+      ],
+      "speakers": [
+        {
+          "name": "Minh Anh",
+          "role": "Điều phối",
+          "avatarUrl": null
+        },
+        {
+          "name": "Khách mời pháp lý",
+          "role": "Luật sư BĐS (minh họa)",
+          "avatarUrl": null
+        }
+      ],
+      "benefits": [
+        {
+          "title": "Tài liệu sau buổi",
+          "description": "Minh họa"
+        },
+        {
+          "title": "Một đồ uống",
+          "description": "Minh họa"
+        }
+      ],
+      "isSaved": false,
+      "isIllustrative": true
+    }
+  ],
+  "slots": [
+    {
+      "id": "00000000-0000-4000-8000-000000000018",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "consultantId": "00000000-0000-4000-8000-000000000003",
+      "startsAt": "2026-11-07T14:00:00+07:00",
+      "endsAt": "2026-11-07T15:30:00+07:00",
+      "timeZone": "Asia/Ho_Chi_Minh",
+      "isAvailable": true,
+      "unavailableReason": null,
+      "meetingArea": {
+        "latitude": 21,
+        "longitude": 105.5,
+        "radiusM": 2000,
+        "label": "Khu vực Hòa Lạc (minh họa)"
+      },
+      "maxAttendees": 6
+    }
+  ],
+  "bookings": [
+    {
+      "id": "00000000-0000-4000-8000-000000000022",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "sourceVideoId": "00000000-0000-4000-8000-000000000050",
+      "consultantId": "00000000-0000-4000-8000-000000000003",
+      "slotId": "00000000-0000-4000-8000-000000000018",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000005",
+        "code": "XL-028",
+        "title": "Đất nền Hòa Lạc",
+        "provinceCode": "01",
+        "provinceName": "Hà Nội",
+        "districtCode": "demo-hoa-lac",
+        "districtName": "Khu vực Hòa Lạc",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "2400000000",
+        "pricePerM2": "20000000",
+        "areaM2": "120",
+        "frontageM": "6",
+        "depthM": "20",
+        "roadWidthM": "5",
+        "direction": "southeast",
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [
+          {
+            "id": "00000000-0000-4000-8000-000000000027",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000028",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000029",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000030",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000031",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000032",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000033",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000034",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          }
+        ],
+        "highlights": [
+          {
+            "title": "Khu dân cư hiện hữu",
+            "description": "An ninh, dân trí tốt"
+          },
+          {
+            "title": "Lối tiếp cận được ghi hình",
+            "description": "Video thực tế, rõ ràng"
+          }
+        ],
+        "verifiedLegalCount": 4,
+        "totalLegalCount": 6,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "requestedStartsAt": "2026-11-07T14:00:00+07:00",
+      "confirmedStartsAt": null,
+      "timeZone": "Asia/Ho_Chi_Minh",
+      "proposedMeetingArea": {
+        "latitude": 21,
+        "longitude": 105.5,
+        "radiusM": 2000,
+        "label": "Khu vực Hòa Lạc (minh họa)"
+      },
+      "confirmedMeetingLabel": null,
+      "attendeeCount": 2,
+      "transportMode": "self_arranged",
+      "requestDocuments": true,
+      "requestLoanAdvice": false,
+      "contactName": "Anh Nam",
+      "maskedContactPhone": "09•• ••• 678",
+      "status": "awaiting_deposit",
+      "paymentStatus": "unpaid",
+      "depositPolicy": {
+        "indicativeAmountVnd": "350000",
+        "policyVersion": null,
+        "chargeBasis": null,
+        "refundPolicyText": null,
+        "cancellationPolicyText": null,
+        "reschedulePolicyText": null,
+        "livePaymentEnabled": false,
+        "notice": "Mức cọc: 350.000 VNĐ — chính sách áp dụng đang được hoàn thiện"
+      },
+      "history": [],
+      "availableActions": [],
+      "createdAt": "2026-09-16T14:00:00+07:00",
+      "updatedAt": "2026-09-16T14:00:00+07:00",
+      "isIllustrative": true
+    }
+  ],
+  "payments": [
+    {
+      "id": "00000000-0000-4000-8000-000000000100",
+      "bookingId": "00000000-0000-4000-8000-000000000022",
+      "amountVnd": null,
+      "status": "unpaid",
+      "mode": "disabled",
+      "reference": null,
+      "expiresAt": null,
+      "receivedAt": null,
+      "instructions": null,
+      "policyVersion": null,
+      "notice": "Thanh toán thật chưa bật, chưa có QR/tài khoản nhận tiền",
+      "updatedAt": "2026-10-15T02:00:00+07:00"
+    }
+  ],
+  "clubs": [
+    {
+      "id": "00000000-0000-4000-8000-000000000102",
+      "title": "Câu lạc bộ tìm hiểu đất nền",
+      "summary": "Giới thiệu minh họa",
+      "description": "Cùng tìm hiểu hồ sơ và khu vực",
+      "regionLabel": "Hà Nội",
+      "activities": [
+        "Chia sẻ kiến thức",
+        "Tham quan khu vực"
+      ],
+      "media": [],
+      "supportRecipientLabel": "Đội hỗ trợ XLand (demo)",
+      "isIllustrative": true
+    }
+  ],
+  "sampleTypes": {
+    "MediaAsset": {
+      "id": "00000000-0000-4000-8000-000000000027",
+      "kind": "video",
+      "url": null,
+      "thumbnailUrl": null,
+      "durationSeconds": 38,
+      "altText": "Minh họa, chờ asset được cấp quyền",
+      "isIllustrative": true
+    },
+    "Highlight": {
+      "title": "Đất nền Hòa Lạc",
+      "description": "description"
+    },
+    "Property": {
+      "id": "00000000-0000-4000-8000-000000000005",
+      "code": "XL-028",
+      "title": "Đất nền Hòa Lạc",
+      "provinceCode": "01",
+      "provinceName": "Hà Nội",
+      "districtCode": "demo-hoa-lac",
+      "districtName": "Khu vực Hòa Lạc",
+      "region": "north",
+      "category": "residential",
+      "priceTotal": "2400000000",
+      "pricePerM2": "20000000",
+      "areaM2": "120",
+      "frontageM": "6",
+      "depthM": "20",
+      "roadWidthM": "5",
+      "direction": "southeast",
+      "landType": "residential",
+      "status": "listed",
+      "approvalStatus": "approved",
+      "sourceBadge": "board_source",
+      "consultantId": "00000000-0000-4000-8000-000000000003",
+      "media": [
+        {
+          "id": "00000000-0000-4000-8000-000000000027",
+          "kind": "video",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": 38,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000028",
+          "kind": "video",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": 38,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000029",
+          "kind": "image",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000030",
+          "kind": "image",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000031",
+          "kind": "image",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000032",
+          "kind": "image",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000033",
+          "kind": "image",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000034",
+          "kind": "image",
+          "url": null,
+          "thumbnailUrl": null,
+          "durationSeconds": null,
+          "altText": "Minh họa, chờ asset được cấp quyền",
+          "isIllustrative": true
+        }
+      ],
+      "highlights": [
+        {
+          "title": "Khu dân cư hiện hữu",
+          "description": "An ninh, dân trí tốt"
+        },
+        {
+          "title": "Lối tiếp cận được ghi hình",
+          "description": "Video thực tế, rõ ràng"
+        }
+      ],
+      "verifiedLegalCount": 4,
+      "totalLegalCount": 6,
+      "isSaved": false,
+      "updatedAt": "2026-10-15T02:00:00+07:00",
+      "isIllustrative": true
+    },
+    "PropertyFilter": {
+      "query": null,
+      "regions": [
+        "north"
+      ],
+      "category": null,
+      "provinceCode": "01",
+      "districtCode": null,
+      "minPriceVnd": "1000000000",
+      "maxPriceVnd": "3000000000",
+      "areaBands": [
+        "from_100_to_200"
+      ],
+      "landTypes": [
+        "residential"
+      ],
+      "minRoadWidthM": "4",
+      "hasDocuments": true,
+      "savedOnly": false,
+      "sort": "relevant"
+    },
+    "FilterOption": {
+      "code": "XL-028",
+      "label": "label",
+      "parentCode": null
+    },
+    "FilterCatalog": {
+      "provinces": [
+        {
+          "code": "01",
+          "label": "Hà Nội",
+          "parentCode": null
+        },
+        {
+          "code": "33",
+          "label": "Hưng Yên",
+          "parentCode": null
+        },
+        {
+          "code": "27",
+          "label": "Bắc Ninh",
+          "parentCode": null
+        },
+        {
+          "code": "48",
+          "label": "Đà Nẵng",
+          "parentCode": null
+        }
+      ],
+      "districts": [
+        {
+          "code": "demo-hoa-lac",
+          "label": "Khu vực Hòa Lạc",
+          "parentCode": "01"
+        }
+      ],
+      "minBudgetVnd": "500000000",
+      "openUpperBudgetVnd": "10000000000"
+    },
+    "PropertySearchResult": {
+      "page": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-000000000005",
+            "code": "XL-028",
+            "title": "Đất nền Hòa Lạc",
+            "provinceCode": "01",
+            "provinceName": "Hà Nội",
+            "districtCode": "demo-hoa-lac",
+            "districtName": "Khu vực Hòa Lạc",
+            "region": "north",
+            "category": "residential",
+            "priceTotal": "2400000000",
+            "pricePerM2": "20000000",
+            "areaM2": "120",
+            "frontageM": "6",
+            "depthM": "20",
+            "roadWidthM": "5",
+            "direction": "southeast",
+            "landType": "residential",
+            "status": "listed",
+            "approvalStatus": "approved",
+            "sourceBadge": "board_source",
+            "consultantId": "00000000-0000-4000-8000-000000000003",
+            "media": [
+              {
+                "id": "00000000-0000-4000-8000-000000000027",
+                "kind": "video",
+                "url": null,
+                "thumbnailUrl": null,
+                "durationSeconds": 38,
+                "altText": "Minh họa, chờ asset được cấp quyền",
+                "isIllustrative": true
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000028",
+                "kind": "video",
+                "url": null,
+                "thumbnailUrl": null,
+                "durationSeconds": 38,
+                "altText": "Minh họa, chờ asset được cấp quyền",
+                "isIllustrative": true
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000029",
+                "kind": "image",
+                "url": null,
+                "thumbnailUrl": null,
+                "durationSeconds": null,
+                "altText": "Minh họa, chờ asset được cấp quyền",
+                "isIllustrative": true
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000030",
+                "kind": "image",
+                "url": null,
+                "thumbnailUrl": null,
+                "durationSeconds": null,
+                "altText": "Minh họa, chờ asset được cấp quyền",
+                "isIllustrative": true
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000031",
+                "kind": "image",
+                "url": null,
+                "thumbnailUrl": null,
+                "durationSeconds": null,
+                "altText": "Minh họa, chờ asset được cấp quyền",
+                "isIllustrative": true
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000032",
+                "kind": "image",
+                "url": null,
+                "thumbnailUrl": null,
+                "durationSeconds": null,
+                "altText": "Minh họa, chờ asset được cấp quyền",
+                "isIllustrative": true
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000033",
+                "kind": "image",
+                "url": null,
+                "thumbnailUrl": null,
+                "durationSeconds": null,
+                "altText": "Minh họa, chờ asset được cấp quyền",
+                "isIllustrative": true
+              },
+              {
+                "id": "00000000-0000-4000-8000-000000000034",
+                "kind": "image",
+                "url": null,
+                "thumbnailUrl": null,
+                "durationSeconds": null,
+                "altText": "Minh họa, chờ asset được cấp quyền",
+                "isIllustrative": true
+              }
+            ],
+            "highlights": [
+              {
+                "title": "Khu dân cư hiện hữu",
+                "description": "An ninh, dân trí tốt"
+              },
+              {
+                "title": "Lối tiếp cận được ghi hình",
+                "description": "Video thực tế, rõ ràng"
+              }
+            ],
+            "verifiedLegalCount": 4,
+            "totalLegalCount": 6,
+            "isSaved": false,
+            "updatedAt": "2026-10-15T02:00:00+07:00",
+            "isIllustrative": true
+          }
+        ],
+        "hasMore": false,
+        "nextCursor": null,
+        "total": 1
+      },
+      "total": 1,
+      "selectedCriteriaCount": 7
+    },
+    "LegalItem": {
+      "id": "00000000-0000-4000-8000-000000000038",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "title": "Giấy chứng nhận",
+      "subtitle": null,
+      "checkedDate": "2026-09-10",
+      "status": "verified",
+      "sortOrder": 1
+    },
+    "PropertyDocument": {
+      "id": "00000000-0000-4000-8000-000000000045",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "title": "Ảnh hiện trạng",
+      "mimeType": "image/jpeg",
+      "sizeBytes": 4100000,
+      "uploadedDate": "2026-09-10",
+      "previewUrl": null,
+      "access": "public_redacted",
+      "canDownload": true
+    },
+    "LegalSummary": {
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "items": [
+        {
+          "id": "00000000-0000-4000-8000-000000000038",
+          "propertyId": "00000000-0000-4000-8000-000000000005",
+          "title": "Giấy chứng nhận",
+          "subtitle": null,
+          "checkedDate": "2026-09-10",
+          "status": "verified",
+          "sortOrder": 1
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000039",
+          "propertyId": "00000000-0000-4000-8000-000000000005",
+          "title": "Người có quyền bán",
+          "subtitle": null,
+          "checkedDate": "2026-09-10",
+          "status": "verified",
+          "sortOrder": 2
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000040",
+          "propertyId": "00000000-0000-4000-8000-000000000005",
+          "title": "Thông tin thửa đất",
+          "subtitle": null,
+          "checkedDate": "2026-09-09",
+          "status": "verified",
+          "sortOrder": 3
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000041",
+          "propertyId": "00000000-0000-4000-8000-000000000005",
+          "title": "Hiện trạng tiếp cận",
+          "subtitle": null,
+          "checkedDate": "2026-09-09",
+          "status": "verified",
+          "sortOrder": 4
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000042",
+          "propertyId": "00000000-0000-4000-8000-000000000005",
+          "title": "Thông tin quy hoạch",
+          "subtitle": null,
+          "checkedDate": null,
+          "status": "pending",
+          "sortOrder": 5
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000043",
+          "propertyId": "00000000-0000-4000-8000-000000000005",
+          "title": "Hạn chế giao dịch",
+          "subtitle": null,
+          "checkedDate": null,
+          "status": "pending",
+          "sortOrder": 6
+        }
+      ],
+      "documents": [
+        {
+          "id": "00000000-0000-4000-8000-000000000044",
+          "propertyId": "00000000-0000-4000-8000-000000000005",
+          "title": "Bản chụp giấy tờ",
+          "mimeType": "application/pdf",
+          "sizeBytes": 2300000,
+          "uploadedDate": "2026-09-10",
+          "previewUrl": null,
+          "access": "granted",
+          "canDownload": false
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000045",
+          "propertyId": "00000000-0000-4000-8000-000000000005",
+          "title": "Ảnh hiện trạng",
+          "mimeType": "image/jpeg",
+          "sizeBytes": 4100000,
+          "uploadedDate": "2026-09-10",
+          "previewUrl": null,
+          "access": "public_redacted",
+          "canDownload": true
+        }
+      ],
+      "verifiedCount": 4,
+      "totalCount": 6,
+      "scopeNotice": "Đã đối chiếu 4/6 mục minh họa; không thay thế thẩm định pháp lý."
+    },
+    "ApproximateLocation": {
+      "latitude": 21,
+      "longitude": 105.5,
+      "radiusM": 2000,
+      "label": "Khu vực Hòa Lạc (minh họa)"
+    },
+    "Amenity": {
+      "id": "00000000-0000-4000-8000-000000000046",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "category": "utility",
+      "name": "Trường học",
+      "distanceText": "1 - 3 km",
+      "iconType": "school",
+      "latitude": null,
+      "longitude": null
+    },
+    "AreaInfo": {
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "location": {
+        "latitude": 21,
+        "longitude": 105.5,
+        "radiusM": 2000,
+        "label": "Khu vực Hòa Lạc (minh họa)"
+      },
+      "amenities": [
+        {
+          "id": "00000000-0000-4000-8000-000000000046",
+          "propertyId": "00000000-0000-4000-8000-000000000005",
+          "category": "utility",
+          "name": "Trường học",
+          "distanceText": "1 - 3 km",
+          "iconType": "school",
+          "latitude": null,
+          "longitude": null
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000047",
+          "propertyId": "00000000-0000-4000-8000-000000000005",
+          "category": "utility",
+          "name": "Cơ sở y tế",
+          "distanceText": "2 - 5 km",
+          "iconType": "hospital",
+          "latitude": null,
+          "longitude": null
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000048",
+          "propertyId": "00000000-0000-4000-8000-000000000005",
+          "category": "utility",
+          "name": "Chợ và siêu thị",
+          "distanceText": "1 - 3 km",
+          "iconType": "market",
+          "latitude": null,
+          "longitude": null
+        },
+        {
+          "id": "00000000-0000-4000-8000-000000000049",
+          "propertyId": "00000000-0000-4000-8000-000000000005",
+          "category": "traffic",
+          "name": "Trục giao thông chính",
+          "distanceText": "2 - 4 km",
+          "iconType": "road",
+          "latitude": null,
+          "longitude": null
+        }
+      ],
+      "photos": [],
+      "providerAttribution": "Vị trí minh họa, chưa nối nhà cung cấp bản đồ",
+      "externalMapUrl": null
+    },
+    "PublicAuthor": {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "displayName": "Minh Anh",
+      "role": "Tư vấn đất nền",
+      "avatarUrl": null,
+      "isVerified": true,
+      "isFollowing": false
+    },
+    "FeedVideo": {
+      "id": "00000000-0000-4000-8000-000000000050",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "displayName": "Minh Anh",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": true,
+        "isFollowing": false
+      },
+      "media": {
+        "id": "00000000-0000-4000-8000-000000000027",
+        "kind": "video",
+        "url": null,
+        "thumbnailUrl": null,
+        "durationSeconds": 38,
+        "altText": "Minh họa, chờ asset được cấp quyền",
+        "isIllustrative": true
+      },
+      "caption": "Video minh họa lô đất",
+      "approximateArea": "Khu vực Hòa Lạc",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000005",
+        "code": "XL-028",
+        "title": "Đất nền Hòa Lạc",
+        "provinceCode": "01",
+        "provinceName": "Hà Nội",
+        "districtCode": "demo-hoa-lac",
+        "districtName": "Khu vực Hòa Lạc",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "2400000000",
+        "pricePerM2": "20000000",
+        "areaM2": "120",
+        "frontageM": "6",
+        "depthM": "20",
+        "roadWidthM": "5",
+        "direction": "southeast",
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [
+          {
+            "id": "00000000-0000-4000-8000-000000000027",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000028",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000029",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000030",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000031",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000032",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000033",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000034",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          }
+        ],
+        "highlights": [
+          {
+            "title": "Khu dân cư hiện hữu",
+            "description": "An ninh, dân trí tốt"
+          },
+          {
+            "title": "Lối tiếp cận được ghi hình",
+            "description": "Video thực tế, rõ ràng"
+          }
+        ],
+        "verifiedLegalCount": 4,
+        "totalLegalCount": 6,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "likeCount": 12,
+      "commentCount": 2,
+      "viewCount": 1200,
+      "isLiked": false,
+      "isSaved": false,
+      "publishedAt": "2026-09-10T10:00:00+07:00",
+      "isIllustrative": true
+    },
+    "VideoComment": {
+      "id": "00000000-0000-4000-8000-000000000098",
+      "videoId": "00000000-0000-4000-8000-000000000050",
+      "author": {
+        "id": "00000000-0000-4000-8000-000000000099",
+        "displayName": "Anh Nam",
+        "role": "Tư vấn đất nền",
+        "avatarUrl": null,
+        "isVerified": false,
+        "isFollowing": false
+      },
+      "text": "Tôi muốn hỏi thêm về lô này.",
+      "createdAt": "2026-09-16T14:00:00+07:00",
+      "canDelete": true
+    },
+    "Consultant": {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "name": "Minh Anh",
+      "role": "Tư vấn đất nền",
+      "location": "Hà Nội",
+      "isVerified": true,
+      "avatarUrl": null,
+      "coverUrl": null,
+      "videoCount": 24,
+      "followerCount": 1200,
+      "rating": "4.8",
+      "isFollowing": false,
+      "nextAvailableAt": null,
+      "supportRecipientLabel": "Đội hỗ trợ XLand (demo)",
+      "isIllustrative": true
+    },
+    "ConsultantReview": {
+      "id": "00000000-0000-4000-8000-000000000013",
+      "consultantId": "00000000-0000-4000-8000-000000000003",
+      "authorDisplayName": "authorDisplayName",
+      "rating": "1",
+      "text": "text",
+      "createdAt": "2026-09-16T14:00:00+07:00",
+      "isIllustrative": true
+    },
+    "AgendaItem": {
+      "startsAt": "2026-09-19T19:30:00+07:00",
+      "title": "Đọc hiểu hồ sơ lô đất"
+    },
+    "Speaker": {
+      "name": "Minh Anh",
+      "role": "Điều phối",
+      "avatarUrl": null
+    },
+    "EventBenefit": {
+      "title": "Tài liệu sau buổi",
+      "description": "Minh họa"
+    },
+    "XlandEvent": {
+      "id": "00000000-0000-4000-8000-000000000015",
+      "title": "Hiểu hồ sơ đất trước khi xuống tiền",
+      "tags": [
+        "Kiến thức",
+        "Kết nối"
+      ],
+      "media": [],
+      "startsAt": "2026-09-19T19:30:00+07:00",
+      "endsAt": "2026-09-19T21:00:00+07:00",
+      "timeZone": "Asia/Ho_Chi_Minh",
+      "venueName": "X Coffee",
+      "address": "501 Vũ Tông Phan, Hà Nội",
+      "maxSlots": 30,
+      "remainingSlots": 0,
+      "durationMinutes": 90,
+      "ticketPriceVnd": "149000",
+      "status": "closed",
+      "agenda": [
+        {
+          "startsAt": "2026-09-19T19:30:00+07:00",
+          "title": "Đọc hiểu hồ sơ lô đất"
+        },
+        {
+          "startsAt": "2026-09-19T20:00:00+07:00",
+          "title": "Các câu hỏi trước khi giao dịch"
+        },
+        {
+          "startsAt": "2026-09-19T20:30:00+07:00",
+          "title": "Hỏi đáp và kết nối"
+        }
+      ],
+      "speakers": [
+        {
+          "name": "Minh Anh",
+          "role": "Điều phối",
+          "avatarUrl": null
+        },
+        {
+          "name": "Khách mời pháp lý",
+          "role": "Luật sư BĐS (minh họa)",
+          "avatarUrl": null
+        }
+      ],
+      "benefits": [
+        {
+          "title": "Tài liệu sau buổi",
+          "description": "Minh họa"
+        },
+        {
+          "title": "Một đồ uống",
+          "description": "Minh họa"
+        }
+      ],
+      "isSaved": false,
+      "isIllustrative": true
+    },
+    "EventRegistrationInput": {
+      "eventId": "00000000-0000-4000-8000-000000000101",
+      "contactName": "Anh Nam",
+      "contactPhone": "0900000678",
+      "attendeeCount": 1
+    },
+    "EventRegistration": {
+      "id": "00000000-0000-4000-8000-000000000016",
+      "eventId": "00000000-0000-4000-8000-000000000101",
+      "status": "pending",
+      "attendeeCount": 1,
+      "ticketPriceVnd": "149000",
+      "paymentMode": "disabled",
+      "notice": "Đăng ký demo; kênh thu phí sự kiện chưa chốt",
+      "createdAt": "2026-09-16T14:00:00+07:00"
+    },
+    "AvailabilitySlot": {
+      "id": "00000000-0000-4000-8000-000000000018",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "consultantId": "00000000-0000-4000-8000-000000000003",
+      "startsAt": "2026-11-07T14:00:00+07:00",
+      "endsAt": "2026-11-07T15:30:00+07:00",
+      "timeZone": "Asia/Ho_Chi_Minh",
+      "isAvailable": true,
+      "unavailableReason": null,
+      "meetingArea": {
+        "latitude": 21,
+        "longitude": 105.5,
+        "radiusM": 2000,
+        "label": "Khu vực Hòa Lạc (minh họa)"
+      },
+      "maxAttendees": 6
+    },
+    "BookingInput": {
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "slotId": "00000000-0000-4000-8000-000000000018",
+      "sourceVideoId": "00000000-0000-4000-8000-000000000050",
+      "attendeeCount": 2,
+      "transportMode": "self_arranged",
+      "requestDocuments": true,
+      "requestLoanAdvice": false,
+      "contactName": "Anh Nam",
+      "contactPhone": "0900000678",
+      "note": null
+    },
+    "DepositPolicy": {
+      "indicativeAmountVnd": "350000",
+      "policyVersion": null,
+      "chargeBasis": null,
+      "refundPolicyText": null,
+      "cancellationPolicyText": null,
+      "reschedulePolicyText": null,
+      "livePaymentEnabled": false,
+      "notice": "Mức cọc: 350.000 VNĐ — chính sách áp dụng đang được hoàn thiện"
+    },
+    "BookingHistoryItem": {
+      "id": "00000000-0000-4000-8000-000000000019",
+      "fromStatus": "awaiting_deposit",
+      "toStatus": "awaiting_deposit",
+      "occurredAt": "2026-09-16T14:00:00+07:00",
+      "actorLabel": "actorLabel",
+      "publicNote": null
+    },
+    "Booking": {
+      "id": "00000000-0000-4000-8000-000000000022",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "sourceVideoId": "00000000-0000-4000-8000-000000000050",
+      "consultantId": "00000000-0000-4000-8000-000000000003",
+      "slotId": "00000000-0000-4000-8000-000000000018",
+      "property": {
+        "id": "00000000-0000-4000-8000-000000000005",
+        "code": "XL-028",
+        "title": "Đất nền Hòa Lạc",
+        "provinceCode": "01",
+        "provinceName": "Hà Nội",
+        "districtCode": "demo-hoa-lac",
+        "districtName": "Khu vực Hòa Lạc",
+        "region": "north",
+        "category": "residential",
+        "priceTotal": "2400000000",
+        "pricePerM2": "20000000",
+        "areaM2": "120",
+        "frontageM": "6",
+        "depthM": "20",
+        "roadWidthM": "5",
+        "direction": "southeast",
+        "landType": "residential",
+        "status": "listed",
+        "approvalStatus": "approved",
+        "sourceBadge": "board_source",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "media": [
+          {
+            "id": "00000000-0000-4000-8000-000000000027",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000028",
+            "kind": "video",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": 38,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000029",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000030",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000031",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000032",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000033",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          },
+          {
+            "id": "00000000-0000-4000-8000-000000000034",
+            "kind": "image",
+            "url": null,
+            "thumbnailUrl": null,
+            "durationSeconds": null,
+            "altText": "Minh họa, chờ asset được cấp quyền",
+            "isIllustrative": true
+          }
+        ],
+        "highlights": [
+          {
+            "title": "Khu dân cư hiện hữu",
+            "description": "An ninh, dân trí tốt"
+          },
+          {
+            "title": "Lối tiếp cận được ghi hình",
+            "description": "Video thực tế, rõ ràng"
+          }
+        ],
+        "verifiedLegalCount": 4,
+        "totalLegalCount": 6,
+        "isSaved": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00",
+        "isIllustrative": true
+      },
+      "requestedStartsAt": "2026-11-07T14:00:00+07:00",
+      "confirmedStartsAt": null,
+      "timeZone": "Asia/Ho_Chi_Minh",
+      "proposedMeetingArea": {
+        "latitude": 21,
+        "longitude": 105.5,
+        "radiusM": 2000,
+        "label": "Khu vực Hòa Lạc (minh họa)"
+      },
+      "confirmedMeetingLabel": null,
+      "attendeeCount": 2,
+      "transportMode": "self_arranged",
+      "requestDocuments": true,
+      "requestLoanAdvice": false,
+      "contactName": "Anh Nam",
+      "maskedContactPhone": "09•• ••• 678",
+      "status": "awaiting_deposit",
+      "paymentStatus": "unpaid",
+      "depositPolicy": {
+        "indicativeAmountVnd": "350000",
+        "policyVersion": null,
+        "chargeBasis": null,
+        "refundPolicyText": null,
+        "cancellationPolicyText": null,
+        "reschedulePolicyText": null,
+        "livePaymentEnabled": false,
+        "notice": "Mức cọc: 350.000 VNĐ — chính sách áp dụng đang được hoàn thiện"
+      },
+      "history": [],
+      "availableActions": [],
+      "createdAt": "2026-09-16T14:00:00+07:00",
+      "updatedAt": "2026-09-16T14:00:00+07:00",
+      "isIllustrative": true
+    },
+    "PaymentInstructions": {
+      "qrImageUrl": null,
+      "bankName": null,
+      "accountName": null,
+      "maskedAccountNumber": null,
+      "transferContent": null
+    },
+    "PaymentRecord": {
+      "id": "00000000-0000-4000-8000-000000000100",
+      "bookingId": "00000000-0000-4000-8000-000000000022",
+      "amountVnd": null,
+      "status": "unpaid",
+      "mode": "disabled",
+      "reference": null,
+      "expiresAt": null,
+      "receivedAt": null,
+      "instructions": null,
+      "policyVersion": null,
+      "notice": "Thanh toán thật chưa bật, chưa có QR/tài khoản nhận tiền",
+      "updatedAt": "2026-10-15T02:00:00+07:00"
+    },
+    "BookingChangeInput": {
+      "reason": "Xin thay đổi lịch (yêu cầu, chưa xác nhận)",
+      "requestedSlotId": null
+    },
+    "UserProfile": {
+      "id": "00000000-0000-4000-8000-000000000099",
+      "displayName": "Anh Nam",
+      "avatarUrl": null,
+      "contactPhone": "0900000678",
+      "contactVerified": false,
+      "updatedAt": "2026-10-15T02:00:00+07:00"
+    },
+    "ProfileUpdate": {
+      "displayName": "Anh Nam",
+      "avatarUrl": null,
+      "contactPhone": null,
+      "clearAvatar": false,
+      "clearContactPhone": false
+    },
+    "UserSettings": {
+      "notificationConsent": false,
+      "locale": "vi_VN",
+      "timeZone": "Asia/Ho_Chi_Minh",
+      "feedAutoplay": false,
+      "feedMutedByDefault": true,
+      "updatedAt": "2026-09-16T14:00:00+07:00"
+    },
+    "SettingsUpdate": {
+      "notificationConsent": false,
+      "feedAutoplay": false,
+      "feedMutedByDefault": true
+    },
+    "Session": {
+      "profile": {
+        "id": "00000000-0000-4000-8000-000000000099",
+        "displayName": "Anh Nam",
+        "avatarUrl": null,
+        "contactPhone": "0900000678",
+        "contactVerified": false,
+        "updatedAt": "2026-10-15T02:00:00+07:00"
+      },
+      "expiresAt": "2026-10-16T02:00:00+07:00"
+    },
+    "Club": {
+      "id": "00000000-0000-4000-8000-000000000102",
+      "title": "Câu lạc bộ tìm hiểu đất nền",
+      "summary": "Giới thiệu minh họa",
+      "description": "Cùng tìm hiểu hồ sơ và khu vực",
+      "regionLabel": "Hà Nội",
+      "activities": [
+        "Chia sẻ kiến thức",
+        "Tham quan khu vực"
+      ],
+      "media": [],
+      "supportRecipientLabel": "Đội hỗ trợ XLand (demo)",
+      "isIllustrative": true
+    },
+    "SupportRequestInput": {
+      "kind": "legal_review",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "consultantId": "00000000-0000-4000-8000-000000000003",
+      "message": "Xin hỗ trợ kiểm tra hồ sơ",
+      "contactName": "Anh Nam",
+      "contactPhone": "0900000678",
+      "consentToShareContact": true
+    },
+    "SupportRequest": {
+      "id": "00000000-0000-4000-8000-000000000025",
+      "kind": "legal_review",
+      "status": "received",
+      "recipientLabel": "Bộ phận hỗ trợ XLand — chưa phân công",
+      "notice": "Đã nhận yêu cầu; chờ xử lý, chưa có SLA hoặc tư vấn trực tiếp",
+      "createdAt": "2026-09-16T14:00:00+07:00"
+    },
+    "FinanceInput": {
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "equityVnd": "1200000000",
+      "loanVnd": "1200000000",
+      "termMonths": 240,
+      "annualRatePercent": "9",
+      "method": "equal_installment"
+    },
+    "SavedFinancePlan": {
+      "id": "00000000-0000-4000-8000-000000000026",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "label": "Phương án minh họa",
+      "input": {
+        "propertyId": "00000000-0000-4000-8000-000000000005",
+        "equityVnd": "1200000000",
+        "loanVnd": "1200000000",
+        "termMonths": 240,
+        "annualRatePercent": "9",
+        "method": "equal_installment"
+      },
+      "result": null,
+      "createdAt": "2026-09-16T14:00:00+07:00"
+    },
+    "DownloadGrant": {
+      "url": "https://example.invalid/signed-document",
+      "expiresAt": "2026-10-15T02:05:00+07:00",
+      "fileName": "anh-hien-trang.jpg",
+      "mimeType": "image/jpeg",
+      "sizeBytes": 4100000
+    },
+    "ShareLink": {
+      "url": "https://example.invalid/xland/properties/XL-028",
+      "title": "Đất nền Hòa Lạc"
+    },
+    "FinanceResult": {
+      "input": {
+        "propertyId": "00000000-0000-4000-8000-000000000005",
+        "equityVnd": "1200000000",
+        "loanVnd": "1200000000",
+        "termMonths": 240,
+        "annualRatePercent": "9",
+        "method": "equal_installment"
+      },
+      "monthlyPaymentVnd": "10796711",
+      "firstMonthPrincipalVnd": "1796711",
+      "firstMonthInterestVnd": "9000000",
+      "totalInterestVnd": "1391210961",
+      "totalRepaymentVnd": "2591210961",
+      "formulaVersion": "xland-loan-v1",
+      "roundingRule": "VND_HALF_UP_MONTHLY_LAST_ADJUST",
+      "estimateNotice": "Ước tính minh họa; không phải đề nghị cấp tín dụng; chưa gồm phí, thuế, bảo hiểm"
+    },
+    "SavedFinancePlanCalculated": {
+      "id": "00000000-0000-4000-8000-000000000103",
+      "propertyId": "00000000-0000-4000-8000-000000000005",
+      "label": "Phương án minh họa",
+      "input": {
+        "propertyId": "00000000-0000-4000-8000-000000000005",
+        "equityVnd": "1200000000",
+        "loanVnd": "1200000000",
+        "termMonths": 240,
+        "annualRatePercent": "9",
+        "method": "equal_installment"
+      },
+      "result": {
+        "input": {
+          "propertyId": "00000000-0000-4000-8000-000000000005",
+          "equityVnd": "1200000000",
+          "loanVnd": "1200000000",
+          "termMonths": 240,
+          "annualRatePercent": "9",
+          "method": "equal_installment"
+        },
+        "monthlyPaymentVnd": "10796711",
+        "firstMonthPrincipalVnd": "1796711",
+        "firstMonthInterestVnd": "9000000",
+        "totalInterestVnd": "1391210961",
+        "totalRepaymentVnd": "2591210961",
+        "formulaVersion": "xland-loan-v1",
+        "roundingRule": "VND_HALF_UP_MONTHLY_LAST_ADJUST",
+        "estimateNotice": "Ước tính minh họa; không phải đề nghị cấp tín dụng; chưa gồm phí, thuế, bảo hiểm"
+      },
+      "createdAt": "2026-09-16T14:00:00+07:00"
+    }
+  },
+  "paymentScenarios": [
+    {
+      "scenarioId": "payment-simulation-0",
+      "booking": {
+        "id": "00000000-0000-4000-8000-000000000103",
+        "propertyId": "00000000-0000-4000-8000-000000000005",
+        "sourceVideoId": "00000000-0000-4000-8000-000000000050",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "slotId": "00000000-0000-4000-8000-000000000018",
+        "property": {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "code": "XL-028",
+          "title": "Đất nền Hòa Lạc",
+          "provinceCode": "01",
+          "provinceName": "Hà Nội",
+          "districtCode": "demo-hoa-lac",
+          "districtName": "Khu vực Hòa Lạc",
+          "region": "north",
+          "category": "residential",
+          "priceTotal": "2400000000",
+          "pricePerM2": "20000000",
+          "areaM2": "120",
+          "frontageM": "6",
+          "depthM": "20",
+          "roadWidthM": "5",
+          "direction": "southeast",
+          "landType": "residential",
+          "status": "listed",
+          "approvalStatus": "approved",
+          "sourceBadge": "board_source",
+          "consultantId": "00000000-0000-4000-8000-000000000003",
+          "media": [
+            {
+              "id": "00000000-0000-4000-8000-000000000027",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000028",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000029",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000030",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000031",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000032",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000033",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000034",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            }
+          ],
+          "highlights": [
+            {
+              "title": "Khu dân cư hiện hữu",
+              "description": "An ninh, dân trí tốt"
+            },
+            {
+              "title": "Lối tiếp cận được ghi hình",
+              "description": "Video thực tế, rõ ràng"
+            }
+          ],
+          "verifiedLegalCount": 4,
+          "totalLegalCount": 6,
+          "isSaved": false,
+          "updatedAt": "2026-10-15T02:00:00+07:00",
+          "isIllustrative": true
+        },
+        "requestedStartsAt": "2026-11-07T14:00:00+07:00",
+        "confirmedStartsAt": null,
+        "timeZone": "Asia/Ho_Chi_Minh",
+        "proposedMeetingArea": {
+          "latitude": 21,
+          "longitude": 105.5,
+          "radiusM": 2000,
+          "label": "Khu vực Hòa Lạc (minh họa)"
+        },
+        "confirmedMeetingLabel": null,
+        "attendeeCount": 2,
+        "transportMode": "self_arranged",
+        "requestDocuments": true,
+        "requestLoanAdvice": false,
+        "contactName": "Anh Nam",
+        "maskedContactPhone": "09•• ••• 678",
+        "status": "awaiting_deposit",
+        "paymentStatus": "unpaid",
+        "depositPolicy": {
+          "indicativeAmountVnd": "350000",
+          "policyVersion": null,
+          "chargeBasis": null,
+          "refundPolicyText": null,
+          "cancellationPolicyText": null,
+          "reschedulePolicyText": null,
+          "livePaymentEnabled": false,
+          "notice": "Mức cọc: 350.000 VNĐ — chính sách áp dụng đang được hoàn thiện"
+        },
+        "history": [],
+        "availableActions": [],
+        "createdAt": "2026-09-16T14:00:00+07:00",
+        "updatedAt": "2026-09-16T14:00:00+07:00",
+        "isIllustrative": true
+      },
+      "payment": {
+        "id": "00000000-0000-4000-8000-000000000104",
+        "bookingId": "00000000-0000-4000-8000-000000000103",
+        "amountVnd": "350000",
+        "status": "unpaid",
+        "mode": "simulation",
+        "reference": "SIM-P1-0",
+        "expiresAt": null,
+        "receivedAt": null,
+        "instructions": null,
+        "policyVersion": null,
+        "notice": "Payment giả cho test; không là chính sách cọc/SePay thật",
+        "updatedAt": "2026-10-15T02:00:00+07:00"
+      }
+    },
+    {
+      "scenarioId": "payment-simulation-1",
+      "booking": {
+        "id": "00000000-0000-4000-8000-000000000105",
+        "propertyId": "00000000-0000-4000-8000-000000000005",
+        "sourceVideoId": "00000000-0000-4000-8000-000000000050",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "slotId": "00000000-0000-4000-8000-000000000018",
+        "property": {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "code": "XL-028",
+          "title": "Đất nền Hòa Lạc",
+          "provinceCode": "01",
+          "provinceName": "Hà Nội",
+          "districtCode": "demo-hoa-lac",
+          "districtName": "Khu vực Hòa Lạc",
+          "region": "north",
+          "category": "residential",
+          "priceTotal": "2400000000",
+          "pricePerM2": "20000000",
+          "areaM2": "120",
+          "frontageM": "6",
+          "depthM": "20",
+          "roadWidthM": "5",
+          "direction": "southeast",
+          "landType": "residential",
+          "status": "listed",
+          "approvalStatus": "approved",
+          "sourceBadge": "board_source",
+          "consultantId": "00000000-0000-4000-8000-000000000003",
+          "media": [
+            {
+              "id": "00000000-0000-4000-8000-000000000027",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000028",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000029",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000030",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000031",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000032",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000033",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000034",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            }
+          ],
+          "highlights": [
+            {
+              "title": "Khu dân cư hiện hữu",
+              "description": "An ninh, dân trí tốt"
+            },
+            {
+              "title": "Lối tiếp cận được ghi hình",
+              "description": "Video thực tế, rõ ràng"
+            }
+          ],
+          "verifiedLegalCount": 4,
+          "totalLegalCount": 6,
+          "isSaved": false,
+          "updatedAt": "2026-10-15T02:00:00+07:00",
+          "isIllustrative": true
+        },
+        "requestedStartsAt": "2026-11-07T14:00:00+07:00",
+        "confirmedStartsAt": null,
+        "timeZone": "Asia/Ho_Chi_Minh",
+        "proposedMeetingArea": {
+          "latitude": 21,
+          "longitude": 105.5,
+          "radiusM": 2000,
+          "label": "Khu vực Hòa Lạc (minh họa)"
+        },
+        "confirmedMeetingLabel": null,
+        "attendeeCount": 2,
+        "transportMode": "self_arranged",
+        "requestDocuments": true,
+        "requestLoanAdvice": false,
+        "contactName": "Anh Nam",
+        "maskedContactPhone": "09•• ••• 678",
+        "status": "awaiting_deposit",
+        "paymentStatus": "pending",
+        "depositPolicy": {
+          "indicativeAmountVnd": "350000",
+          "policyVersion": null,
+          "chargeBasis": null,
+          "refundPolicyText": null,
+          "cancellationPolicyText": null,
+          "reschedulePolicyText": null,
+          "livePaymentEnabled": false,
+          "notice": "Mức cọc: 350.000 VNĐ — chính sách áp dụng đang được hoàn thiện"
+        },
+        "history": [],
+        "availableActions": [],
+        "createdAt": "2026-09-16T14:00:00+07:00",
+        "updatedAt": "2026-09-16T14:00:00+07:00",
+        "isIllustrative": true
+      },
+      "payment": {
+        "id": "00000000-0000-4000-8000-000000000106",
+        "bookingId": "00000000-0000-4000-8000-000000000105",
+        "amountVnd": "350000",
+        "status": "pending",
+        "mode": "simulation",
+        "reference": "SIM-P1-1",
+        "expiresAt": null,
+        "receivedAt": null,
+        "instructions": null,
+        "policyVersion": null,
+        "notice": "Payment giả cho test; không là chính sách cọc/SePay thật",
+        "updatedAt": "2026-10-15T02:00:00+07:00"
+      }
+    },
+    {
+      "scenarioId": "payment-simulation-2",
+      "booking": {
+        "id": "00000000-0000-4000-8000-000000000107",
+        "propertyId": "00000000-0000-4000-8000-000000000005",
+        "sourceVideoId": "00000000-0000-4000-8000-000000000050",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "slotId": "00000000-0000-4000-8000-000000000018",
+        "property": {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "code": "XL-028",
+          "title": "Đất nền Hòa Lạc",
+          "provinceCode": "01",
+          "provinceName": "Hà Nội",
+          "districtCode": "demo-hoa-lac",
+          "districtName": "Khu vực Hòa Lạc",
+          "region": "north",
+          "category": "residential",
+          "priceTotal": "2400000000",
+          "pricePerM2": "20000000",
+          "areaM2": "120",
+          "frontageM": "6",
+          "depthM": "20",
+          "roadWidthM": "5",
+          "direction": "southeast",
+          "landType": "residential",
+          "status": "listed",
+          "approvalStatus": "approved",
+          "sourceBadge": "board_source",
+          "consultantId": "00000000-0000-4000-8000-000000000003",
+          "media": [
+            {
+              "id": "00000000-0000-4000-8000-000000000027",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000028",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000029",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000030",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000031",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000032",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000033",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000034",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            }
+          ],
+          "highlights": [
+            {
+              "title": "Khu dân cư hiện hữu",
+              "description": "An ninh, dân trí tốt"
+            },
+            {
+              "title": "Lối tiếp cận được ghi hình",
+              "description": "Video thực tế, rõ ràng"
+            }
+          ],
+          "verifiedLegalCount": 4,
+          "totalLegalCount": 6,
+          "isSaved": false,
+          "updatedAt": "2026-10-15T02:00:00+07:00",
+          "isIllustrative": true
+        },
+        "requestedStartsAt": "2026-11-07T14:00:00+07:00",
+        "confirmedStartsAt": null,
+        "timeZone": "Asia/Ho_Chi_Minh",
+        "proposedMeetingArea": {
+          "latitude": 21,
+          "longitude": 105.5,
+          "radiusM": 2000,
+          "label": "Khu vực Hòa Lạc (minh họa)"
+        },
+        "confirmedMeetingLabel": null,
+        "attendeeCount": 2,
+        "transportMode": "self_arranged",
+        "requestDocuments": true,
+        "requestLoanAdvice": false,
+        "contactName": "Anh Nam",
+        "maskedContactPhone": "09•• ••• 678",
+        "status": "pending_confirmation",
+        "paymentStatus": "succeeded",
+        "depositPolicy": {
+          "indicativeAmountVnd": "350000",
+          "policyVersion": null,
+          "chargeBasis": null,
+          "refundPolicyText": null,
+          "cancellationPolicyText": null,
+          "reschedulePolicyText": null,
+          "livePaymentEnabled": false,
+          "notice": "Mức cọc: 350.000 VNĐ — chính sách áp dụng đang được hoàn thiện"
+        },
+        "history": [],
+        "availableActions": [],
+        "createdAt": "2026-09-16T14:00:00+07:00",
+        "updatedAt": "2026-09-16T14:00:00+07:00",
+        "isIllustrative": true
+      },
+      "payment": {
+        "id": "00000000-0000-4000-8000-000000000108",
+        "bookingId": "00000000-0000-4000-8000-000000000107",
+        "amountVnd": "350000",
+        "status": "succeeded",
+        "mode": "simulation",
+        "reference": "SIM-P1-2",
+        "expiresAt": null,
+        "receivedAt": null,
+        "instructions": null,
+        "policyVersion": null,
+        "notice": "Payment giả cho test; không là chính sách cọc/SePay thật",
+        "updatedAt": "2026-10-15T02:00:00+07:00"
+      }
+    },
+    {
+      "scenarioId": "payment-simulation-3",
+      "booking": {
+        "id": "00000000-0000-4000-8000-000000000109",
+        "propertyId": "00000000-0000-4000-8000-000000000005",
+        "sourceVideoId": "00000000-0000-4000-8000-000000000050",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "slotId": "00000000-0000-4000-8000-000000000018",
+        "property": {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "code": "XL-028",
+          "title": "Đất nền Hòa Lạc",
+          "provinceCode": "01",
+          "provinceName": "Hà Nội",
+          "districtCode": "demo-hoa-lac",
+          "districtName": "Khu vực Hòa Lạc",
+          "region": "north",
+          "category": "residential",
+          "priceTotal": "2400000000",
+          "pricePerM2": "20000000",
+          "areaM2": "120",
+          "frontageM": "6",
+          "depthM": "20",
+          "roadWidthM": "5",
+          "direction": "southeast",
+          "landType": "residential",
+          "status": "listed",
+          "approvalStatus": "approved",
+          "sourceBadge": "board_source",
+          "consultantId": "00000000-0000-4000-8000-000000000003",
+          "media": [
+            {
+              "id": "00000000-0000-4000-8000-000000000027",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000028",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000029",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000030",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000031",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000032",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000033",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000034",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            }
+          ],
+          "highlights": [
+            {
+              "title": "Khu dân cư hiện hữu",
+              "description": "An ninh, dân trí tốt"
+            },
+            {
+              "title": "Lối tiếp cận được ghi hình",
+              "description": "Video thực tế, rõ ràng"
+            }
+          ],
+          "verifiedLegalCount": 4,
+          "totalLegalCount": 6,
+          "isSaved": false,
+          "updatedAt": "2026-10-15T02:00:00+07:00",
+          "isIllustrative": true
+        },
+        "requestedStartsAt": "2026-11-07T14:00:00+07:00",
+        "confirmedStartsAt": null,
+        "timeZone": "Asia/Ho_Chi_Minh",
+        "proposedMeetingArea": {
+          "latitude": 21,
+          "longitude": 105.5,
+          "radiusM": 2000,
+          "label": "Khu vực Hòa Lạc (minh họa)"
+        },
+        "confirmedMeetingLabel": null,
+        "attendeeCount": 2,
+        "transportMode": "self_arranged",
+        "requestDocuments": true,
+        "requestLoanAdvice": false,
+        "contactName": "Anh Nam",
+        "maskedContactPhone": "09•• ••• 678",
+        "status": "awaiting_deposit",
+        "paymentStatus": "needs_review",
+        "depositPolicy": {
+          "indicativeAmountVnd": "350000",
+          "policyVersion": null,
+          "chargeBasis": null,
+          "refundPolicyText": null,
+          "cancellationPolicyText": null,
+          "reschedulePolicyText": null,
+          "livePaymentEnabled": false,
+          "notice": "Mức cọc: 350.000 VNĐ — chính sách áp dụng đang được hoàn thiện"
+        },
+        "history": [],
+        "availableActions": [],
+        "createdAt": "2026-09-16T14:00:00+07:00",
+        "updatedAt": "2026-09-16T14:00:00+07:00",
+        "isIllustrative": true
+      },
+      "payment": {
+        "id": "00000000-0000-4000-8000-000000000110",
+        "bookingId": "00000000-0000-4000-8000-000000000109",
+        "amountVnd": "350000",
+        "status": "needs_review",
+        "mode": "simulation",
+        "reference": "SIM-P1-3",
+        "expiresAt": null,
+        "receivedAt": null,
+        "instructions": null,
+        "policyVersion": null,
+        "notice": "Payment giả cho test; không là chính sách cọc/SePay thật",
+        "updatedAt": "2026-10-15T02:00:00+07:00"
+      }
+    },
+    {
+      "scenarioId": "payment-simulation-4",
+      "booking": {
+        "id": "00000000-0000-4000-8000-000000000111",
+        "propertyId": "00000000-0000-4000-8000-000000000005",
+        "sourceVideoId": "00000000-0000-4000-8000-000000000050",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "slotId": "00000000-0000-4000-8000-000000000018",
+        "property": {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "code": "XL-028",
+          "title": "Đất nền Hòa Lạc",
+          "provinceCode": "01",
+          "provinceName": "Hà Nội",
+          "districtCode": "demo-hoa-lac",
+          "districtName": "Khu vực Hòa Lạc",
+          "region": "north",
+          "category": "residential",
+          "priceTotal": "2400000000",
+          "pricePerM2": "20000000",
+          "areaM2": "120",
+          "frontageM": "6",
+          "depthM": "20",
+          "roadWidthM": "5",
+          "direction": "southeast",
+          "landType": "residential",
+          "status": "listed",
+          "approvalStatus": "approved",
+          "sourceBadge": "board_source",
+          "consultantId": "00000000-0000-4000-8000-000000000003",
+          "media": [
+            {
+              "id": "00000000-0000-4000-8000-000000000027",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000028",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000029",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000030",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000031",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000032",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000033",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000034",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            }
+          ],
+          "highlights": [
+            {
+              "title": "Khu dân cư hiện hữu",
+              "description": "An ninh, dân trí tốt"
+            },
+            {
+              "title": "Lối tiếp cận được ghi hình",
+              "description": "Video thực tế, rõ ràng"
+            }
+          ],
+          "verifiedLegalCount": 4,
+          "totalLegalCount": 6,
+          "isSaved": false,
+          "updatedAt": "2026-10-15T02:00:00+07:00",
+          "isIllustrative": true
+        },
+        "requestedStartsAt": "2026-11-07T14:00:00+07:00",
+        "confirmedStartsAt": null,
+        "timeZone": "Asia/Ho_Chi_Minh",
+        "proposedMeetingArea": {
+          "latitude": 21,
+          "longitude": 105.5,
+          "radiusM": 2000,
+          "label": "Khu vực Hòa Lạc (minh họa)"
+        },
+        "confirmedMeetingLabel": null,
+        "attendeeCount": 2,
+        "transportMode": "self_arranged",
+        "requestDocuments": true,
+        "requestLoanAdvice": false,
+        "contactName": "Anh Nam",
+        "maskedContactPhone": "09•• ••• 678",
+        "status": "awaiting_deposit",
+        "paymentStatus": "failed",
+        "depositPolicy": {
+          "indicativeAmountVnd": "350000",
+          "policyVersion": null,
+          "chargeBasis": null,
+          "refundPolicyText": null,
+          "cancellationPolicyText": null,
+          "reschedulePolicyText": null,
+          "livePaymentEnabled": false,
+          "notice": "Mức cọc: 350.000 VNĐ — chính sách áp dụng đang được hoàn thiện"
+        },
+        "history": [],
+        "availableActions": [],
+        "createdAt": "2026-09-16T14:00:00+07:00",
+        "updatedAt": "2026-09-16T14:00:00+07:00",
+        "isIllustrative": true
+      },
+      "payment": {
+        "id": "00000000-0000-4000-8000-000000000112",
+        "bookingId": "00000000-0000-4000-8000-000000000111",
+        "amountVnd": "350000",
+        "status": "failed",
+        "mode": "simulation",
+        "reference": "SIM-P1-4",
+        "expiresAt": null,
+        "receivedAt": null,
+        "instructions": null,
+        "policyVersion": null,
+        "notice": "Payment giả cho test; không là chính sách cọc/SePay thật",
+        "updatedAt": "2026-10-15T02:00:00+07:00"
+      }
+    },
+    {
+      "scenarioId": "payment-simulation-5",
+      "booking": {
+        "id": "00000000-0000-4000-8000-000000000113",
+        "propertyId": "00000000-0000-4000-8000-000000000005",
+        "sourceVideoId": "00000000-0000-4000-8000-000000000050",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "slotId": "00000000-0000-4000-8000-000000000018",
+        "property": {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "code": "XL-028",
+          "title": "Đất nền Hòa Lạc",
+          "provinceCode": "01",
+          "provinceName": "Hà Nội",
+          "districtCode": "demo-hoa-lac",
+          "districtName": "Khu vực Hòa Lạc",
+          "region": "north",
+          "category": "residential",
+          "priceTotal": "2400000000",
+          "pricePerM2": "20000000",
+          "areaM2": "120",
+          "frontageM": "6",
+          "depthM": "20",
+          "roadWidthM": "5",
+          "direction": "southeast",
+          "landType": "residential",
+          "status": "listed",
+          "approvalStatus": "approved",
+          "sourceBadge": "board_source",
+          "consultantId": "00000000-0000-4000-8000-000000000003",
+          "media": [
+            {
+              "id": "00000000-0000-4000-8000-000000000027",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000028",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000029",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000030",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000031",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000032",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000033",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000034",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            }
+          ],
+          "highlights": [
+            {
+              "title": "Khu dân cư hiện hữu",
+              "description": "An ninh, dân trí tốt"
+            },
+            {
+              "title": "Lối tiếp cận được ghi hình",
+              "description": "Video thực tế, rõ ràng"
+            }
+          ],
+          "verifiedLegalCount": 4,
+          "totalLegalCount": 6,
+          "isSaved": false,
+          "updatedAt": "2026-10-15T02:00:00+07:00",
+          "isIllustrative": true
+        },
+        "requestedStartsAt": "2026-11-07T14:00:00+07:00",
+        "confirmedStartsAt": null,
+        "timeZone": "Asia/Ho_Chi_Minh",
+        "proposedMeetingArea": {
+          "latitude": 21,
+          "longitude": 105.5,
+          "radiusM": 2000,
+          "label": "Khu vực Hòa Lạc (minh họa)"
+        },
+        "confirmedMeetingLabel": null,
+        "attendeeCount": 2,
+        "transportMode": "self_arranged",
+        "requestDocuments": true,
+        "requestLoanAdvice": false,
+        "contactName": "Anh Nam",
+        "maskedContactPhone": "09•• ••• 678",
+        "status": "awaiting_deposit",
+        "paymentStatus": "expired",
+        "depositPolicy": {
+          "indicativeAmountVnd": "350000",
+          "policyVersion": null,
+          "chargeBasis": null,
+          "refundPolicyText": null,
+          "cancellationPolicyText": null,
+          "reschedulePolicyText": null,
+          "livePaymentEnabled": false,
+          "notice": "Mức cọc: 350.000 VNĐ — chính sách áp dụng đang được hoàn thiện"
+        },
+        "history": [],
+        "availableActions": [],
+        "createdAt": "2026-09-16T14:00:00+07:00",
+        "updatedAt": "2026-09-16T14:00:00+07:00",
+        "isIllustrative": true
+      },
+      "payment": {
+        "id": "00000000-0000-4000-8000-000000000114",
+        "bookingId": "00000000-0000-4000-8000-000000000113",
+        "amountVnd": "350000",
+        "status": "expired",
+        "mode": "simulation",
+        "reference": "SIM-P1-5",
+        "expiresAt": null,
+        "receivedAt": null,
+        "instructions": null,
+        "policyVersion": null,
+        "notice": "Payment giả cho test; không là chính sách cọc/SePay thật",
+        "updatedAt": "2026-10-15T02:00:00+07:00"
+      }
+    },
+    {
+      "scenarioId": "booking-confirmed",
+      "booking": {
+        "id": "00000000-0000-4000-8000-000000001000",
+        "propertyId": "00000000-0000-4000-8000-000000000005",
+        "sourceVideoId": "00000000-0000-4000-8000-000000000050",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "slotId": "00000000-0000-4000-8000-000000000018",
+        "property": {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "code": "XL-028",
+          "title": "Đất nền Hòa Lạc",
+          "provinceCode": "01",
+          "provinceName": "Hà Nội",
+          "districtCode": "demo-hoa-lac",
+          "districtName": "Khu vực Hòa Lạc",
+          "region": "north",
+          "category": "residential",
+          "priceTotal": "2400000000",
+          "pricePerM2": "20000000",
+          "areaM2": "120",
+          "frontageM": "6",
+          "depthM": "20",
+          "roadWidthM": "5",
+          "direction": "southeast",
+          "landType": "residential",
+          "status": "listed",
+          "approvalStatus": "approved",
+          "sourceBadge": "board_source",
+          "consultantId": "00000000-0000-4000-8000-000000000003",
+          "media": [
+            {
+              "id": "00000000-0000-4000-8000-000000000027",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000028",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000029",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000030",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000031",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000032",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000033",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000034",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            }
+          ],
+          "highlights": [
+            {
+              "title": "Khu dân cư hiện hữu",
+              "description": "An ninh, dân trí tốt"
+            },
+            {
+              "title": "Lối tiếp cận được ghi hình",
+              "description": "Video thực tế, rõ ràng"
+            }
+          ],
+          "verifiedLegalCount": 4,
+          "totalLegalCount": 6,
+          "isSaved": false,
+          "updatedAt": "2026-10-15T02:00:00+07:00",
+          "isIllustrative": true
+        },
+        "requestedStartsAt": "2026-11-07T14:00:00+07:00",
+        "confirmedStartsAt": "2026-11-07T14:00:00+07:00",
+        "timeZone": "Asia/Ho_Chi_Minh",
+        "proposedMeetingArea": {
+          "latitude": 21,
+          "longitude": 105.5,
+          "radiusM": 2000,
+          "label": "Khu vực Hòa Lạc (minh họa)"
+        },
+        "confirmedMeetingLabel": "Điểm hẹn minh họa",
+        "attendeeCount": 2,
+        "transportMode": "self_arranged",
+        "requestDocuments": true,
+        "requestLoanAdvice": false,
+        "contactName": "Anh Nam",
+        "maskedContactPhone": "09•• ••• 678",
+        "status": "confirmed",
+        "paymentStatus": "succeeded",
+        "depositPolicy": {
+          "indicativeAmountVnd": "350000",
+          "policyVersion": null,
+          "chargeBasis": null,
+          "refundPolicyText": null,
+          "cancellationPolicyText": null,
+          "reschedulePolicyText": null,
+          "livePaymentEnabled": false,
+          "notice": "Mức cọc: 350.000 VNĐ — chính sách áp dụng đang được hoàn thiện"
+        },
+        "history": [
+          {
+            "id": "00000000-0000-4000-8000-000000001100",
+            "fromStatus": "pending_confirmation",
+            "toStatus": "confirmed",
+            "occurredAt": "2026-10-15T02:00:00+07:00",
+            "actorLabel": "Điều phối viên test",
+            "publicNote": "Kịch bản test, không tự hoàn tất theo giờ"
+          }
+        ],
+        "availableActions": [],
+        "createdAt": "2026-09-16T14:00:00+07:00",
+        "updatedAt": "2026-09-16T14:00:00+07:00",
+        "isIllustrative": true
+      },
+      "payment": {
+        "id": "00000000-0000-4000-8000-000000001200",
+        "bookingId": "00000000-0000-4000-8000-000000001000",
+        "amountVnd": "350000",
+        "status": "succeeded",
+        "mode": "simulation",
+        "reference": "SIM-CONFIRM-0",
+        "expiresAt": null,
+        "receivedAt": null,
+        "instructions": null,
+        "policyVersion": null,
+        "notice": "Tiền giả, không thu thật",
+        "updatedAt": "2026-10-15T02:00:00+07:00"
+      }
+    },
+    {
+      "scenarioId": "booking-completed",
+      "booking": {
+        "id": "00000000-0000-4000-8000-000000001001",
+        "propertyId": "00000000-0000-4000-8000-000000000005",
+        "sourceVideoId": "00000000-0000-4000-8000-000000000050",
+        "consultantId": "00000000-0000-4000-8000-000000000003",
+        "slotId": "00000000-0000-4000-8000-000000000018",
+        "property": {
+          "id": "00000000-0000-4000-8000-000000000005",
+          "code": "XL-028",
+          "title": "Đất nền Hòa Lạc",
+          "provinceCode": "01",
+          "provinceName": "Hà Nội",
+          "districtCode": "demo-hoa-lac",
+          "districtName": "Khu vực Hòa Lạc",
+          "region": "north",
+          "category": "residential",
+          "priceTotal": "2400000000",
+          "pricePerM2": "20000000",
+          "areaM2": "120",
+          "frontageM": "6",
+          "depthM": "20",
+          "roadWidthM": "5",
+          "direction": "southeast",
+          "landType": "residential",
+          "status": "listed",
+          "approvalStatus": "approved",
+          "sourceBadge": "board_source",
+          "consultantId": "00000000-0000-4000-8000-000000000003",
+          "media": [
+            {
+              "id": "00000000-0000-4000-8000-000000000027",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000028",
+              "kind": "video",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": 38,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000029",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000030",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000031",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000032",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000033",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            },
+            {
+              "id": "00000000-0000-4000-8000-000000000034",
+              "kind": "image",
+              "url": null,
+              "thumbnailUrl": null,
+              "durationSeconds": null,
+              "altText": "Minh họa, chờ asset được cấp quyền",
+              "isIllustrative": true
+            }
+          ],
+          "highlights": [
+            {
+              "title": "Khu dân cư hiện hữu",
+              "description": "An ninh, dân trí tốt"
+            },
+            {
+              "title": "Lối tiếp cận được ghi hình",
+              "description": "Video thực tế, rõ ràng"
+            }
+          ],
+          "verifiedLegalCount": 4,
+          "totalLegalCount": 6,
+          "isSaved": false,
+          "updatedAt": "2026-10-15T02:00:00+07:00",
+          "isIllustrative": true
+        },
+        "requestedStartsAt": "2026-09-16T14:00:00+07:00",
+        "confirmedStartsAt": "2026-09-16T14:00:00+07:00",
+        "timeZone": "Asia/Ho_Chi_Minh",
+        "proposedMeetingArea": {
+          "latitude": 21,
+          "longitude": 105.5,
+          "radiusM": 2000,
+          "label": "Khu vực Hòa Lạc (minh họa)"
+        },
+        "confirmedMeetingLabel": "Điểm hẹn minh họa",
+        "attendeeCount": 2,
+        "transportMode": "self_arranged",
+        "requestDocuments": true,
+        "requestLoanAdvice": false,
+        "contactName": "Anh Nam",
+        "maskedContactPhone": "09•• ••• 678",
+        "status": "completed",
+        "paymentStatus": "succeeded",
+        "depositPolicy": {
+          "indicativeAmountVnd": "350000",
+          "policyVersion": null,
+          "chargeBasis": null,
+          "refundPolicyText": null,
+          "cancellationPolicyText": null,
+          "reschedulePolicyText": null,
+          "livePaymentEnabled": false,
+          "notice": "Mức cọc: 350.000 VNĐ — chính sách áp dụng đang được hoàn thiện"
+        },
+        "history": [
+          {
+            "id": "00000000-0000-4000-8000-000000001101",
+            "fromStatus": "confirmed",
+            "toStatus": "completed",
+            "occurredAt": "2026-09-16T16:00:00+07:00",
+            "actorLabel": "Điều phối viên test",
+            "publicNote": "Lịch sử mô phỏng, đã thực địa trong kịch bản test"
+          }
+        ],
+        "availableActions": [],
+        "createdAt": "2026-09-16T14:00:00+07:00",
+        "updatedAt": "2026-09-16T14:00:00+07:00",
+        "isIllustrative": true
+      },
+      "payment": {
+        "id": "00000000-0000-4000-8000-000000001201",
+        "bookingId": "00000000-0000-4000-8000-000000001001",
+        "amountVnd": "350000",
+        "status": "succeeded",
+        "mode": "simulation",
+        "reference": "SIM-CONFIRM-1",
+        "expiresAt": null,
+        "receivedAt": "2026-09-15T12:00:00+07:00",
+        "instructions": null,
+        "policyVersion": null,
+        "notice": "Tiền giả, không thu thật",
+        "updatedAt": "2026-10-15T02:00:00+07:00"
+      }
+    }
+  ],
+  "contractRevision": "C-4-candidate",
+  "feedScopes": {
+    "default": "recommended",
+    "allowed": [
+      "recommended",
+      "following"
+    ],
+    "followingRequiresSession": true,
+    "order": [
+      "publishedAt DESC",
+      "id DESC"
+    ],
+    "notice": "Recommended là mới nhất; following cần quan hệ follow của account đang đăng nhập."
+  },
+  "filterCases": [
+    {
+      "name": "full-seven-groups",
+      "filter": {
+        "query": null,
+        "regions": [
+          "north"
+        ],
+        "category": null,
+        "provinceCode": "01",
+        "districtCode": null,
+        "minPriceVnd": "1000000000",
+        "maxPriceVnd": "3000000000",
+        "areaBands": [
+          "from_100_to_200"
+        ],
+        "landTypes": [
+          "residential"
+        ],
+        "minRoadWidthM": "4",
+        "hasDocuments": true,
+        "savedOnly": false,
+        "sort": "relevant"
+      },
+      "selectedCriteriaCount": 7,
+      "total": 1
+    },
+    {
+      "name": "five-groups-without-road-documents",
+      "filter": {
+        "query": null,
+        "regions": [
+          "north"
+        ],
+        "category": null,
+        "provinceCode": "01",
+        "districtCode": null,
+        "minPriceVnd": "1000000000",
+        "maxPriceVnd": "3000000000",
+        "areaBands": [
+          "from_100_to_200"
+        ],
+        "landTypes": [
+          "residential"
+        ],
+        "minRoadWidthM": null,
+        "hasDocuments": null,
+        "savedOnly": false,
+        "sort": "relevant"
+      },
+      "selectedCriteriaCount": 5,
+      "total": 1
+    }
+  ],
+  "authDesign": {
+    "identity": "internal_postgresql",
+    "session": "opaque_bearer",
+    "absoluteLifetimeHours": 24,
+    "refreshEnabled": false,
+    "credentialsInFixture": false,
+    "implemented": false
+  },
+  "candidateDecisions": [
+    "A-06",
+    "A-07"
+  ]
+}

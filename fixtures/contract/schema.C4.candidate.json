@@ -1,0 +1,192 @@
+{
+  "contractRevision": "C-4-candidate",
+  "designOnly": true,
+  "tables": [
+    {
+      "name": "user_identities",
+      "details": "- Columns: id uuid PK, username_normalized text, password_hash text, status text active/disabled, disabled_at timestamptz?, created_at/updated_at timestamptz.",
+      "visibility": "private_auth"
+    },
+    {
+      "name": "auth_sessions",
+      "details": "- Columns: id uuid PK, user_id uuid FK user_identities(id), token_digest bytea, created_at timestamptz, expires_at timestamptz, revoked_at timestamptz?.",
+      "visibility": "private_auth"
+    },
+    {
+      "name": "user_profiles",
+      "details": "- Columns: id uuid PK/FK user_identities(id), display_name text, avatar_storage_key text?, is_verified bool default false, public_role text?, is_illustrative bool, created_at/updated_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "user_contacts",
+      "details": "- Columns: user_id uuid PK/FK user_profiles, phone text?, phone_verified_at timestamptz?, email_contact text?, updated_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "user_settings",
+      "details": "- Columns: user_id uuid PK/FK user_profiles, notification_consent bool false, feed_autoplay bool false, feed_muted_by_default bool true, locale text vi_VN, time_zone text Asia/Ho_Chi_Minh, updated_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "user_roles",
+      "details": "- Columns: user_id uuid FK user_profiles, role text, granted_at timestamptz, granted_by uuid? FK user_profiles.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "geo_locations",
+      "details": "- Columns: code text, catalog_version text, kind text province/district, name text, parent_code text?, parent_catalog_version text?.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "consultants",
+      "details": "- Columns: id uuid PK/FK user_profiles, name text, role text, location text, is_verified bool, avatar_url text?, cover_url text?, next_available_slot timestamptz?, video_count int, follower_count int, rating numeric(3,2)?, is_illustrative bool, updated_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "properties",
+      "details": "- Columns: id uuid PK, code text, title text, province text, province_code text, district text, district_code text, catalog_version text, region text, category text, price_total numeric(20,0), price_per_m2 numeric(20,0), area_m2 numeric(18,6), frontage_m/depth_m/road_width_m numeric(18,6)?, direction text?, land_type text, status text, status_badge text, approval_status text, consultant_id uuid FK consultants, highlights jsonb array, lat/lng numeric?, approximate_lat/lng numeric, approximate_radius_m int, is_illustrative bool, created_at/updated_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "property_media",
+      "details": "- Columns: id uuid PK, property_id uuid FK properties, kind text image/video, usage text gallery/area/feed, storage_key text?, public_url text?, thumbnail_key text?, alt_text text, duration_seconds int?, sort_order int, is_illustrative bool.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "videos",
+      "details": "- Columns: id uuid PK, property_id uuid FK properties, author_id uuid FK user_profiles, media_id uuid FK property_media, caption text, published_at timestamptz, approval_status text, view_count bigint, is_illustrative bool, deleted_at timestamptz?.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "video_likes",
+      "details": "- Columns: user_id uuid FK user_profiles, video_id uuid FK videos, created_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "video_comments",
+      "details": "- Columns: id uuid PK, video_id uuid FK videos, author_id uuid FK user_profiles, body text, created_at timestamptz, deleted_at timestamptz?.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "author_follows",
+      "details": "- Columns: follower_id uuid FK user_profiles, author_id uuid FK user_profiles, created_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "saved_videos",
+      "details": "- Columns: user_id uuid FK user_profiles, video_id uuid FK videos, created_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "saved_properties",
+      "details": "- Columns: user_id uuid FK user_profiles, property_id uuid FK properties, created_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "saved_events",
+      "details": "- Columns: user_id uuid FK user_profiles, event_id uuid FK events, created_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "property_legal_items",
+      "details": "- Columns: id uuid PK, property_id uuid FK properties, title text, subtitle text?, checked_date date?, status text verified/pending, sort_order int.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "property_documents",
+      "details": "- Columns: id uuid PK, property_id uuid FK properties, title text, file_type text, mime_type text, size_bytes bigint, uploaded_date date, storage_key text, access_level text, public_preview_key text?, is_illustrative bool.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "document_access_grants",
+      "details": "- Columns: document_id uuid FK property_documents, user_id uuid FK user_profiles, granted_by uuid FK user_profiles, expires_at timestamptz?, granted_at timestamptz, revoked_at timestamptz?.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "property_nearby_amenities",
+      "details": "- Columns: id uuid PK, property_id uuid FK properties, category text utility/traffic/living, name text, distance_text text, icon_type text, approximate_lat/lng numeric?, sort_order int.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "consultant_reviews",
+      "details": "- Columns: id uuid PK, consultant_id uuid FK consultants, author_id uuid? FK user_profiles, public_author_label text, rating numeric(3,2), body text, created_at timestamptz, is_illustrative bool.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "events",
+      "details": "- Columns: id uuid PK, title text, tags jsonb array, media jsonb array, event_date date, start_time/end_time time, starts_at/ends_at timestamptz, time_zone text, venue_name text, address text, max_slots int, duration_mins int, ticket_price numeric(20,0), status text, agenda/speakers/benefits jsonb arrays, is_illustrative bool.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "event_registrations",
+      "details": "- Columns: id uuid PK, event_id uuid FK events, user_id uuid FK user_profiles, attendee_count int, contact_name text, contact_phone text, status text, ticket_price_snapshot numeric(20,0), payment_mode text disabled/simulation/live, created_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "clubs",
+      "details": "- Columns: id uuid PK, title text, summary text, description text, region_label text, activities jsonb array, media jsonb array, support_recipient_id uuid? FK user_profiles, is_illustrative bool, updated_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "site_visit_slots",
+      "details": "- Columns: id uuid PK, property_id uuid FK properties, consultant_id uuid? FK consultants, starts_at/ends_at timestamptz, time_zone text, max_attendees int, max_bookings int, status text open/closed, approximate_meeting_lat/lng numeric, radius_m int, label text.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "site_visit_bookings",
+      "details": "- Columns: id uuid PK, user_id uuid FK user_profiles, property_id uuid FK properties, consultant_id uuid? FK consultants, slot_id uuid, source_video_id uuid? FK videos, visit_date date, time_slot time, requested_starts_at timestamptz, confirmed_starts_at timestamptz?, time_zone text, attendee_count int, transport_mode text, request_documents/request_loan_advice bool, customer_name/customer_phone text, status text, price_snapshot numeric(20,0), policy_version text?, confirmed_meeting_label text?, created_at/updated_at timestamptz, is_illustrative bool.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "slot_reservations",
+      "details": "- Columns: booking_id uuid PK/FK site_visit_bookings, slot_id uuid FK site_visit_slots, state text hold/deposit_received/confirmed/released, hold_expires_at timestamptz?, created_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "booking_status_history",
+      "details": "- Columns: id uuid PK, booking_id uuid FK site_visit_bookings, from_status/to_status text, occurred_at timestamptz, actor_id uuid? FK user_profiles, source text, public_note text?, internal_note text?.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "payment_intents",
+      "details": "- Columns: id uuid PK, booking_id uuid FK site_visit_bookings, user_id uuid FK user_profiles, amount_vnd numeric(20,0)?, currency text VND, status text, mode text, reference text?, policy_version text?, provider text?, expires_at/created_at/updated_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "payment_receipts",
+      "details": "- Columns: id uuid PK, intent_id uuid FK payment_intents, provider text, provider_transaction_id text, received_amount_vnd numeric(20,0), currency text VND, received_at timestamptz, mode text, verification_state text verified/needs_review, created_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "payment_provider_events",
+      "details": "- Columns: id uuid PK, provider text, mode text, provider_event_id text, receipt_id uuid? FK payment_receipts, payload_digest text, processing_status text, error_code text?, received_at/processed_at timestamptz?, redacted_evidence jsonb.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "payment_status_history",
+      "details": "- Columns: id uuid PK, intent_id uuid FK payment_intents, from_status/to_status text, occurred_at timestamptz, source text, actor_id uuid? FK user_profiles, public_note text?.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "saved_finance_plans",
+      "details": "- Columns: id uuid PK, user_id uuid FK user_profiles, property_id uuid FK properties, label text, input jsonb, price_snapshot numeric(20,0), result jsonb?, formula_version text?, rounding_rule text?, created_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "support_requests",
+      "details": "- Columns: id uuid PK, user_id uuid FK user_profiles, property_id uuid? FK properties, consultant_id uuid? FK consultants, recipient_id uuid? FK user_profiles, kind text, status text, message text, contact_name/contact_phone text, consent_to_share_contact bool, created_at/updated_at timestamptz.",
+      "visibility": "business_design"
+    },
+    {
+      "name": "idempotency_records",
+      "details": "- Columns: user_id uuid FK user_profiles, operation text, key text, request_hash text, resource_id uuid?, response_status int, response_public jsonb?, created_at/expires_at timestamptz.",
+      "visibility": "business_design"
+    }
+  ],
+  "tableCount": 36,
+  "delta": {
+    "tableCountUnchanged": 36,
+    "finance": "Existing saved_finance_plans fields; additive INSERT grant and current-price row-lock permission in0008",
+    "profile": "Domain-only clear flags; HTTP schema unchanged"
+  }
+}

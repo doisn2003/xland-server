@@ -22,10 +22,10 @@ try {
     (SELECT count(*)::int FROM xland.property_legal_items WHERE status='verified') verified`)).rows[0] as Record<string,number>;
   const once=await counts();await seed(pool,[first,second]);const twice=await counts();
   if(JSON.stringify(once)!==JSON.stringify(twice))throw new Error('Seed replay changed row counts');
-  const design=JSON.parse(await readFile('../brain/logs/agent-c/fixtures/schema.C4.candidate.json','utf8')) as {tables:Array<{name:string}>};
+  const design=JSON.parse(await readFile('fixtures/contract/schema.C4.candidate.json','utf8')) as {tables:Array<{name:string}>};
   const actual=(await pool.query("SELECT c.relname name,c.relrowsecurity rls,c.relforcerowsecurity forced FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='xland' AND c.relkind='r' ORDER BY c.relname")).rows;
-  // C4 remains the historical baseline; explicitly account for reviewed additive migrations 0009-0012.
-  const expected=[...new Set([...design.tables.map(t=>t.name),'auth_external_identities','auth_otp_challenges','auth_rate_buckets','map_area_cache','map_daily_usage','admin_audit_log'])].sort();
+  // C4 remains the historical baseline; explicitly account for reviewed additive migrations 0009-0014.
+  const expected=[...new Set([...design.tables.map(t=>t.name),'auth_external_identities','auth_otp_challenges','auth_rate_buckets','map_area_cache','map_daily_usage','admin_audit_log','admin_uploads'])].sort();
   if(JSON.stringify(actual.map(r=>r.name))!==JSON.stringify(expected)||actual.some(r=>!r.rls||!r.forced))throw new Error('Actual table/RLS state differs from expected migrations');
   const roleState=(await pool.query("SELECT rolname name,rolsuper superuser,rolbypassrls bypass,rolcanlogin login FROM pg_roles WHERE rolname IN ('xland_api','xland_auth','xland_payment','xland_maps','xland_admin') ORDER BY rolname")).rows;
   if(roleState.length!==5||roleState.some(r=>r.superuser||r.bypass||(['xland_maps','xland_admin'].includes(r.name)&&r.login)))throw new Error('Unsafe runtime role');

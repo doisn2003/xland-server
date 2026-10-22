@@ -25,7 +25,7 @@ export function shape(actual:unknown,example:unknown,path='data'):void {
 test('C-3 W1 runtime contract: exact fields, canonical values, error envelope and CORS',async()=>{
   const api=await testApi();
   try {
-    const fixture=JSON.parse(await readFile('../brain/logs/agent-c/fixtures/v0.1.json','utf8')) as {sampleTypes:Record<string,Wire>;properties:Wire[]};
+    const fixture=JSON.parse(await readFile('fixtures/contract/v0.1.json','utf8')) as {sampleTypes:Record<string,Wire>;properties:Wire[]};
     const property=fixture.properties[0]!.id as string;
     for(const [path,type]of [[`/properties/${property}`,'Property'],[`/properties/${property}/legal`,'LegalSummary'],[`/properties/${property}/area`,'AreaInfo'],['/catalog/locations','FilterCatalog']]){
       const response=await api.request(path!);assert.equal(response.status,200);shape(response.body.data,fixture.sampleTypes[type!]);

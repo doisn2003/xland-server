@@ -1,5 +1,4 @@
 import { readFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
 import { randomBytes, randomUUID } from 'node:crypto';
 import argon2 from 'argon2';
 import type { Pool, PoolClient } from 'pg';
@@ -18,7 +17,7 @@ async function insert(c: PoolClient, table: string, fields: Row): Promise<void> 
   await c.query(`INSERT INTO xland.${table}(${keys.join(',')}) VALUES(${keys.map((_,i)=>'$'+(i+1)).join(',')}) ON CONFLICT DO NOTHING`,Object.values(fields));
 }
 export async function loadFixture(): Promise<Fixture> {
-  return JSON.parse(await readFile(resolve('../brain/logs/agent-c/fixtures/v0.1.json'),'utf8')) as Fixture;
+  return JSON.parse(await readFile(new URL('../../fixtures/contract/v0.1.json',import.meta.url),'utf8')) as Fixture;
 }
 export async function seed(pool: Pool, accounts: SeedAccount[], clock = new Date()): Promise<{ accounts: number; properties: number; videos: number }> {
   if (!accounts.length) throw new Error('Provisioned account credentials must be supplied privately');

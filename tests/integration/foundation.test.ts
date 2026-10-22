@@ -25,7 +25,7 @@ test('PostgreSQL vertical slice: auth, filter/cursor, persisted saves, legal ACL
     return {status:res.status,body:await res.json() as Record<string,unknown>};
   };
   try {
-    const fixture=JSON.parse(await readFile('../brain/logs/agent-c/fixtures/v0.1.json','utf8')) as {properties:Array<{id:string}>;documents:Array<{id:string}>};
+    const fixture=JSON.parse(await readFile('fixtures/contract/v0.1.json','utf8')) as {properties:Array<{id:string}>;documents:Array<{id:string}>};
     const property=fixture.properties[0]!.id;
     let firstToken='';let secondToken='';
     await t.test('guest public reads, exact money, no private columns and validation',async()=>{

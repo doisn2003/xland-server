@@ -1,0 +1,75 @@
+{
+  "mobileCommit": "38a701009acb1a7e2862ba55e689c76b09b6d426",
+  "files": [
+    {
+      "path": "fixtures/contract/v0.1.json",
+      "source": "../brain/logs/agent-c/fixtures/v0.1.json",
+      "sha256": "e51f05ec54b7eb4363346f6c2dd28272a6713b1e3b7bd42ca1be7436d191b8d5"
+    },
+    {
+      "path": "fixtures/contract/schema.C4.candidate.json",
+      "source": "../brain/logs/agent-c/fixtures/schema.C4.candidate.json",
+      "sha256": "1cfc97dc7a58e90552dfd104756b422ee43c53596f2640e5ff109c957c336c5f"
+    },
+    {
+      "path": "fixtures/contract/operations.v0.1.json",
+      "source": "../brain/logs/agent-c/fixtures/operations.v0.1.json",
+      "sha256": "a998fbac34e6dc327359f4b6162a233b68480a83b7d56aeecd887146c04486d5"
+    },
+    {
+      "path": "fixtures/contract/API_CONTRACT.md",
+      "source": "../brain/02_API_CONTRACT.md",
+      "sha256": "9a772233e2a77fd892da4f3d63c3d6b316874ffe87868f2d22a5d7a0454e80a1"
+    },
+    {
+      "path": "tests/fixtures/finance-v1-vectors.json",
+      "source": "../brain/logs/agent-a/RV-P2-001/finance-v1-vectors.json",
+      "sha256": "ff21d3080be904c630e9fefd2b4975c9bbdbcd95d673f9e4ee698fa64d7dc330"
+    },
+    {
+      "path": "tests/fixtures/mobile/lib/domain/entities/common.dart",
+      "source": "../xland-mobile/lib/domain/entities/common.dart",
+      "sha256": "d6fcee07d294ddaca0145527bc3e9a22a5d7f26faa809f07597ef19cc2af4508"
+    },
+    {
+      "path": "tests/fixtures/mobile/lib/domain/entities/property.dart",
+      "source": "../xland-mobile/lib/domain/entities/property.dart",
+      "sha256": "b0b01d7e63f8e32f9f07ebbc6f1b68f136b069d5d55ffd815b49674a6d888ec1"
+    },
+    {
+      "path": "tests/fixtures/mobile/lib/domain/entities/social.dart",
+      "source": "../xland-mobile/lib/domain/entities/social.dart",
+      "sha256": "31f07c1f93c95e744c62e4ab70f55d714cf9a0040014a2d30a6f6abc53aa235c"
+    },
+    {
+      "path": "tests/fixtures/mobile/lib/domain/entities/consultant.dart",
+      "source": "../xland-mobile/lib/domain/entities/consultant.dart",
+      "sha256": "82fcddc986efd6610a4b86829b9e2a5592209a92d9e08c35e07adb689499d32b"
+    },
+    {
+      "path": "tests/fixtures/mobile/lib/domain/entities/event.dart",
+      "source": "../xland-mobile/lib/domain/entities/event.dart",
+      "sha256": "bd241927c4ba08c388d707f16db2c4915cf2ca0a70f7506544cdc4abbdda0d1f"
+    },
+    {
+      "path": "tests/fixtures/mobile/lib/domain/entities/booking.dart",
+      "source": "../xland-mobile/lib/domain/entities/booking.dart",
+      "sha256": "20501afd695c6b68ba29bcdeb937840a21e5e7f6e641bd3ad82ba0c75b8e88af"
+    },
+    {
+      "path": "tests/fixtures/mobile/lib/domain/entities/account.dart",
+      "source": "../xland-mobile/lib/domain/entities/account.dart",
+      "sha256": "5deb31c39d40d863110db9ed37529a55f35cacdcfbcdb85728869dd3bbcf9f36"
+    },
+    {
+      "path": "tests/fixtures/mobile/lib/domain/entities/finance.dart",
+      "source": "../xland-mobile/lib/domain/entities/finance.dart",
+      "sha256": "fc5f9a31b1b64d3b3c9a9986fc2190170c641aefed5bd3e233532e8b2ffc199e"
+    },
+    {
+      "path": "tests/fixtures/mobile/lib/data/mappers/domain_mappers.dart",
+      "source": "../xland-mobile/lib/data/mappers/domain_mappers.dart",
+      "sha256": "fbbe423059c474438e2a8152eba426577d89f93e6616e4c40385edc0655285d2"
+    }
+  ]
+}

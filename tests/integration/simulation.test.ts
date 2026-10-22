@@ -9,7 +9,7 @@ import type { Wire } from '../../src/repositories/properties.js';
 test('C8 private payment simulation on PostgreSQL: proof, dedupe, mismatch, late, race and rollback',async t=>{
   const api=await testApi();
   try{
-    const f=JSON.parse(await readFile('../brain/logs/agent-c/fixtures/v0.1.json','utf8')) as {sampleTypes:Record<string,Wire>;slots:Wire[]};
+    const f=JSON.parse(await readFile('fixtures/contract/v0.1.json','utf8')) as {sampleTypes:Record<string,Wire>;slots:Wire[]};
     const token=await api.login();let clock=new Date();const signingKey=randomBytes(32);
     const config={environment:'isolated-local-test',policyVersion:'TEST-C8-only',amountVnd:'350000',ttlSeconds:60,lateEventTreatment:'needs_review',lateBasis:'received_at',signingKey} as const;
     const simulation=await SimulationPayments.create(api.db,config,()=>clock);

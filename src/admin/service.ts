@@ -5,20 +5,22 @@ import type {Database} from '../repositories/database.js';
 import type {Identity} from '../services/auth.js';
 import {DomainError,missing} from '../domain/errors.js';
 import {automatic,entities,enums,references,type Entity} from './catalog.js';
+import {validateStorageReferences} from './uploads.js';
 
 type Row=Record<string,unknown>;
+function instant(value:unknown){return value instanceof Date?value.getTime():Date.parse(String(value));}
 export interface Field {name:string;type:string;required:boolean;readonly:boolean;defaultValue:unknown;options?:string[]|undefined;reference?:string|undefined;precision:number|null;scale:number|null}
 function readColumns(fields:Field[]){return fields.map(f=>{const name='"'+f.name.replaceAll('"','""')+'"';return f.type==='date'?`${name}::text AS ${name}`:name;}).join(',');}
 function fail(field:string,message='Kiểm tra thông tin đầu vào'):never {throw new DomainError(400,'INVALID_INPUT',message,[{field,code:'INVALID_VALUE'}]);}
 function conflict(message:string):never {throw new DomainError(409,'CONFLICT',message);}
 const content=z.string().max(10000);
 const https=z.url().refine(v=>new URL(v).protocol==='https:');
-const namedDetail=z.object({title:content,description:content}).passthrough();
+const namedDetail=z.object({title:content,description:content}).strict();
 const jsonLists:Record<string,z.ZodType>={
   highlights:z.array(namedDetail),benefits:z.array(namedDetail),tags:z.array(content),activities:z.array(content),
-  agenda:z.array(z.object({startsAt:z.iso.datetime({offset:true}),title:content,description:content.nullable().optional()}).passthrough()),
-  speakers:z.array(z.object({name:content,role:content,avatarUrl:https.nullable(),description:content.nullable().optional()}).passthrough()),
-  media:z.array(z.object({id:z.string().min(1),kind:z.enum(['image','video']),url:https.nullable(),thumbnailUrl:https.nullable(),durationSeconds:z.number().int().nonnegative().nullable(),altText:content,isIllustrative:z.boolean()}).passthrough()),
+  agenda:z.array(z.object({startsAt:z.iso.datetime({offset:true}),title:content,description:content.nullable().optional()}).strict()),
+  speakers:z.array(z.object({name:content,role:content,avatarUrl:https.nullable(),description:content.nullable().optional()}).strict()),
+  media:z.array(z.object({id:z.string().min(1),kind:z.enum(['image','video']),url:https.nullable(),thumbnailUrl:https.nullable(),durationSeconds:z.number().int().nonnegative().nullable(),altText:content,isIllustrative:z.boolean()}).strict()),
 };
 export class AdminService {
   constructor(readonly db:Database){}
@@ -82,7 +84,7 @@ export class AdminService {
   }
   async get(identity:Identity,key:string,id:string){return this.transaction(identity,async c=>{
     const e=this.entity(key),fields=await this.fields(c,key);const row=(await c.query(`SELECT ${readColumns(fields)},xmin::text AS _version FROM xland.${e.table} WHERE id=$1`,[id])).rows[0];if(!row)missing();
-    if(key==='videos')row.media=(await c.query('SELECT * FROM xland.property_media WHERE id=$1',[row.media_id])).rows[0];
+    if(key==='videos')row.media=(await c.query('SELECT *,xmin::text AS _version FROM xland.property_media WHERE id=$1',[row.media_id])).rows[0];
     if(key==='consultants')row.contact=(await c.query('SELECT phone,email_contact FROM xland.user_contacts WHERE user_id=$1',[id])).rows[0];
     if(key==='bookings'){
       row.history=(await c.query('SELECT * FROM xland.booking_status_history WHERE booking_id=$1 ORDER BY occurred_at,id',[id])).rows;
@@ -107,11 +109,14 @@ export class AdminService {
         if(JSON.stringify(value).length>20000)fail(name);
         if(jsonLists[name]&&!jsonLists[name]!.safeParse(value).success)fail(name,'Cấu trúc danh sách chưa đúng định dạng của ứng dụng');
       }else if(['numeric','bigint','integer'].includes(f.type)){
+        if((f.type==='numeric'||f.type==='bigint')&&typeof value!=='string')fail(name,'Gửi số thập phân hoặc số lớn dưới dạng chuỗi để giữ nguyên độ chính xác');
+        if(typeof value!=='string'&&typeof value!=='number')fail(name);
         const raw=String(value);if(!/^-?\d+(\.\d+)?$/.test(raw)||!Number.isFinite(Number(raw)))fail(name);
         const [whole,fraction='']=raw.replace('-','').split('.');
         if(f.type!=='numeric'&&fraction)fail(name);
         if(f.type==='numeric'&&f.precision!==null&&((whole?.replace(/^0+/,'').length??0)>f.precision-(f.scale??0)||fraction.length>(f.scale??0)))fail(name,'Số vượt quá độ chính xác cho phép');
         if(f.type==='integer'&&!Number.isSafeInteger(Number(raw)))fail(name);
+        if(name==='sort_order'&&Number(raw)<0)fail(name,'Thứ tự phải lớn hơn hoặc bằng 0');
       }else {
         if(typeof value!=='string'||value.includes('\0')||value.length>10000||(f.required&&!value.trim()))fail(name);
         if(f.type==='uuid'&&!z.uuid().safeParse(value).success)fail(name);
@@ -147,15 +152,21 @@ export class AdminService {
         if(typeof media!=='object'||Array.isArray(media))fail('media');
         const mediaId=prior?String(prior.media_id):randomUUID();
         if(prior&&payload.property_id!==undefined&&payload.property_id!==prior.property_id)fail('property_id','Không thể chuyển video đã đăng sang lô khác');
-        const values=this.validate(await this.fields(c,'media'),{...(media as Row),property_id:payload.property_id??prior?.property_id,kind:'video',usage:'feed'},true);
-        if(!values.public_url||!values.storage_key)fail('media.public_url','Vui lòng tải video lên Supabase Storage');
+        const {_version:mediaVersion,...mediaPayload}=media as Row;
+        const priorMedia=prior?(await c.query('SELECT *,xmin::text AS _version FROM xland.property_media WHERE id=$1 FOR UPDATE',[mediaId])).rows[0]:undefined;
+        if(prior&&(!priorMedia||!mediaVersion||mediaVersion!==priorMedia._version))conflict('Media của video đã thay đổi. Tải lại trước khi lưu.');
+        const values=this.validate(await this.fields(c,'media'),{...mediaPayload,property_id:payload.property_id??prior?.property_id,kind:'video',usage:'feed'},!prior);
+        const mergedMedia={...priorMedia,...values};
+        if(!mergedMedia.public_url||!mergedMedia.storage_key)fail('media.public_url','Vui lòng tải video lên Supabase Storage');
         if(prior&&(await c.query('SELECT id FROM xland.videos WHERE media_id=$1 AND id<>$2',[mediaId,id])).rowCount)conflict('Media đang được dùng chung. Hãy tạo video mới để thay nội dung.');
+        await validateStorageReferences(c,mergedMedia,priorMedia);
         await this.write(c,'property_media',mediaId,values,!prior);payload.media_id=mediaId;
       }else if(key!=='videos'&&media!==undefined)fail('media');
       if(contact!==undefined&&key!=='consultants')fail('contact');
       if(reason!==undefined&&key!=='bookings')fail('reason');
       const data=this.validate(fields,payload,create);
       const merged={...prior,...data};
+      await validateStorageReferences(c,merged,prior);
       if(key==='properties'){
         if(Number(merged.area_m2)<=0)fail('area_m2','Diện tích phải lớn hơn 0');
         const locations=(await c.query('SELECT code,kind,name,parent_code FROM xland.geo_locations WHERE catalog_version=$1 AND code=ANY($2::text[])',[merged.catalog_version,[merged.province_code,merged.district_code]])).rows;
@@ -166,19 +177,20 @@ export class AdminService {
         const approx=[merged.approximate_lat,merged.approximate_lng,merged.approximate_radius_m];if(approx.some(v=>v!=null)&&!approx.every(v=>v!=null))fail('approximate_lat','Điền đủ tọa độ và bán kính công khai');
       }
       if(key==='videos'){
-        const m=(await c.query("SELECT id FROM xland.property_media WHERE id=$1 AND property_id=$2 AND kind='video' AND usage='feed' AND public_url IS NOT NULL",[merged.media_id,merged.property_id])).rows[0];
+        const m=(await c.query("SELECT id FROM xland.property_media WHERE id=$1 AND property_id=$2 AND kind='video' AND usage='feed' AND nullif(trim(public_url),'') IS NOT NULL AND nullif(trim(storage_key),'') IS NOT NULL FOR UPDATE",[merged.media_id,merged.property_id])).rows[0];
         if(!m)fail('media_id','Video phải liên kết media video/feed của chính lô đất');
       }
       if(key==='media'&&prior){
         const used=(await c.query('SELECT id FROM xland.videos WHERE media_id=$1',[id])).rowCount;
         if(used&&(merged.kind!=='video'||merged.usage!=='feed'||merged.property_id!==prior.property_id))conflict('Media đang gắn với video feed; không thể đổi loại hoặc lô đất.');
+        if(used&&(!String(merged.public_url??'').trim()||!String(merged.storage_key??'').trim()))conflict('Media đang gắn với video feed; không thể xóa nguồn phát.');
       }
       if(key==='documents'&&merged.access_level!=='public_redacted'&&merged.storage_key&&!String(merged.storage_key).startsWith('xland-admin-documents/'))fail('storage_key','Tài liệu hạn chế truy cập phải được tải vào kho riêng tư bằng form này');
       if(key==='slots'&&prior){
         const used=(await c.query("SELECT count(*)::int n FROM xland.slot_reservations WHERE slot_id=$1 AND state<>'released'",[id])).rows[0].n;
         if(used&&(String(merged.starts_at)!==String(prior.starts_at)||String(merged.ends_at)!==String(prior.ends_at)||merged.property_id!==prior.property_id)){
           // Compare instants: JSON dates differ from pg Date objects in representation.
-          if(Date.parse(String(merged.starts_at))!==Date.parse(String(prior.starts_at))||Date.parse(String(merged.ends_at))!==Date.parse(String(prior.ends_at))||merged.property_id!==prior.property_id)conflict('Khung giờ đã có lịch hẹn; chỉ có thể đóng nhận lịch mới.');
+          if(instant(merged.starts_at)!==instant(prior.starts_at)||instant(merged.ends_at)!==instant(prior.ends_at)||merged.property_id!==prior.property_id)conflict('Khung giờ đã có lịch hẹn; chỉ có thể đóng nhận lịch mới.');
         }
         const attendees=(await c.query("SELECT coalesce(max(b.attendee_count),0) n FROM xland.site_visit_bookings b JOIN xland.slot_reservations r ON r.booking_id=b.id WHERE r.slot_id=$1 AND r.state<>'released'",[id])).rows[0].n;
         if(Number(merged.max_bookings)<used||Number(merged.max_attendees)<attendees)conflict('Sức chứa thấp hơn số khách/lịch hiện có');
@@ -213,7 +225,12 @@ export class AdminService {
   }
   private async bookingChange(c:PoolClient,identity:Identity,b:Row,next:Row,reason:unknown){
     const transitions:Record<string,string[]>={draft:['cancelled','rejected'],awaiting_deposit:['cancelled','rejected','expired'],pending_confirmation:['confirmed','rejected','cancelled'],confirmed:['completed','no_show','cancelled'],cancel_requested:['cancelled'],reschedule_requested:['cancelled','rejected']};
-    if(b.status===next.status)return;
+    const timeChanged=(b.confirmed_starts_at==null?null:instant(b.confirmed_starts_at))!==(next.confirmed_starts_at==null?null:instant(next.confirmed_starts_at));
+    const statusChanged=b.status!==next.status;
+    // Cross-slot rescheduling is outside this workspace. Preserve the reservation
+    // and requested slot instead of silently changing only the displayed time.
+    if(timeChanged&&next.confirmed_starts_at!=null&&instant(next.confirmed_starts_at)!==instant(b.requested_starts_at))fail('confirmed_starts_at','Giờ xác nhận phải khớp khung giờ đã đặt; chưa hỗ trợ đổi khung giờ');
+    if(!statusChanged)return;
     if(!transitions[String(b.status)]?.includes(String(next.status)))conflict('Không thể chuyển sang trạng thái này từ trạng thái hiện tại');
     if(typeof reason!=='string'||!reason.trim()||reason.length>2000)fail('reason','Điền lý do cập nhật lịch hẹn');
     if(['confirmed','completed'].includes(String(next.status))){

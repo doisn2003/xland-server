@@ -5,7 +5,7 @@ import{createHash}from'node:crypto';
 import{amortize,type FinanceInput}from'../../src/services/finance.js';
 import{DomainError}from'../../src/domain/errors.js';
 test('A-06 all14 independent oracle vectors: exact amounts, last installment and totals invariants',async t=>{
-  const bytes=await readFile('../brain/logs/agent-a/RV-P2-001/finance-v1-vectors.json');assert.equal(createHash('sha256').update(bytes).digest('hex'),'ff21d3080be904c630e9fefd2b4975c9bbdbcd95d673f9e4ee698fa64d7dc330');
+  const bytes=await readFile('tests/fixtures/finance-v1-vectors.json');assert.equal(createHash('sha256').update(bytes).digest('hex'),'ff21d3080be904c630e9fefd2b4975c9bbdbcd95d673f9e4ee698fa64d7dc330');
   const oracle=JSON.parse(bytes.toString()) as {vectors:Array<FinanceInput&{expected:Record<string,string>;lastPaymentVnd?:string;lastPrincipalVnd?:string;lastInterestVnd?:string;expectedError?:string}>};assert.equal(oracle.vectors.length,14);
   for(const [index,v]of oracle.vectors.entries())await t.test(`${index+1} ${v.method} P=${v.loanVnd} rate=${v.annualRatePercent}`,()=>{
     const input:FinanceInput={propertyId:'00000000-0000-4000-8000-000000000005',equityVnd:'0',loanVnd:v.loanVnd,termMonths:v.termMonths,annualRatePercent:v.annualRatePercent,method:v.method};

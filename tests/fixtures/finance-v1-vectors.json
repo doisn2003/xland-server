@@ -1,0 +1,338 @@
+{
+  "formulaVersion": "xland-loan-v1",
+  "roundingRule": "VND_HALF_UP_MONTHLY_LAST_ADJUST",
+  "vectors": [
+    {
+      "loanVnd": "1200000000",
+      "annualRatePercent": "9",
+      "termMonths": 240,
+      "method": "equal_installment",
+      "expected": {
+        "monthlyPaymentVnd": "10796711",
+        "firstMonthPrincipalVnd": "1796711",
+        "firstMonthInterestVnd": "9000000",
+        "totalInterestVnd": "1391210961",
+        "totalRepaymentVnd": "2591210961"
+      },
+      "lastPaymentVnd": "10797032",
+      "lastPrincipalVnd": "10716657",
+      "lastInterestVnd": "80375",
+      "mathematicalResult": {
+        "monthlyPaymentVnd": "10796711",
+        "firstMonthPrincipalVnd": "1796711",
+        "firstMonthInterestVnd": "9000000",
+        "totalInterestVnd": "1391210961",
+        "totalRepaymentVnd": "2591210961"
+      },
+      "independentImplementationsAgree": true
+    },
+    {
+      "loanVnd": "1200000000",
+      "annualRatePercent": "9",
+      "termMonths": 240,
+      "method": "declining_balance",
+      "expected": {
+        "monthlyPaymentVnd": "14000000",
+        "firstMonthPrincipalVnd": "5000000",
+        "firstMonthInterestVnd": "9000000",
+        "totalInterestVnd": "1084500000",
+        "totalRepaymentVnd": "2284500000"
+      },
+      "lastPaymentVnd": "5037500",
+      "lastPrincipalVnd": "5000000",
+      "lastInterestVnd": "37500",
+      "mathematicalResult": {
+        "monthlyPaymentVnd": "14000000",
+        "firstMonthPrincipalVnd": "5000000",
+        "firstMonthInterestVnd": "9000000",
+        "totalInterestVnd": "1084500000",
+        "totalRepaymentVnd": "2284500000"
+      },
+      "independentImplementationsAgree": true
+    },
+    {
+      "loanVnd": "1200000000",
+      "annualRatePercent": "0",
+      "termMonths": 240,
+      "method": "equal_installment",
+      "expected": {
+        "monthlyPaymentVnd": "5000000",
+        "firstMonthPrincipalVnd": "5000000",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "1200000000"
+      },
+      "lastPaymentVnd": "5000000",
+      "lastPrincipalVnd": "5000000",
+      "lastInterestVnd": "0",
+      "mathematicalResult": {
+        "monthlyPaymentVnd": "5000000",
+        "firstMonthPrincipalVnd": "5000000",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "1200000000"
+      },
+      "independentImplementationsAgree": true
+    },
+    {
+      "loanVnd": "1200000000",
+      "annualRatePercent": "0",
+      "termMonths": 240,
+      "method": "declining_balance",
+      "expected": {
+        "monthlyPaymentVnd": "5000000",
+        "firstMonthPrincipalVnd": "5000000",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "1200000000"
+      },
+      "lastPaymentVnd": "5000000",
+      "lastPrincipalVnd": "5000000",
+      "lastInterestVnd": "0",
+      "mathematicalResult": {
+        "monthlyPaymentVnd": "5000000",
+        "firstMonthPrincipalVnd": "5000000",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "1200000000"
+      },
+      "independentImplementationsAgree": true
+    },
+    {
+      "loanVnd": "0",
+      "annualRatePercent": "9",
+      "termMonths": 240,
+      "method": "equal_installment",
+      "expected": {
+        "monthlyPaymentVnd": "0",
+        "firstMonthPrincipalVnd": "0",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "0"
+      },
+      "lastPaymentVnd": "0",
+      "lastPrincipalVnd": "0",
+      "lastInterestVnd": "0",
+      "mathematicalResult": {
+        "monthlyPaymentVnd": "0",
+        "firstMonthPrincipalVnd": "0",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "0"
+      },
+      "independentImplementationsAgree": true
+    },
+    {
+      "loanVnd": "0",
+      "annualRatePercent": "9",
+      "termMonths": 240,
+      "method": "declining_balance",
+      "expected": {
+        "monthlyPaymentVnd": "0",
+        "firstMonthPrincipalVnd": "0",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "0"
+      },
+      "lastPaymentVnd": "0",
+      "lastPrincipalVnd": "0",
+      "lastInterestVnd": "0",
+      "mathematicalResult": {
+        "monthlyPaymentVnd": "0",
+        "firstMonthPrincipalVnd": "0",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "0"
+      },
+      "independentImplementationsAgree": true
+    },
+    {
+      "loanVnd": "1001",
+      "annualRatePercent": "0",
+      "termMonths": 60,
+      "method": "equal_installment",
+      "expected": {
+        "monthlyPaymentVnd": "17",
+        "firstMonthPrincipalVnd": "17",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "1001"
+      },
+      "lastPaymentVnd": "0",
+      "lastPrincipalVnd": "0",
+      "lastInterestVnd": "0",
+      "mathematicalResult": {
+        "monthlyPaymentVnd": "17",
+        "firstMonthPrincipalVnd": "17",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "1001"
+      },
+      "independentImplementationsAgree": true
+    },
+    {
+      "loanVnd": "1001",
+      "annualRatePercent": "0",
+      "termMonths": 60,
+      "method": "declining_balance",
+      "expected": {
+        "monthlyPaymentVnd": "17",
+        "firstMonthPrincipalVnd": "17",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "1001"
+      },
+      "lastPaymentVnd": "0",
+      "lastPrincipalVnd": "0",
+      "lastInterestVnd": "0",
+      "mathematicalResult": {
+        "monthlyPaymentVnd": "17",
+        "firstMonthPrincipalVnd": "17",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "1001"
+      },
+      "independentImplementationsAgree": true
+    },
+    {
+      "loanVnd": "1",
+      "annualRatePercent": "0.000001",
+      "termMonths": 360,
+      "method": "equal_installment",
+      "expected": {
+        "monthlyPaymentVnd": "0",
+        "firstMonthPrincipalVnd": "0",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "1"
+      },
+      "lastPaymentVnd": "1",
+      "lastPrincipalVnd": "1",
+      "lastInterestVnd": "0",
+      "mathematicalResult": {
+        "monthlyPaymentVnd": "0",
+        "firstMonthPrincipalVnd": "0",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "1"
+      },
+      "independentImplementationsAgree": true
+    },
+    {
+      "loanVnd": "1",
+      "annualRatePercent": "0.000001",
+      "termMonths": 360,
+      "method": "declining_balance",
+      "expected": {
+        "monthlyPaymentVnd": "0",
+        "firstMonthPrincipalVnd": "0",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "1"
+      },
+      "lastPaymentVnd": "1",
+      "lastPrincipalVnd": "1",
+      "lastInterestVnd": "0",
+      "mathematicalResult": {
+        "monthlyPaymentVnd": "0",
+        "firstMonthPrincipalVnd": "0",
+        "firstMonthInterestVnd": "0",
+        "totalInterestVnd": "0",
+        "totalRepaymentVnd": "1"
+      },
+      "independentImplementationsAgree": true
+    },
+    {
+      "loanVnd": "9007199254740993",
+      "annualRatePercent": "9",
+      "termMonths": 240,
+      "method": "equal_installment",
+      "expected": {
+        "monthlyPaymentVnd": "81040109590048",
+        "firstMonthPrincipalVnd": "13486115179491",
+        "firstMonthInterestVnd": "67553994410557",
+        "totalInterestVnd": "10442427046870563",
+        "totalRepaymentVnd": "19449626301611556"
+      },
+      "lastPaymentVnd": "81040109590084",
+      "lastPrincipalVnd": "80436833340034",
+      "lastInterestVnd": "603276250050",
+      "mathematicalResult": {
+        "monthlyPaymentVnd": "81040109590048",
+        "firstMonthPrincipalVnd": "13486115179491",
+        "firstMonthInterestVnd": "67553994410557",
+        "totalInterestVnd": "10442427046870563",
+        "totalRepaymentVnd": "19449626301611556"
+      },
+      "independentImplementationsAgree": true
+    },
+    {
+      "loanVnd": "9007199254740993",
+      "annualRatePercent": "9",
+      "termMonths": 240,
+      "method": "declining_balance",
+      "expected": {
+        "monthlyPaymentVnd": "105083991305311",
+        "firstMonthPrincipalVnd": "37529996894754",
+        "firstMonthInterestVnd": "67553994410557",
+        "totalInterestVnd": "8140256326472202",
+        "totalRepaymentVnd": "17147455581213195"
+      },
+      "lastPaymentVnd": "37811471871498",
+      "lastPrincipalVnd": "37529996894787",
+      "lastInterestVnd": "281474976711",
+      "mathematicalResult": {
+        "monthlyPaymentVnd": "105083991305311",
+        "firstMonthPrincipalVnd": "37529996894754",
+        "firstMonthInterestVnd": "67553994410557",
+        "totalInterestVnd": "8140256326472202",
+        "totalRepaymentVnd": "17147455581213195"
+      },
+      "independentImplementationsAgree": true
+    },
+    {
+      "loanVnd": "99999999999999999999",
+      "annualRatePercent": "100",
+      "termMonths": 360,
+      "method": "equal_installment",
+      "expected": {
+        "error": "INVALID_INPUT",
+        "field": "loanVnd",
+        "code": "FINANCE_RESULT_OUT_OF_RANGE"
+      },
+      "lastPaymentVnd": "8333349063697858030",
+      "lastPrincipalVnd": "7692322212644176643",
+      "lastInterestVnd": "641026851053681387",
+      "mathematicalResult": {
+        "monthlyPaymentVnd": "8333333333335882865",
+        "firstMonthPrincipalVnd": "2549532",
+        "firstMonthInterestVnd": "8333333333333333333",
+        "totalInterestVnd": "2900000015731279806566",
+        "totalRepaymentVnd": "3000000015731279806565"
+      },
+      "independentImplementationsAgree": true
+    },
+    {
+      "loanVnd": "99999999999999999999",
+      "annualRatePercent": "100",
+      "termMonths": 360,
+      "method": "declining_balance",
+      "expected": {
+        "error": "INVALID_INPUT",
+        "field": "loanVnd",
+        "code": "FINANCE_RESULT_OUT_OF_RANGE"
+      },
+      "lastPaymentVnd": "300925925925925838",
+      "lastPrincipalVnd": "277777777777777697",
+      "lastInterestVnd": "23148148148148141",
+      "mathematicalResult": {
+        "monthlyPaymentVnd": "8611111111111111111",
+        "firstMonthPrincipalVnd": "277777777777777778",
+        "firstMonthInterestVnd": "8333333333333333333",
+        "totalInterestVnd": "1504166666666666665440",
+        "totalRepaymentVnd": "1604166666666666665439"
+      },
+      "independentImplementationsAgree": true
+    }
+  ]
+}
