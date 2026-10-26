@@ -1,6 +1,7 @@
 import type { EmbedConfig } from './embed_config.js';
 import type { PublicAreaRecord } from './area_catalog.js';
 import type { PublicAreaCatalog } from './area_catalog.js';
+import type { PlanningPresentation } from './planning_maps.js';
 
 export const amenityTerms = { all: null, school: 'trường học', hospital: 'bệnh viện', park: 'công viên' } as const;
 export type MapCategory = keyof typeof amenityTerms;
@@ -19,9 +20,13 @@ export interface AreaMapPresentation {
   areaLabel?: string | null;
   tilePathTemplate?: string | null;
   externalDirectionsUrl?: string | null;
+  planning?: PlanningPresentation;
 }
 
-export interface NamedAreaInput { commune: string | null; province: string }
+export interface NamedAreaInput {
+  commune: string | null; province: string;
+  provinceCode?: string; catalogVersion?: string; catalogProvince?: string | null;
+}
 export interface AreaMapProvider {
   presentation(propertyId: string, input?: NamedAreaInput): AreaMapPresentation | Promise<AreaMapPresentation>;
 }

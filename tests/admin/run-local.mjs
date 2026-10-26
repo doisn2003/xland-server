@@ -15,7 +15,7 @@ import {CursorCodec} from '../../src/services/cursor.ts';
 import {createApp} from '../../src/app.ts';
 import {apiRouter} from '../../src/routes/v1/api.ts';
 import {adminRouter} from '../../src/admin/router.ts';
-import {provisionAdmin, AdminAuth} from '../../src/admin/auth.ts';
+import {provisionAdmin, provisionModerator, AdminAuth} from '../../src/admin/auth.ts';
 import {assertWire} from '../helpers/wire.ts';
 import {storageFixture} from './storage-fixture.mjs';
 import {validateStorageReferences} from '../../src/admin/uploads.ts';
@@ -218,6 +218,55 @@ try{
   const csvText=buf.toString('utf8');
   assert.ok(csvText.includes('Khách Test Sự Kiện'));
   assert.ok(csvText.includes('0987654321'));checks++;
+
+  // Test Phase 4: RBAC (Moderator vs Super Admin)
+  const modUser=await provisionModerator(db,'moderator_qa','123456');
+  assert.equal(modUser.created,true);checks++;
+  const modLogin=await req('/admin/session','POST',{username:'moderator_qa',password:'123456'});
+  assert.equal(modLogin.role,'moderator');
+  assert.ok(modLogin.roles.includes('moderator'));checks++;
+  const modToken=modLogin.accessToken;
+
+  // Session profile returns role and roles
+  const modSession=await req('/admin/session','GET',undefined,modToken);
+  assert.equal(modSession.role,'moderator');
+  assert.ok(modSession.roles.includes('moderator'));checks++;
+
+  // Schema automatically filters forbidden modules ('users', 'audit')
+  const modSchema=await req('/admin/schema','GET',undefined,modToken);
+  assert.equal(modSchema.users,undefined,'Moderator cannot see users in schema');
+  assert.equal(modSchema.audit,undefined,'Moderator cannot see audit in schema');
+  assert.ok(modSchema.properties,'Moderator sees properties in schema');
+  assert.ok(modSchema.videos,'Moderator sees videos in schema');checks++;
+
+  // Forbidden endpoints for Moderator -> 403
+  await req('/admin/users','GET',undefined,modToken,403);checks++;
+  await req('/admin/audit','GET',undefined,modToken,403);checks++;
+  await req('/admin/lookups/users','GET',undefined,modToken,403);checks++;
+
+  // Moderator cannot DELETE anything -> 403
+  await req('/admin/media/'+m2.id,'DELETE',undefined,modToken,403);checks++;
+  await req('/admin/properties/'+property.id,'DELETE',undefined,modToken,403);checks++;
+
+  // Allowed operations for Moderator
+  const modOverview=await req('/admin/overview','GET',undefined,modToken);
+  assert.equal(modOverview.recent.length,0,'Audit log hidden in moderator overview');checks++;
+  const modVideos=await req('/admin/videos/moderation','GET',undefined,modToken);
+  assert.ok(Array.isArray(modVideos));checks++;
+  const modReview=await req('/admin/videos/'+video.id+'/review','PATCH',{approval_status:'rejected',reason:'Cần biên tập lại'},modToken);
+  assert.equal(modReview.approval_status,'rejected');checks++;
+
+  // Role Management endpoint (Super Admin only)
+  // Moderator cannot assign roles -> 403
+  await req('/admin/users/'+user.id+'/roles','PATCH',{roles:['moderator']},modToken,403);checks++;
+  // Admin assigns roles
+  const assigned=await req('/admin/users/'+user.id+'/roles','PATCH',{roles:['moderator']},token,200);
+  assert.deepEqual(assigned.roles,['moderator']);checks++;
+  // Admin cannot strip their own admin role -> 400
+  await req('/admin/users/'+admin.id+'/roles','PATCH',{roles:['moderator']},token,400);checks++;
+  // Check GET /admin/users/:id returns user roles for admin
+  const userProfile=await req('/admin/users/'+user.id,'GET',undefined,token);
+  assert.ok(userProfile.roles.some(r=>r.role==='moderator'));checks++;
 
   const log=await req('/admin/audit?limit=50','GET',undefined,token);assert.ok(log.items.some(r=>r.entity==='properties'));assert.ok(!JSON.stringify(log).includes('0912345678'));
   await assert.rejects(db.transaction('xland_api',user.id,c=>c.query('SELECT * FROM xland.admin_audit_log')),/permission denied/);checks++;

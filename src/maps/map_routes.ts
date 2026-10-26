@@ -16,7 +16,11 @@ export function areaMapApiRouter(core: Pick<CoreService, 'read'>, maps: AreaMapP
     const identity = res.locals.identity as Identity | null;
     // Normal read identity + RLS even when maps are disabled. Never reveal catalog bindings for a hidden/missing property.
     const input = await core.read(identity, async client => {
-      const row = await client.query('SELECT id, commune_name AS commune, province FROM xland.properties WHERE id=$1', [propertyId]);
+      const row = await client.query(`SELECT p.id, p.commune_name AS commune, p.province,
+        p.province_code AS "provinceCode", p.catalog_version AS "catalogVersion", g.name AS "catalogProvince"
+        FROM xland.properties p LEFT JOIN xland.geo_locations g
+          ON g.code=p.province_code AND g.catalog_version=p.catalog_version AND g.kind='province'
+        WHERE p.id=$1`, [propertyId]);
       if (!row.rowCount) missing();
       return row.rows?.[0];
     });

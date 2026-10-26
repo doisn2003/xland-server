@@ -107,3 +107,14 @@ test('municipality results with omitted/misclassified state require matching cit
   assert.equal(selectAdministrativeArea({results:[{...hoaCuong,iso3166_2:'VN-HN'}]},daNang).availability,'unavailable');
   assert.equal(selectAdministrativeArea({results:[{...hoaCuong,state:'Hưng Yên'}]},daNang).availability,'unavailable');
 });
+
+test('Hai Phong ward results accept VN-HP only when province evidence agrees',()=>{
+  const area=namedArea({commune:'Phường Hải An',province:'Hải Phòng'})!;
+  const ward={lat:20.8247021,lon:106.7215727,country_code:'vn',result_type:'city',
+    city:'Phường Hải An',name:'Phường Hải An',iso3166_2:'VN-HP'};
+  assert.equal(selectAdministrativeArea({results:[ward]},area).availability,'ready');
+  for(const invalid of [{...ward,iso3166_2:'VN-HN'},{...ward,state:'Hà Nội'},
+    {...ward,country_code:'cn'},{...ward,name:'Xã Hải An',city:'Xã Hải An'}]) {
+    assert.equal(selectAdministrativeArea({results:[invalid]},area).availability,'unavailable');
+  }
+});

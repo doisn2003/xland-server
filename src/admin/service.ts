@@ -6,6 +6,7 @@ import type {Identity} from '../services/auth.js';
 import {DomainError,missing} from '../domain/errors.js';
 import {automatic,entities,enums,references,type Entity} from './catalog.js';
 import {validateStorageReferences} from './uploads.js';
+import {hasPermission} from './permissions.js';
 
 type Row=Record<string,unknown>;
 function instant(value:unknown){return value instanceof Date?value.getTime():Date.parse(String(value));}
@@ -81,10 +82,13 @@ export class AdminService {
       return {name:r.column_name,type:r.data_type,required:r.is_nullable==='NO',readonly,defaultValue:value,options:enums[key+'.'+r.column_name]??enums[r.column_name],reference:references[r.column_name],precision:r.numeric_precision,scale:r.numeric_scale};
     });
   }
-  async schema(){
+  async schema(identity?:Identity){
     const map=await this.loadColumns();
     const result:Record<string,unknown>={};
-    for(const [key,e] of Object.entries(entities))result[key]={...e,fields:this.describeFields(key,map.get(e.table)??[])};
+    for(const [key,e] of Object.entries(entities)){
+      if(identity&&!hasPermission(identity.roles,key,'read'))continue;
+      result[key]={...e,fields:this.describeFields(key,map.get(e.table)??[])};
+    }
     return result;
   }
   async overview(identity:Identity){return this.transaction(identity,async c=>({
@@ -93,9 +97,10 @@ export class AdminService {
       (SELECT count(*)::int FROM xland.consultants) consultants,
       (SELECT count(*)::int FROM xland.site_visit_bookings WHERE status NOT IN ('completed','cancelled','expired','rejected','no_show')) bookings,
       (SELECT count(*)::int FROM xland.support_requests WHERE status IN ('received','pending')) support`)).rows[0],
-    recent:(await c.query('SELECT * FROM xland.admin_audit_log ORDER BY created_at DESC,id DESC LIMIT 8')).rows,
+    recent:hasPermission(identity.roles,'audit','read')?(await c.query('SELECT * FROM xland.admin_audit_log ORDER BY created_at DESC,id DESC LIMIT 8')).rows:[],
   }));}
   async list(identity:Identity,key:string,q:{q?:string|undefined;page:number;limit:number;filter?:string|undefined;value?:string|undefined}){
+    if(!hasPermission(identity.roles,key,'read'))throw new DomainError(403,'FORBIDDEN','Tài khoản không có quyền truy cập danh mục này');
     const e=this.entity(key);
     return this.transaction(identity,async c=>{
       const args:unknown[]=[];const where:string[]=[];
@@ -131,17 +136,22 @@ export class AdminService {
       return {items:rows,total,page:q.page,limit:q.limit};
     });
   }
-  async get(identity:Identity,key:string,id:string){return this.transaction(identity,async c=>{
+  async get(identity:Identity,key:string,id:string){
+    if(!hasPermission(identity.roles,key,'read'))throw new DomainError(403,'FORBIDDEN','Tài khoản không có quyền truy cập hồ sơ này');
+    return this.transaction(identity,async c=>{
     const e=this.entity(key),fields=await this.fields(c,key);const row=(await c.query(`SELECT ${readColumns(fields)},xmin::text AS _version FROM xland.${e.table} WHERE id=$1`,[id])).rows[0];if(!row)missing();
     if(key==='videos')row.media=(await c.query('SELECT *,xmin::text AS _version FROM xland.property_media WHERE id=$1',[row.media_id])).rows[0];
     if(key==='consultants')row.contact=(await c.query('SELECT phone,email_contact FROM xland.user_contacts WHERE user_id=$1',[id])).rows[0];
+    if(key==='users')row.roles=(await c.query('SELECT role, granted_at FROM xland.user_roles WHERE user_id=$1 ORDER BY role',[id])).rows;
     if(key==='bookings'){
       row.history=(await c.query('SELECT * FROM xland.booking_status_history WHERE booking_id=$1 ORDER BY occurred_at,id',[id])).rows;
       row.payments=(await c.query('SELECT id,status,mode,amount_vnd FROM xland.payment_intents WHERE booking_id=$1',[id])).rows;
     }
     return row;
   });}
-  async lookup(identity:Identity,key:string,q:string,id?:string){return this.transaction(identity,async c=>{
+  async lookup(identity:Identity,key:string,q:string,id?:string){
+    if(!hasPermission(identity.roles,key,'read'))throw new DomainError(403,'FORBIDDEN','Tài khoản không có quyền truy cập danh mục này');
+    return this.transaction(identity,async c=>{
     const e=this.entity(key),label=e.search[0]??'id';
     return (await c.query(`SELECT id,"${label}"::text label FROM xland.${e.table} WHERE ($1='' OR "${label}"::text ILIKE $2 OR id::text=$1) OR id::text=$3 ORDER BY (id::text=$3) DESC,"${label}",id LIMIT 50`,[q,'%'+q.replace(/[\\%_]/g,'\\$&')+'%',id??''])).rows;
   });}
@@ -187,6 +197,8 @@ export class AdminService {
   async save(identity:Identity,key:string,input:Row,id?:string){
     const e=this.entity(key),create=!id;if(create&&!e.create)throw new DomainError(405,'READ_ONLY','Không hỗ trợ tạo hồ sơ tại đây');
     if(!create&&e.edit?.length===0)throw new DomainError(405,'READ_ONLY','Dữ liệu chỉ đọc');
+    const action=create?'create':'update';
+    if(!hasPermission(identity.roles,key,action))throw new DomainError(403,'FORBIDDEN','Tài khoản không có quyền chỉnh sửa mục này');
     return this.transaction(identity,async c=>{
       const recordId=id??randomUUID();const fields=await this.fields(c,key);
       const {_version,contact,reason,...payload}=input;
@@ -424,6 +436,7 @@ export class AdminService {
     });
   }
   async delete(identity:Identity,key:string,id:string){
+    if(!hasPermission(identity.roles,key,'delete'))throw new DomainError(403,'FORBIDDEN','Yêu cầu quyền Super Admin để thực hiện thao tác xóa');
     const deletableEntities=['media','legal','documents','amenities'];
     if(!deletableEntities.includes(key))throw new DomainError(405,'NOT_ALLOWED','Không hỗ trợ xóa loại hồ sơ này');
     const e=this.entity(key);
@@ -437,6 +450,26 @@ export class AdminService {
       await c.query(`DELETE FROM xland.${e.table} WHERE id=$1`,[id]);
       await this.audit(c,identity,'delete',key,id,Object.keys(prior));
       return {id,deleted:true};
+    });
+  }
+  async updateUserRoles(identity:Identity,targetUserId:string,newRoles:('admin'|'moderator')[],access?:{clearCache:()=>void}){
+    if(!identity.roles?.includes('admin')){
+      throw new DomainError(403,'FORBIDDEN','Chỉ Super Admin mới có quyền phân quyền người dùng');
+    }
+    if(identity.userId===targetUserId&&!newRoles.includes('admin')){
+      throw new DomainError(400,'INVALID_OPERATION','Không thể tự tước quyền Super Admin của chính mình');
+    }
+    return this.transaction(identity,async c=>{
+      const user=(await c.query('SELECT id FROM xland.user_profiles WHERE id=$1',[targetUserId])).rows[0];
+      if(!user)missing();
+      await c.query("DELETE FROM xland.user_roles WHERE user_id=$1 AND role IN ('admin','moderator')",[targetUserId]);
+      for(const r of newRoles){
+        await c.query("INSERT INTO xland.user_roles(user_id,role,granted_by) VALUES($1,$2,$3)",[targetUserId,r,identity.userId]);
+      }
+      await this.audit(c,identity,'update-roles','users',targetUserId,newRoles);
+      if(access)access.clearCache();
+      const updatedRoles=(await c.query("SELECT role FROM xland.user_roles WHERE user_id=$1 AND role IN ('admin','moderator') ORDER BY role",[targetUserId])).rows.map(r=>r.role);
+      return {userId:targetUserId,roles:updatedRoles};
     });
   }
   async moderationVideos(identity:Identity,filterStatus?:string){

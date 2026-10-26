@@ -40,7 +40,7 @@ const cachedSchema = z.object({
 type Resolution = z.infer<typeof cachedSchema>;
 export function selectAdministrativeArea(raw: unknown, input: NonNullable<ReturnType<typeof namedArea>>): Resolution {
   const province = normalize(input.province), commune = normalize(input.commune);
-  const municipalityCodes: Record<string, string> = { hanoi: 'VN-HN', danang: 'VN-DN' };
+  const municipalityCodes: Record<string, string> = { hanoi: 'VN-HN', haiphong: 'VN-HP', danang: 'VN-DN' };
   const candidates = resultSchema.parse(raw).results.filter(r =>
     r.country_code.toLowerCase() === 'vn' && ['city', 'district', 'suburb', 'locality', 'county'].includes(r.result_type) &&
     (normalize(r.state ?? '') === province ||

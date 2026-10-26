@@ -6,6 +6,7 @@ import { configuredExtendedAuth } from './auth/config.js';
 import { geoapifyConfig } from './maps/geoapify_config.js';
 import { GeoapifyAreaMapService, geoapifyTileRouter } from './maps/geoapify_maps.js';
 import { PostgresMapStore } from './maps/geoapify_store.js';
+import { planningConfig, PlanningMapService, PlanningAreaMapProvider, planningTileRouter } from './maps/planning_maps.js';
 import { createApp } from './app.js';
 import { Database } from './repositories/database.js';
 import { AuthService } from './services/auth.js';
@@ -25,7 +26,8 @@ export async function runtime(env:NodeJS.ProcessEnv) {
   const auth=new AuthService(db);await auth.initialize();
   const service=new CoreService(db,auth,new CursorCodec(env.CURSOR_SECRET?Buffer.from(env.CURSOR_SECRET):randomBytes(32)),()=>new Date(),sharing.publicBaseUrl);
   const maps=new GeoapifyAreaMapService(geoapifyConfig(env),new PostgresMapStore(db));
-  const publicPages=Router().use(sharingRouter(service,sharing)).use(geoapifyTileRouter(maps));
-  const api=Router().use('/admin',await adminRouter(db,auth,env)).use(apiRouter(service,(env.AVATAR_ORIGINS??'').split(',').filter(Boolean),configuredExtendedAuth(db,auth,env),maps));
+  const planning=new PlanningMapService(planningConfig(env));
+  const publicPages=Router().use(sharingRouter(service,sharing)).use(geoapifyTileRouter(maps)).use(planningTileRouter(planning));
+  const api=Router().use('/admin',await adminRouter(db,auth,env)).use(apiRouter(service,(env.AVATAR_ORIGINS??'').split(',').filter(Boolean),configuredExtendedAuth(db,auth,env),new PlanningAreaMapProvider(maps,planning)));
   return {app:createApp({checkReadiness:()=>db.ready(),api,publicPages,allowedOrigins:(env.CORS_ORIGINS??'').split(',').filter(Boolean),trustProxyHops:trustedProxyHops(env)}),close:()=>db.close()};
 }

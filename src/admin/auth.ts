@@ -14,11 +14,19 @@ export class AdminAuth {
     const allowed=await this.db.transaction('xland_auth',null,c=>takeAuthBudget(c,createHash('sha256').update('admin-login:'+peer).digest(),10,60,new Date()));
     if(!allowed)throw new DomainError(429,'RATE_LIMITED','Thử lại sau một phút');
     return this.db.transaction('xland_auth',null,async c=>{
-      const row=(await c.query(`SELECT u.id,u.password_hash,u.status,EXISTS(SELECT 1 FROM xland.user_roles r WHERE r.user_id=u.id AND r.role='admin') admin
+      const row=(await c.query(`SELECT u.id,u.password_hash,u.status,
+        (SELECT COALESCE(array_agg(r.role), '{}') FROM xland.user_roles r WHERE r.user_id=u.id) roles
         FROM xland.user_identities u WHERE username_normalized=$1`,[username.trim().toLowerCase()])).rows[0];
       const verified=await argon2.verify(row?.password_hash??this.dummy,password);
-      if(!row||row.status!=='active'||!row.admin||!verified)unauthenticated();
-      return {...await this.auth.issueSessionUsing(c,row.id),role:'admin'};
+      const roles: string[] = row?.roles ?? [];
+      const hasAdminAccess = roles.includes('admin') || roles.includes('moderator');
+      if(!row||row.status!=='active'||!hasAdminAccess||!verified)unauthenticated();
+      const primaryRole = roles.includes('admin') ? 'admin' : 'moderator';
+      return {
+        ...await this.auth.issueSessionUsing(c,row.id),
+        role: primaryRole,
+        roles,
+      };
     });
   }
   async require(authorization:string|undefined){
@@ -31,8 +39,10 @@ export class AdminAuth {
       if(cached.expiresAt.getTime()>Date.now())return cached;
       this.sessionCache.delete(digestHex);
     }
-    const identity=await this.auth.identify(authorization,'admin');
+    const identity=await this.auth.identify(authorization);
     if(!identity)unauthenticated();
+    const hasAdminAccess = !!(identity.roles?.includes('admin') || identity.roles?.includes('moderator'));
+    if(!hasAdminAccess)throw new DomainError(403,'ADMIN_REQUIRED','Tài khoản không có quyền quản trị');
     this.sessionCache.set(digestHex,identity);
     return identity;
   }
@@ -61,6 +71,27 @@ export async function provisionAdmin(db:Database,username:string,password:string
     await c.query('INSERT INTO xland.user_contacts(user_id) VALUES($1)',[id]);
     await c.query('INSERT INTO xland.user_settings(user_id) VALUES($1)',[id]);
     await c.query("INSERT INTO xland.user_roles(user_id,role) VALUES($1,'admin')",[id]);
+    return {id,created:true};
+  });
+}
+
+export async function provisionModerator(db:Database,username:string,password:string){
+  const hash=await argon2.hash(password,{type:argon2.argon2id,memoryCost:19456,timeCost:2,parallelism:1});
+  return db.transaction('xland_auth',null,async c=>{
+    await c.query('SELECT pg_advisory_xact_lock(783134222)');
+    const existing=(await c.query('SELECT id FROM xland.user_identities WHERE username_normalized=$1',[username])).rows[0];
+    if(existing){
+      if(!(await c.query("SELECT 1 FROM xland.user_roles WHERE user_id=$1 AND role='moderator'",[existing.id])).rowCount){
+        await c.query("INSERT INTO xland.user_roles(user_id,role) VALUES($1,'moderator') ON CONFLICT DO NOTHING",[existing.id]);
+      }
+      return {id:existing.id,created:false};
+    }
+    const id=randomUUID();
+    await c.query('INSERT INTO xland.user_identities(id,username_normalized,password_hash) VALUES($1,$2,$3)',[id,username,hash]);
+    await c.query("INSERT INTO xland.user_profiles(id,display_name,public_role) VALUES($1,'Kiểm duyệt viên Xland','Moderator')",[id]);
+    await c.query('INSERT INTO xland.user_contacts(user_id) VALUES($1)',[id]);
+    await c.query('INSERT INTO xland.user_settings(user_id) VALUES($1)',[id]);
+    await c.query("INSERT INTO xland.user_roles(user_id,role) VALUES($1,'moderator')",[id]);
     return {id,created:true};
   });
 }

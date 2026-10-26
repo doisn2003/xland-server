@@ -17,9 +17,18 @@ export async function adminRouter(db:Database,auth:AuthService,env:NodeJS.Proces
   });
   router.use(async(req,res,next)=>{res.locals.admin=await access.require(req.headers.authorization);next();});
   const identity=(res:{locals:Record<string,unknown>})=>res.locals.admin as Identity;
-  router.get('/session',async(_req,res)=>res.json({data:{profile:await auth.profile(identity(res).userId),role:'admin'}}));
+  router.get('/session',async(_req,res)=>{
+    const id=identity(res);
+    const roles=id.roles??[];
+    const primaryRole=roles.includes('admin')?'admin':'moderator';
+    res.json({data:{profile:await auth.profile(id.userId),role:primaryRole,roles}});
+  });
   router.delete('/session',async(_req,res)=>{const id=identity(res);access.evict(id.digest);await auth.logout(id);res.json({data:null});});
-  router.get('/schema',async(_req,res)=>res.json({data:await service.schema()}));
+  router.get('/schema',async(_req,res)=>res.json({data:await service.schema(identity(res))}));
+  router.patch('/users/:id/roles',async(req,res)=>{
+    const body=parse(z.object({roles:z.array(z.enum(['admin','moderator']))}).strict(),req.body);
+    res.json({data:await service.updateUserRoles(identity(res),parse(uuid,req.params.id),body.roles,access)});
+  });
   router.get('/overview',async(_req,res)=>res.json({data:await service.overview(identity(res))}));
   router.get('/locations',async(_req,res)=>res.json({data:await service.locations(identity(res))}));
   router.get('/lookups/:entity',async(req,res)=>{
