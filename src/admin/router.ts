@@ -8,8 +8,8 @@ import {AdminService} from './service.js';
 import {AdminStorage} from './storage.js';
 import {authorizeUpload,finalizeUpload} from './uploads.js';
 
-export async function adminRouter(db:Database,auth:AuthService,env:NodeJS.ProcessEnv){
-  const router=Router(),access=new AdminAuth(db,auth),service=new AdminService(db),storage=new AdminStorage(env);
+export async function adminRouter(db:Database,auth:AuthService,env:NodeJS.ProcessEnv,access=new AdminAuth(db,auth)){
+  const router=Router(),service=new AdminService(db),storage=new AdminStorage(env);
   await access.initialize();
   router.post('/session',async(req,res)=>{
     const data=parse(z.object({username:z.string().min(1).max(64),password:z.string().min(1).max(128)}).strict(),req.body);
@@ -18,8 +18,8 @@ export async function adminRouter(db:Database,auth:AuthService,env:NodeJS.Proces
   router.use(async(req,res,next)=>{res.locals.admin=await access.require(req.headers.authorization);next();});
   const identity=(res:{locals:Record<string,unknown>})=>res.locals.admin as Identity;
   router.get('/session',async(_req,res)=>res.json({data:{profile:await auth.profile(identity(res).userId),role:'admin'}}));
-  router.delete('/session',async(_req,res)=>{await auth.logout(identity(res));res.json({data:null});});
-  router.get('/schema',async(_req,res)=>res.json({data:await service.schema(identity(res))}));
+  router.delete('/session',async(_req,res)=>{const id=identity(res);access.evict(id.digest);await auth.logout(id);res.json({data:null});});
+  router.get('/schema',async(_req,res)=>res.json({data:await service.schema()}));
   router.get('/overview',async(_req,res)=>res.json({data:await service.overview(identity(res))}));
   router.get('/locations',async(_req,res)=>res.json({data:await service.locations(identity(res))}));
   router.get('/lookups/:entity',async(req,res)=>{
@@ -42,6 +42,11 @@ export async function adminRouter(db:Database,auth:AuthService,env:NodeJS.Proces
     });
     res.json({data});
   });
+  router.get('/properties/:id/aggregate',async(req,res)=>res.json({data:await service.aggregate(identity(res),parse(uuid,req.params.id))}));
+  router.patch('/properties/:id/media-order',async(req,res)=>{
+    const body=parse(z.object({items:z.array(z.object({id:uuid,sort_order:z.number().int().nonnegative()})).min(1)}).strict(),req.body);
+    res.json({data:await service.reorderMedia(identity(res),parse(uuid,req.params.id),body.items)});
+  });
   router.get('/:entity',async(req,res)=>{
     const q=parse(z.object({q:z.string().max(150).optional(),page:z.coerce.number().int().min(1).max(100000).default(1),limit:z.coerce.number().int().min(1).max(50).default(25),filter:z.string().max(50).optional(),value:z.string().max(150).optional()}).strict(),req.query);
     res.json({data:await service.list(identity(res),String(req.params.entity),q)});
@@ -49,5 +54,6 @@ export async function adminRouter(db:Database,auth:AuthService,env:NodeJS.Proces
   router.get('/:entity/:id',async(req,res)=>res.json({data:await service.get(identity(res),String(req.params.entity),parse(uuid,req.params.id))}));
   router.post('/:entity',async(req,res)=>res.status(201).json({data:await service.save(identity(res),String(req.params.entity),parse(z.record(z.string(),z.unknown()),req.body))}));
   router.patch('/:entity/:id',async(req,res)=>res.json({data:await service.save(identity(res),String(req.params.entity),parse(z.record(z.string(),z.unknown()),req.body),parse(uuid,req.params.id))}));
+  router.delete('/:entity/:id',async(req,res)=>res.json({data:await service.delete(identity(res),String(req.params.entity),parse(uuid,req.params.id))}));
   return router;
 }

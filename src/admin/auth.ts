@@ -1,12 +1,13 @@
 import {createHash,randomBytes,randomUUID} from 'node:crypto';
 import argon2 from 'argon2';
 import type {Database} from '../repositories/database.js';
-import type {AuthService} from '../services/auth.js';
+import type {AuthService, Identity} from '../services/auth.js';
 import {DomainError,unauthenticated} from '../domain/errors.js';
 import {takeAuthBudget} from '../auth/rate-limit.js';
 
 export class AdminAuth {
   private dummy='';
+  private sessionCache = new Map<string, Identity>();
   constructor(readonly db:Database,readonly auth:AuthService){}
   async initialize(){this.dummy=await argon2.hash(randomBytes(32),{type:argon2.argon2id,memoryCost:19456,timeCost:2,parallelism:1});}
   async login(username:string,password:string,peer:string){
@@ -21,9 +22,26 @@ export class AdminAuth {
     });
   }
   async require(authorization:string|undefined){
+    if(authorization===undefined)unauthenticated();
+    const matched=/^Bearer ([A-Za-z0-9_-]{43})$/.exec(authorization);
+    if(!matched)unauthenticated();
+    const digestHex=createHash('sha256').update(matched[1]!).digest('hex');
+    const cached=this.sessionCache.get(digestHex);
+    if(cached){
+      if(cached.expiresAt.getTime()>Date.now())return cached;
+      this.sessionCache.delete(digestHex);
+    }
     const identity=await this.auth.identify(authorization,'admin');
     if(!identity)unauthenticated();
+    this.sessionCache.set(digestHex,identity);
     return identity;
+  }
+  evict(digest:Buffer|string){
+    const key=typeof digest==='string'?digest:digest.toString('hex');
+    this.sessionCache.delete(key);
+  }
+  clearCache(){
+    this.sessionCache.clear();
   }
 }
 

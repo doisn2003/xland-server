@@ -1,9 +1,9 @@
 # xland-server
 
-**Hosting hiện tại — 22/10/2026:** Northflank phục vụ
-`https://p01--xland--y56gnzgzjsqm.code.run`, thay Railway trong thời gian sự cố.
+**Hosting hiện tại — 26/10/2026:** Railway phục vụ
+`https://xland-server-production.up.railway.app`.
 Admin web: `https://xland-alpha.vercel.app/admin`.
-Xem [cấu hình và vận hành Northflank](docs/NORTHFLANK.md).
+Xem [cấu hình và vận hành Railway](docs/RAILWAY.md). Northflank được giữ để rollback.
 
 Admin fullstack (22/10/2026): namespace mới `/api/v1/admin`, migration `0012_admin_workspace.sql`, PostgreSQL RBAC/audit và upload Supabase. Chạy `npm run admin:dev` ở cổng 3005; `npm run test:admin` kiểm thử với PostgreSQL cô lập. Tài khoản đã provision theo yêu cầu: `admin / 123456`. Xem [kế hoạch, API và vận hành Admin](../xland-website/xland/docs/ADMIN.md). Các API mobile hiện hữu giữ nguyên.
 

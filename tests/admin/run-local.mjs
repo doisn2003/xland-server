@@ -15,7 +15,7 @@ import {CursorCodec} from '../../src/services/cursor.ts';
 import {createApp} from '../../src/app.ts';
 import {apiRouter} from '../../src/routes/v1/api.ts';
 import {adminRouter} from '../../src/admin/router.ts';
-import {provisionAdmin} from '../../src/admin/auth.ts';
+import {provisionAdmin, AdminAuth} from '../../src/admin/auth.ts';
 import {assertWire} from '../helpers/wire.ts';
 import {storageFixture} from './storage-fixture.mjs';
 import {validateStorageReferences} from '../../src/admin/uploads.ts';
@@ -29,7 +29,8 @@ try{
   const admin=await provisionAdmin(db,'admin','123456');assert.equal(admin.created,true);assert.equal((await provisionAdmin(db,'admin','different-password')).created,false);
   const auth=new AuthService(db);await auth.initialize();const core=new CoreService(db,auth,new CursorCodec(randomBytes(32)));
   storage=await storageFixture();
-  const router=Router().use('/admin',await adminRouter(db,auth,storage.env)).use(apiRouter(core));
+  const access=new AdminAuth(db,auth);await access.initialize();
+  const router=Router().use('/admin',await adminRouter(db,auth,storage.env,access)).use(apiRouter(core));
   server=createApp({checkReadiness:()=>db.ready(),api:router}).listen(process.argv.includes('--serve')?3006:0,'127.0.0.1');await once(server,'listening');
   const base=`http://127.0.0.1:${server.address().port}/api/v1`;
   const req=async(path,method='GET',body,token,expected=200)=>{const r=await fetch(base+path,{method,headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:body===undefined?undefined:JSON.stringify(body)});const json=await r.json();assert.equal(r.status,expected,`${method} ${path}: ${JSON.stringify(json)}`);checks++;return json.data;};
@@ -144,10 +145,49 @@ try{
   const eventSource=(await req('/admin/events','GET',undefined,token)).items[0];
   const event=await req('/admin/events','POST',{...writable('events',eventSource),title:'Sự kiện Admin QA'},token,201);
   assertWire(await req('/events/'+event.id),'XlandEvent');checks++;
+
+  // Test Phase 2: GET /properties/:id/aggregate
+  const agg=await req('/admin/properties/'+property.id+'/aggregate','GET',undefined,token);
+  assert.equal(agg.id,property.id);
+  assert.ok(Array.isArray(agg.media));
+  assert.ok(Array.isArray(agg.legal_items));
+  assert.ok(Array.isArray(agg.documents));
+  assert.ok(Array.isArray(agg.amenities));
+  assert.ok(Array.isArray(agg.slots));
+  assert.ok(Array.isArray(agg.bookings));
+  assert.ok(agg.legal_items.some(l=>l.id===legal.id));
+  assert.ok(agg.slots.some(s=>s.id===slot.id));
+  assert.ok(agg.bookings.some(b=>b.id===booking.id));
+  checks++;
+
+  // Test Phase 2: PATCH /properties/:id/media-order & DELETE /:entity/:id
+  await db.pool.query("INSERT INTO xland.property_media(id,property_id,kind,usage,sort_order,storage_key,public_url,alt_text,is_illustrative) VALUES(gen_random_uuid(),$1,'image','gallery',10,'test/img1.png','https://test.supabase.co/storage/v1/object/public/test/img1.png','Img 1',true),(gen_random_uuid(),$1,'image','gallery',11,'test/img2.png','https://test.supabase.co/storage/v1/object/public/test/img2.png','Img 2',true)",[property.id]);
+  const aggWithMedia=await req('/admin/properties/'+property.id+'/aggregate','GET',undefined,token);
+  const m1=aggWithMedia.media.find(m=>m.alt_text==='Img 1');
+  const m2=aggWithMedia.media.find(m=>m.alt_text==='Img 2');
+  assert.ok(m1&&m2);
+  const reorderRes=await req('/admin/properties/'+property.id+'/media-order','PATCH',{items:[{id:m1.id,sort_order:11},{id:m2.id,sort_order:10}]},token);
+  assert.equal(reorderRes.updated,2);checks++;
+  const aggReordered=await req('/admin/properties/'+property.id+'/aggregate','GET',undefined,token);
+  assert.equal(aggReordered.media.find(m=>m.id===m1.id).sort_order,11);
+  assert.equal(aggReordered.media.find(m=>m.id===m2.id).sort_order,10);checks++;
+
+  // Delete attached media -> 409 conflict
+  await req('/admin/media/'+video.media_id,'DELETE',undefined,token,409);checks++;
+  // Delete standalone media -> 200
+  await req('/admin/media/'+m1.id,'DELETE',undefined,token);checks++;
+  // Delete legal item -> 200
+  await req('/admin/legal/'+legal.id,'DELETE',undefined,token);checks++;
+  // Delete property (unsupported entity) -> 405
+  await req('/admin/properties/'+property.id,'DELETE',undefined,token,405);checks++;
+
   const log=await req('/admin/audit','GET',undefined,token);assert.ok(log.items.some(r=>r.entity==='properties'));assert.ok(!JSON.stringify(log).includes('0912345678'));
   await assert.rejects(db.transaction('xland_api',user.id,c=>c.query('SELECT * FROM xland.admin_audit_log')),/permission denied/);checks++;
-  await db.pool.query("DELETE FROM xland.user_roles WHERE user_id=$1 AND role='admin'",[admin.id]);await req('/admin/overview','GET',undefined,token,403);
+  await db.pool.query("DELETE FROM xland.user_roles WHERE user_id=$1 AND role='admin'",[admin.id]);
+  access.clearCache();
+  await req('/admin/overview','GET',undefined,token,403);
   await db.pool.query("INSERT INTO xland.user_roles(user_id,role) VALUES($1,'admin')",[admin.id]);
+  access.clearCache();
   await req('/admin/session','DELETE',undefined,token);await req('/admin/overview','GET',undefined,token,401);
   await req('/admin/lookups/properties?q=QA','GET',undefined,(await req('/admin/session','POST',{username:'admin',password:'123456'})).accessToken);
   console.log(JSON.stringify({adminChecks:checks,status:'passed',schemaModules:Object.keys(schema).length,isolated:true}));

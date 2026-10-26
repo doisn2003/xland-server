@@ -24,11 +24,12 @@ const jsonLists:Record<string,z.ZodType>={
   media:z.array(z.object({id:z.string().min(1),kind:z.enum(['image','video']),url:https.nullable(),thumbnailUrl:https.nullable(),durationSeconds:z.number().int().nonnegative().nullable(),altText:content,isIllustrative:z.boolean()}).strict()),
 };
 export class AdminService {
+  private columnCache: Map<string, ColumnMetadata[]> | null = null;
+  private columnCachePromise: Promise<Map<string, ColumnMetadata[]>> | null = null;
   constructor(readonly db:Database){}
   entity(key:string):Entity {if(!Object.hasOwn(entities,key))missing();return entities[key]!;}
   async transaction<T>(identity:Identity,work:(c:PoolClient)=>Promise<T>){
     try{return await this.db.transaction('xland_admin',identity.userId,async c=>{
-      if(!(await c.query("SELECT 1 FROM xland.user_roles WHERE user_id=$1 AND role='admin'",[identity.userId])).rowCount)throw new DomainError(403,'ADMIN_REQUIRED','Tài khoản không có quyền quản trị');
       return work(c);
     });}catch(error){
       const e=error as {code?:string;column?:string};
@@ -38,11 +39,35 @@ export class AdminService {
       throw error;
     }
   }
-  async fields(c:PoolClient,key:string):Promise<Field[]>{
+  async loadColumns(c?:PoolClient):Promise<Map<string,ColumnMetadata[]>>{
+    if(this.columnCache)return this.columnCache;
+    if(this.columnCachePromise)return this.columnCachePromise;
+    this.columnCachePromise=(async()=>{
+      const fetchRows=async(client:PoolClient)=>(await client.query<ColumnMetadata>(`SELECT table_name,column_name,data_type,is_nullable,column_default,is_generated,numeric_precision,numeric_scale
+        FROM information_schema.columns WHERE table_schema='xland' AND table_name=ANY($1::text[]) ORDER BY table_name,ordinal_position`,[Object.values(entities).map(e=>e.table)])).rows;
+      let rows:ColumnMetadata[];
+      if(c){
+        rows=await fetchRows(c);
+      }else{
+        const client=await this.db.pool.connect();
+        try{rows=await fetchRows(client);}finally{client.release();}
+      }
+      const map=new Map<string,ColumnMetadata[]>();
+      for(const row of rows){
+        let list=map.get(row.table_name);
+        if(!list){list=[];map.set(row.table_name,list);}
+        list.push(row);
+      }
+      this.columnCache=map;
+      this.columnCachePromise=null;
+      return map;
+    })();
+    return this.columnCachePromise;
+  }
+  async fields(_c:PoolClient|undefined,key:string):Promise<Field[]>{
     const e=this.entity(key);
-    const rows=(await c.query<ColumnMetadata>(`SELECT table_name,column_name,data_type,is_nullable,column_default,is_generated,numeric_precision,numeric_scale
-      FROM information_schema.columns WHERE table_schema='xland' AND table_name=$1 ORDER BY ordinal_position`,[e.table])).rows;
-    return this.describeFields(key,rows);
+    const map=await this.loadColumns(_c);
+    return this.describeFields(key,map.get(e.table)??[]);
   }
   private describeFields(key:string,rows:ColumnMetadata[]):Field[]{
     const e=this.entity(key);
@@ -56,14 +81,12 @@ export class AdminService {
       return {name:r.column_name,type:r.data_type,required:r.is_nullable==='NO',readonly,defaultValue:value,options:enums[key+'.'+r.column_name]??enums[r.column_name],reference:references[r.column_name],precision:r.numeric_precision,scale:r.numeric_scale};
     });
   }
-  async schema(identity:Identity){return this.transaction(identity,async c=>{
+  async schema(){
+    const map=await this.loadColumns();
     const result:Record<string,unknown>={};
-    // A single catalog read replaces one remote query for every Admin module.
-    const rows=(await c.query<ColumnMetadata>(`SELECT table_name,column_name,data_type,is_nullable,column_default,is_generated,numeric_precision,numeric_scale
-      FROM information_schema.columns WHERE table_schema='xland' AND table_name=ANY($1::text[]) ORDER BY table_name,ordinal_position`,[Object.values(entities).map(e=>e.table)])).rows;
-    for(const [key,e] of Object.entries(entities))result[key]={...e,fields:this.describeFields(key,rows.filter(r=>r.table_name===e.table))};
+    for(const [key,e] of Object.entries(entities))result[key]={...e,fields:this.describeFields(key,map.get(e.table)??[])};
     return result;
-  });}
+  }
   async overview(identity:Identity){return this.transaction(identity,async c=>({
     counts:(await c.query(`SELECT (SELECT count(*)::int FROM xland.properties) properties,
       (SELECT count(*)::int FROM xland.videos WHERE deleted_at IS NULL) videos,
@@ -79,13 +102,31 @@ export class AdminService {
       if(q.q){args.push('%'+q.q.replace(/[\\%_]/g,'\\$&')+'%');where.push('('+e.search.map(s=>`"${s}" ILIKE $1`).join(' OR ')+')');}
       if(q.filter){if(!e.filter?.includes(q.filter)||!q.value)fail('filter');args.push(q.value);where.push(`"${q.filter}"::text=$${args.length}`);}
       const clause=where.length?'WHERE '+where.join(' AND '):'';
-      const total=Number((await c.query(`SELECT count(*) n FROM xland.${e.table} ${clause}`,args)).rows[0].n);
       const fields=await this.fields(c,key);const order=fields.some(f=>f.name==='created_at')?'created_at DESC,id DESC':'id DESC';
-      const rows=(await c.query(`SELECT ${readColumns(fields)},xmin::text AS _version FROM xland.${e.table} ${clause} ORDER BY ${order} LIMIT $${args.length+1} OFFSET $${args.length+2}`,[...args,q.limit,(q.page-1)*q.limit])).rows;
-      for(const col of e.columns){const ref=references[col];if(!ref)continue;const target=this.entity(ref),label=target.search[0]??'id';
+      const rows=(await c.query(`SELECT ${readColumns(fields)},count(*) OVER() AS _full_count,xmin::text AS _version FROM xland.${e.table} ${clause} ORDER BY ${order} LIMIT $${args.length+1} OFFSET $${args.length+2}`,[...args,q.limit,(q.page-1)*q.limit])).rows;
+      let total=rows.length?Number(rows[0]._full_count):0;
+      if(!rows.length&&q.page>1){
+        total=Number((await c.query(`SELECT count(*) n FROM xland.${e.table} ${clause}`,args)).rows[0].n);
+      }
+      for(const row of rows)delete row._full_count;
+      const fkLookups:{col:string;target:Entity;label:string;ids:unknown[]}[]=[];
+      for(const col of e.columns){
+        const ref=references[col];if(!ref)continue;
+        const target=this.entity(ref),label=target.search[0]??'id';
         const ids=rows.map(r=>r[col]).filter(Boolean);if(!ids.length)continue;
-        const names=(await c.query(`SELECT id,"${label}"::text label FROM xland.${target.table} WHERE id=ANY($1::uuid[])`,[ids])).rows;
-        for(const row of rows)row._labels={...row._labels,[col]:names.find(n=>n.id===row[col])?.label??row[col]};
+        fkLookups.push({col,target,label,ids});
+      }
+      if(fkLookups.length===1){
+        const fk=fkLookups[0]!;
+        const names=(await c.query(`SELECT id,"${fk.label}"::text label FROM xland.${fk.target.table} WHERE id=ANY($1::uuid[])`,[fk.ids])).rows;
+        for(const row of rows)row._labels={...row._labels,[fk.col]:names.find(n=>n.id===row[fk.col])?.label??row[fk.col]};
+      }else if(fkLookups.length>1){
+        const unionQuery=fkLookups.map((fk,idx)=>`SELECT '${fk.col}' AS _col,id,"${fk.label}"::text label FROM xland.${fk.target.table} WHERE id=ANY($${idx+1}::uuid[])`).join(' UNION ALL ');
+        const names=(await c.query(unionQuery,fkLookups.map(fk=>fk.ids))).rows;
+        for(const fk of fkLookups){
+          const colNames=names.filter(n=>n._col===fk.col);
+          for(const row of rows)row._labels={...row._labels,[fk.col]:colNames.find(n=>n.id===row[fk.col])?.label??row[fk.col]};
+        }
       }
       return {items:rows,total,page:q.page,limit:q.limit};
     });
@@ -251,5 +292,151 @@ export class AdminService {
   }
   async audit(c:PoolClient,identity:Identity,action:string,entity:string,id:string|null,fields:string[]){
     await c.query('INSERT INTO xland.admin_audit_log(id,actor_id,action,entity,record_id,changed_fields) VALUES($1,$2,$3,$4,$5,$6)',[randomUUID(),identity.userId,action,entity,id,JSON.stringify(fields)]);
+  }
+  async aggregate(identity:Identity,propertyId:string){
+    return this.transaction(identity,async c=>{
+      const query=`SELECT 
+        p.*,
+        p.xmin::text AS _version,
+        c.name AS consultant_name,
+        COALESCE((
+          SELECT json_agg(
+            json_build_object(
+              'id', m.id,
+              'property_id', m.property_id,
+              'kind', m.kind,
+              'usage', m.usage,
+              'storage_key', m.storage_key,
+              'public_url', m.public_url,
+              'thumbnail_url', m.thumbnail_url,
+              'alt_text', m.alt_text,
+              'duration_seconds', m.duration_seconds,
+              'sort_order', m.sort_order,
+              'is_illustrative', m.is_illustrative,
+              '_version', m.xmin::text
+            ) ORDER BY m.sort_order, m.id
+          ) FROM xland.property_media m WHERE m.property_id = p.id
+        ), '[]'::json) AS media,
+        COALESCE((
+          SELECT json_agg(
+            json_build_object(
+              'id', l.id,
+              'property_id', l.property_id,
+              'title', l.title,
+              'subtitle', l.subtitle,
+              'checked_date', l.checked_date::text,
+              'status', l.status,
+              'sort_order', l.sort_order,
+              '_version', l.xmin::text
+            ) ORDER BY l.sort_order, l.id
+          ) FROM xland.property_legal_items l WHERE l.property_id = p.id
+        ), '[]'::json) AS legal_items,
+        COALESCE((
+          SELECT json_agg(
+            json_build_object(
+              'id', d.id,
+              'property_id', d.property_id,
+              'title', d.title,
+              'file_type', d.file_type,
+              'mime_type', d.mime_type,
+              'size_bytes', d.size_bytes::text,
+              'uploaded_date', d.uploaded_date::text,
+              'storage_key', d.storage_key,
+              'access_level', d.access_level,
+              'public_preview_url', d.public_preview_url,
+              'is_illustrative', d.is_illustrative,
+              '_version', d.xmin::text
+            ) ORDER BY d.uploaded_date DESC, d.id
+          ) FROM xland.property_documents d WHERE d.property_id = p.id
+        ), '[]'::json) AS documents,
+        COALESCE((
+          SELECT json_agg(
+            json_build_object(
+              'id', a.id,
+              'property_id', a.property_id,
+              'category', a.category,
+              'name', a.name,
+              'distance_text', a.distance_text,
+              'icon_type', a.icon_type,
+              'approximate_lat', a.approximate_lat,
+              'approximate_lng', a.approximate_lng,
+              'sort_order', a.sort_order,
+              '_version', a.xmin::text
+            ) ORDER BY a.sort_order, a.id
+          ) FROM xland.property_nearby_amenities a WHERE a.property_id = p.id
+        ), '[]'::json) AS amenities,
+        COALESCE((
+          SELECT json_agg(
+            json_build_object(
+              'id', s.id,
+              'property_id', s.property_id,
+              'label', s.label,
+              'starts_at', s.starts_at,
+              'ends_at', s.ends_at,
+              'max_attendees', s.max_attendees,
+              'max_bookings', s.max_bookings,
+              'status', s.status,
+              'approximate_meeting_lat', s.approximate_meeting_lat,
+              'approximate_meeting_lng', s.approximate_meeting_lng,
+              'radius_m', s.radius_m,
+              'is_illustrative', s.is_illustrative,
+              '_version', s.xmin::text
+            ) ORDER BY s.starts_at DESC
+          ) FROM xland.site_visit_slots s WHERE s.property_id = p.id
+        ), '[]'::json) AS slots,
+        COALESCE((
+          SELECT json_agg(
+            json_build_object(
+              'id', b.id,
+              'property_id', b.property_id,
+              'customer_name', b.customer_name,
+              'customer_phone', b.customer_phone,
+              'requested_starts_at', b.requested_starts_at,
+              'confirmed_starts_at', b.confirmed_starts_at,
+              'attendee_count', b.attendee_count,
+              'status', b.status,
+              'confirmed_meeting_label', b.confirmed_meeting_label,
+              '_version', b._version
+            ) ORDER BY b.requested_starts_at DESC
+          ) FROM (
+            SELECT *, xmin::text AS _version FROM xland.site_visit_bookings WHERE property_id = p.id ORDER BY requested_starts_at DESC LIMIT 20
+          ) b
+        ), '[]'::json) AS bookings
+      FROM xland.properties p
+      LEFT JOIN xland.consultants c ON c.id = p.consultant_id
+      WHERE p.id = $1`;
+      const row=(await c.query(query,[propertyId])).rows[0];
+      if(!row)missing();
+      return row;
+    });
+  }
+  async reorderMedia(identity:Identity,propertyId:string,items:{id:string;sort_order:number}[]){
+    return this.transaction(identity,async c=>{
+      if(!items.length)return {updated:0};
+      for(let i=0;i<items.length;i++){
+        await c.query('UPDATE xland.property_media SET sort_order=$1 WHERE id=$2 AND property_id=$3',[-(1000+i),items[i]!.id,propertyId]);
+      }
+      for(const item of items){
+        await c.query('UPDATE xland.property_media SET sort_order=$1 WHERE id=$2 AND property_id=$3',[item.sort_order,item.id,propertyId]);
+      }
+      await this.audit(c,identity,'reorder','property_media',propertyId,['sort_order']);
+      return {updated:items.length};
+    });
+  }
+  async delete(identity:Identity,key:string,id:string){
+    const deletableEntities=['media','legal','documents','amenities'];
+    if(!deletableEntities.includes(key))throw new DomainError(405,'NOT_ALLOWED','Không hỗ trợ xóa loại hồ sơ này');
+    const e=this.entity(key);
+    return this.transaction(identity,async c=>{
+      const prior=(await c.query(`SELECT *,xmin::text AS _version FROM xland.${e.table} WHERE id=$1 FOR UPDATE`,[id])).rows[0];
+      if(!prior)missing();
+      if(key==='media'){
+        const used=(await c.query('SELECT id FROM xland.videos WHERE media_id=$1',[id])).rowCount;
+        if(used)conflict('Media đang được gắn với video feed; không thể xóa.');
+      }
+      await c.query(`DELETE FROM xland.${e.table} WHERE id=$1`,[id]);
+      await this.audit(c,identity,'delete',key,id,Object.keys(prior));
+      return {id,deleted:true};
+    });
   }
 }

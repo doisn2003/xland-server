@@ -1,5 +1,8 @@
 # Northflank deployment — 22 October 2026
 
+> Hosting returned to Railway on 26 October 2026. See [current deployment](RAILWAY.md).
+> This document records the temporary Northflank deployment and rollback target.
+
 Service: `doisn2003s-team/default/xland`, GitHub `doisn2003/xland-server`, branch
 `main`, Dockerfile build, public HTTP container port 8080, HTTPS edge.
 
