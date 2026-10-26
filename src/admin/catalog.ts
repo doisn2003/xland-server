@@ -21,7 +21,7 @@ export const entities:Record<string,Entity> = {
 };
 export const enums:Record<string,string[]> = {
   region:['north','central','south'],category:['residential','industrial','agricultural','other'],land_type:['residential','agricultural','other'],
-  direction:['north','northeast','east','southeast','south','southwest','west','northwest'],status_badge:['board_source','standard'],approval_status:['pending','approved'],
+  direction:['north','northeast','east','southeast','south','southwest','west','northwest'],status_badge:['board_source','standard'],approval_status:['pending','approved','rejected'],
   'properties.status':['listed','paused','sold'],'bookings.status':['draft','awaiting_deposit','pending_confirmation','confirmed','completed','expired','cancel_requested','cancelled','reschedule_requested','rejected','no_show'],
   'slots.status':['open','closed'],'support.status':['received','pending','responded','closed'],'events.status':['open','sold_out','closed','cancelled'],
   'registrations.status':['pending','registered','cancelled'],'legal.status':['pending','verified'],

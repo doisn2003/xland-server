@@ -439,4 +439,140 @@ export class AdminService {
       return {id,deleted:true};
     });
   }
+  async moderationVideos(identity:Identity,filterStatus?:string){
+    return this.transaction(identity,async c=>{
+      const params:unknown[]=[];
+      let whereClause="WHERE v.deleted_at IS NULL";
+      if(filterStatus&&['pending','approved','rejected'].includes(filterStatus)){
+        params.push(filterStatus);
+        whereClause+=` AND v.approval_status = $${params.length}`;
+      }
+      const query=`
+        SELECT 
+          v.id,
+          v.property_id,
+          v.author_id,
+          v.media_id,
+          v.caption,
+          v.published_at,
+          v.approval_status,
+          v.view_count::text AS view_count,
+          v.is_illustrative,
+          v.xmin::text AS _version,
+          json_build_object(
+            'id', u.id,
+            'display_name', u.display_name,
+            'avatar_url', u.avatar_url,
+            'public_role', u.public_role
+          ) AS author,
+          json_build_object(
+            'id', p.id,
+            'code', p.code,
+            'title', p.title,
+            'province', p.province
+          ) AS property,
+          json_build_object(
+            'id', m.id,
+            'public_url', m.public_url,
+            'thumbnail_url', m.thumbnail_url,
+            'duration_seconds', m.duration_seconds,
+            'alt_text', m.alt_text
+          ) AS media,
+          COALESCE((SELECT count(*)::int FROM xland.video_likes l WHERE l.video_id = v.id), 0) AS likes_count,
+          COALESCE((SELECT count(*)::int FROM xland.video_comments comm WHERE comm.video_id = v.id AND comm.deleted_at IS NULL), 0) AS comments_count
+        FROM xland.videos v
+        JOIN xland.user_profiles u ON u.id = v.author_id
+        JOIN xland.properties p ON p.id = v.property_id
+        JOIN xland.property_media m ON m.id = v.media_id
+        ${whereClause}
+        ORDER BY (CASE WHEN v.approval_status = 'pending' THEN 0 ELSE 1 END), v.published_at DESC
+        LIMIT 100
+      `;
+      return (await c.query(query,params)).rows;
+    });
+  }
+  async reviewVideo(identity:Identity,videoId:string,status:'approved'|'rejected',reason?:string){
+    return this.transaction(identity,async c=>{
+      const prior=(await c.query(`SELECT *, xmin::text AS _version FROM xland.videos WHERE id = $1 FOR UPDATE`,[videoId])).rows[0];
+      if(!prior)missing();
+      await c.query(`UPDATE xland.videos SET approval_status = $1 WHERE id = $2`,[status,videoId]);
+      await this.audit(c,identity,'review','videos',videoId,['approval_status',...(reason?['rejection_reason']: [])]);
+      return (await c.query(`SELECT *, xmin::text AS _version FROM xland.videos WHERE id = $1`,[videoId])).rows[0];
+    });
+  }
+  async eventAggregate(identity:Identity,eventId:string){
+    return this.transaction(identity,async c=>{
+      const query=`
+        SELECT 
+          e.*,
+          e.xmin::text AS _version,
+          COALESCE((
+            SELECT json_agg(
+              json_build_object(
+                'id', r.id,
+                'event_id', r.event_id,
+                'user_id', r.user_id,
+                'attendee_count', r.attendee_count,
+                'contact_name', r.contact_name,
+                'contact_phone', r.contact_phone,
+                'status', r.status,
+                'ticket_price_snapshot', r.ticket_price_snapshot::text,
+                'payment_mode', r.payment_mode,
+                'created_at', r.created_at::text,
+                '_version', r._version
+              ) ORDER BY r.created_at DESC
+            ) FROM (
+              SELECT *, xmin::text AS _version FROM xland.event_registrations WHERE event_id = e.id ORDER BY created_at DESC
+            ) r
+          ), '[]'::json) AS registrations,
+          COALESCE((SELECT sum(r2.attendee_count)::int FROM xland.event_registrations r2 WHERE r2.event_id = e.id AND r2.status = 'registered'), 0) AS registered_attendees,
+          COALESCE((SELECT sum(r3.attendee_count)::int FROM xland.event_registrations r3 WHERE r3.event_id = e.id AND r3.status = 'pending'), 0) AS pending_attendees
+        FROM xland.events e
+        WHERE e.id = $1
+      `;
+      const row=(await c.query(query,[eventId])).rows[0];
+      if(!row)missing();
+      return row;
+    });
+  }
+  async exportEventRegistrationsCsv(identity:Identity,eventId:string):Promise<{filename:string;csv:string}>{
+    return this.transaction(identity,async c=>{
+      const event=(await c.query(`SELECT id, title, starts_at FROM xland.events WHERE id = $1`,[eventId])).rows[0];
+      if(!event)missing();
+      const rows=(await c.query(`SELECT id, contact_name, contact_phone, attendee_count, status, created_at, ticket_price_snapshot, payment_mode FROM xland.event_registrations WHERE event_id = $1 ORDER BY created_at DESC`,[eventId])).rows;
+
+      const sanitize=(val:unknown)=>{
+        const str=String(val??'').replaceAll('"','""');
+        return /[",\n\r]/.test(str)?`"${str}"`:str;
+      };
+
+      const statusMap:Record<string,string>={
+        registered:'Đã xác nhận',
+        pending:'Chờ duyệt',
+        cancelled:'Đã hủy',
+      };
+
+      const header=['Mã đăng ký','Họ tên khách','Số điện thoại','Số vé','Trạng thái','Thời gian đăng ký','Giá vé (đ)','Thanh toán'];
+      const lines=[header.map(sanitize).join(',')];
+
+      for(const r of rows){
+        lines.push([
+          sanitize(r.id),
+          sanitize(r.contact_name),
+          sanitize(r.contact_phone),
+          sanitize(r.attendee_count),
+          sanitize(statusMap[String(r.status)]??r.status),
+          sanitize(new Date(r.created_at).toLocaleString('vi-VN',{timeZone:'Asia/Ho_Chi_Minh'})),
+          sanitize(r.ticket_price_snapshot),
+          sanitize(r.payment_mode),
+        ].join(','));
+      }
+
+      const csv='\uFEFF'+lines.join('\r\n');
+      const asciiTitle=String(event.title||'event').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/gi,'d').replace(/[^a-zA-Z0-9_-]+/g,'-').slice(0,40);
+      const filename=`registrations-${asciiTitle}-${eventId.slice(0,8)}.csv`;
+      await this.audit(c,identity,'export_csv','event_registrations',eventId,['csv_download']);
+      return {filename,csv};
+    });
+  }
 }

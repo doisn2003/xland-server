@@ -47,6 +47,21 @@ export async function adminRouter(db:Database,auth:AuthService,env:NodeJS.Proces
     const body=parse(z.object({items:z.array(z.object({id:uuid,sort_order:z.number().int().nonnegative()})).min(1)}).strict(),req.body);
     res.json({data:await service.reorderMedia(identity(res),parse(uuid,req.params.id),body.items)});
   });
+  router.get('/videos/moderation',async(req,res)=>{
+    const status=typeof req.query.status==='string'?req.query.status:undefined;
+    res.json({data:await service.moderationVideos(identity(res),status)});
+  });
+  router.patch('/videos/:id/review',async(req,res)=>{
+    const body=parse(z.object({approval_status:z.enum(['approved','rejected']),reason:z.string().max(1000).optional()}).strict(),req.body);
+    res.json({data:await service.reviewVideo(identity(res),parse(uuid,req.params.id),body.approval_status,body.reason)});
+  });
+  router.get('/events/:id/aggregate',async(req,res)=>res.json({data:await service.eventAggregate(identity(res),parse(uuid,req.params.id))}));
+  router.get('/events/:id/export-csv',async(req,res)=>{
+    const file=await service.exportEventRegistrationsCsv(identity(res),parse(uuid,req.params.id));
+    res.setHeader('Content-Type','text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition',`attachment; filename="${file.filename}"`);
+    res.send(file.csv);
+  });
   router.get('/:entity',async(req,res)=>{
     const q=parse(z.object({q:z.string().max(150).optional(),page:z.coerce.number().int().min(1).max(100000).default(1),limit:z.coerce.number().int().min(1).max(50).default(25),filter:z.string().max(50).optional(),value:z.string().max(150).optional()}).strict(),req.query);
     res.json({data:await service.list(identity(res),String(req.params.entity),q)});

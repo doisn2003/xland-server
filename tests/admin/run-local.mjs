@@ -181,7 +181,45 @@ try{
   // Delete property (unsupported entity) -> 405
   await req('/admin/properties/'+property.id,'DELETE',undefined,token,405);checks++;
 
-  const log=await req('/admin/audit','GET',undefined,token);assert.ok(log.items.some(r=>r.entity==='properties'));assert.ok(!JSON.stringify(log).includes('0912345678'));
+  // Test Phase 3: Video Moderation & Review
+  await db.pool.query("UPDATE xland.videos SET deleted_at = NULL, approval_status = 'pending' WHERE id = $1", [video.id]);
+  const moderationList=await req('/admin/videos/moderation','GET',undefined,token);
+  assert.ok(Array.isArray(moderationList));
+  const targetVideo=moderationList.find(v=>v.id===video.id);
+  assert.ok(targetVideo);
+  assert.ok(targetVideo.author&&targetVideo.author.display_name);
+  assert.ok(targetVideo.property&&targetVideo.property.code==='ADMIN-QA');
+  assert.ok(targetVideo.media&&targetVideo.media.public_url);
+  assert.equal(typeof targetVideo.likes_count,'number');
+  assert.equal(typeof targetVideo.comments_count,'number');checks++;
+
+  // Fast review (Reject -> Approved)
+  const rejected=await req('/admin/videos/'+video.id+'/review','PATCH',{approval_status:'rejected',reason:'Chất lượng âm thanh chưa đạt'},token);
+  assert.equal(rejected.approval_status,'rejected');checks++;
+  const approved=await req('/admin/videos/'+video.id+'/review','PATCH',{approval_status:'approved'},token);
+  assert.equal(approved.approval_status,'approved');checks++;
+
+  // Test Phase 3: Event Aggregate & CSV Export
+  await db.pool.query("INSERT INTO xland.event_registrations(id,event_id,user_id,attendee_count,contact_name,contact_phone,status,ticket_price_snapshot) VALUES(gen_random_uuid(),$1,$2,2,'Khách Test Sự Kiện','0987654321','registered',0)",[event.id,user.id]);
+  const eventAgg=await req('/admin/events/'+event.id+'/aggregate','GET',undefined,token);
+  assert.equal(eventAgg.id,event.id);
+  assert.ok(Array.isArray(eventAgg.registrations));
+  assert.equal(eventAgg.registered_attendees,2);
+  assert.ok(eventAgg.registrations.some(r=>r.contact_name==='Khách Test Sự Kiện'));checks++;
+
+  const csvRes=await fetch(base+'/admin/events/'+event.id+'/export-csv',{headers:{Authorization:'Bearer '+token}});
+  assert.equal(csvRes.status,200);
+  assert.ok(csvRes.headers.get('content-type')?.includes('text/csv'));
+  assert.ok(csvRes.headers.get('content-disposition')?.includes('attachment; filename='));
+  const buf=Buffer.from(await csvRes.arrayBuffer());
+  assert.equal(buf[0],0xef,'CSV must start with UTF-8 BOM byte 1');
+  assert.equal(buf[1],0xbb,'CSV must start with UTF-8 BOM byte 2');
+  assert.equal(buf[2],0xbf,'CSV must start with UTF-8 BOM byte 3');
+  const csvText=buf.toString('utf8');
+  assert.ok(csvText.includes('Khách Test Sự Kiện'));
+  assert.ok(csvText.includes('0987654321'));checks++;
+
+  const log=await req('/admin/audit?limit=50','GET',undefined,token);assert.ok(log.items.some(r=>r.entity==='properties'));assert.ok(!JSON.stringify(log).includes('0912345678'));
   await assert.rejects(db.transaction('xland_api',user.id,c=>c.query('SELECT * FROM xland.admin_audit_log')),/permission denied/);checks++;
   await db.pool.query("DELETE FROM xland.user_roles WHERE user_id=$1 AND role='admin'",[admin.id]);
   access.clearCache();
