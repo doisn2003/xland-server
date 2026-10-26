@@ -31,13 +31,34 @@ export class AuthService {
       return this.issueSessionUsing(c,row.id);
     });
   }
+  async register(input: LoginInput): Promise<Record<string,unknown>> {
+    const username=input.username.trim().toLowerCase();
+    if(!/^[a-z0-9._-]{3,64}$/.test(username))invalid('username');
+    if([...input.password].length<8||[...input.password].length>128||input.password.includes('\0'))invalid('password');
+    return this.db.transaction('xland_auth',null,async c=>{
+      const existing=await c.query('SELECT 1 FROM xland.user_identities WHERE username_normalized=$1',[username]);
+      if(existing.rows.length>0){
+        throw new DomainError(409,'USERNAME_EXISTS','Tên đăng nhập đã tồn tại');
+      }
+      const hash=await argon2.hash(input.password,{type:argon2.argon2id,memoryCost:19456,timeCost:2,parallelism:1});
+      const id=randomUUID();
+      await c.query('INSERT INTO xland.user_identities(id,username_normalized,password_hash) VALUES($1,$2,$3)',[id,username,hash]);
+      await c.query('INSERT INTO xland.user_profiles(id,display_name) VALUES($1,$2)',[id,username]);
+      await c.query('INSERT INTO xland.user_contacts(user_id,phone,phone_verified_at) VALUES($1,NULL,NULL)',[id]);
+      await c.query('INSERT INTO xland.user_settings(user_id) VALUES($1)',[id]);
+      await c.query("INSERT INTO xland.user_roles(user_id,role) VALUES($1,'customer')",[id]);
+      return this.issueSessionUsing(c,id);
+    });
+  }
   /** Server-internal only: caller must establish the identity inside this transaction. */
   async issueSessionUsing(c:PoolClient,userId:string):Promise<Record<string,unknown>> {
     const user=await c.query<{status:string}>('SELECT status FROM xland.user_identities WHERE id=$1 FOR SHARE',[userId]);
     if(user.rows[0]?.status!=='active')unauthenticated();
     const token=randomBytes(32).toString('base64url');
     const digest=createHash('sha256').update(token).digest();
-    const created=this.now();const expires=new Date(created.getTime()+86400000);
+    const created=this.now();
+    // Permanent session: 100 years in the future
+    const expires=new Date(created.getTime()+100*365.25*86400000);
     await c.query('INSERT INTO xland.auth_sessions(id,user_id,token_digest,created_at,expires_at) VALUES($1,$2,$3,$4,$5)',[randomUUID(),userId,digest,created,expires]);
     return {accessToken:token,session:{profile:await this.profileUsing(c,userId),expiresAt:expires.toISOString()}};
   }
@@ -61,10 +82,10 @@ export class AuthService {
     return this.db.transaction('xland_auth',id,c=>this.profileUsing(c,id));
   }
   private async profileUsing(c:PoolClient,id:string):Promise<Record<string,unknown>> {
-      const result=await c.query(`SELECT p.id,p.display_name,p.avatar_url,p.updated_at,c.phone,c.phone_verified_at
+      const result=await c.query(`SELECT p.id,p.display_name,p.avatar_url,p.updated_at,c.phone,c.phone_verified_at,c.address
         FROM xland.user_profiles p JOIN xland.user_contacts c ON c.user_id=p.id WHERE p.id=$1`,[id]);
       const p=result.rows[0];if(!p)unauthenticated();
-      return {id:p.id,displayName:p.display_name,avatarUrl:p.avatar_url,contactPhone:p.phone,contactVerified:p.phone_verified_at!==null,updatedAt:p.updated_at.toISOString()};
+      return {id:p.id,displayName:p.display_name,avatarUrl:p.avatar_url,contactPhone:p.phone,address:p.address,contactVerified:p.phone_verified_at!==null,updatedAt:p.updated_at.toISOString()};
   }
   async logout(identity:Identity): Promise<void> {
     await this.db.transaction('xland_auth',identity.userId,async c=>{

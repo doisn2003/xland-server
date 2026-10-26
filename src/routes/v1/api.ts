@@ -14,18 +14,19 @@ import { BookingService,depositPolicy } from '../../services/bookings.js';
 import { SocialService } from '../../services/social.js';
 import { CommunityService } from '../../services/community.js';
 import { FinanceService } from '../../services/finance.js';
+import type { AvatarStorage } from '../../services/avatar-storage.js';
 
-export function apiRouter(service:CoreService,avatarOrigins:readonly string[]=[],extendedAuth?:ExtendedAuthService,areaMaps?:AreaMapProvider):Router {
+export function apiRouter(service:CoreService,avatarOrigins:readonly string[]=[],extendedAuth?:ExtendedAuthService,areaMaps?:AreaMapProvider,avatars?:AvatarStorage):Router {
   const router=Router();
   if(extendedAuth)router.use(extendedAuthRouter(extendedAuth));
-  const accounts=new AccountService(service,avatarOrigins);const bookings=new BookingService(service);
+  const accounts=new AccountService(service,avatarOrigins,avatars);const bookings=new BookingService(service);
   const social=new SocialService(service);const community=new CommunityService(service);
   const finance=new FinanceService(service);
   const id=(req:Request,name:string)=>parse(uuid,req.params[name]);
   const identity=(res:Response)=>res.locals.identity as Identity|null;
   const key=(req:Request)=>parse(z.string().regex(/^[\x21-\x7e]{16,128}$/),req.headers['idempotency-key']);
   router.use(async(req,res,next)=>{
-    res.locals.identity=req.method==='POST'&&req.path==='/auth/sessions'?null:await service.auth.identify(req.headers.authorization);
+    res.locals.identity=req.method==='POST'&&(req.path==='/auth/sessions'||req.path==='/auth/register')?null:await service.auth.identify(req.headers.authorization);
     next();
   });
   router.use((req,_res,next)=>{
@@ -38,6 +39,10 @@ export function apiRouter(service:CoreService,avatarOrigins:readonly string[]=[]
   router.post('/auth/sessions',async(req,res)=>{
     const input=parse(loginSchema,req.body);
     const result=await service.auth.login(input,req.ip??'unknown');res.setHeader('Cache-Control','no-store');res.json({data:result});
+  });
+  router.post('/auth/register',async(req,res)=>{
+    const input=parse(loginSchema,req.body);
+    const result=await service.auth.register(input);res.setHeader('Cache-Control','no-store');res.status(201).json({data:result});
   });
   router.get('/auth/session',async(_req,res)=>{
     const auth=identity(res);service.user(auth);
