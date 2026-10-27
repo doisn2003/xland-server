@@ -26,7 +26,7 @@ export async function localPostgres({directory=resolve('.local'),port=55439}={})
     postgresFlags:['-h','127.0.0.1'], initdbFlags:['--encoding=UTF8','--locale=C'], onLog:()=>{}, onError:()=>{} });
   let wasStarted=false;const rootUrl=`postgresql://postgres:${config.password}@127.0.0.1:${config.port}/postgres`;
   const probe=async()=>{const client=new pg.Client({connectionString:rootUrl,connectionTimeoutMillis:1000,query_timeout:1000});try{await client.connect();await client.query('SELECT 1');}finally{await client.end().catch(()=>{});}};
-  const stop=async()=>{if(wasStarted){if(process.platform==='win32')await execute(pg_ctl,['-D',resolve(dir,'postgres'),'-m','fast','-t','15','-w','stop'],{windowsHide:true,timeout:20000});else await postgres.stop();wasStarted=false;}};
+  const stop=async()=>{if(wasStarted){if(process.platform==='win32')await execute(pg_ctl,['-D',resolve(dir,'postgres'),'-m','fast','-t','60','-w','stop'],{windowsHide:true,timeout:65000});else await postgres.stop();wasStarted=false;}};
   try{await probe();}
   catch(error){
     if(['28P01','28000'].includes(error.code))throw new Error('Local cluster authentication failed; existing private credentials preserved');

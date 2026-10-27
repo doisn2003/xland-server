@@ -5,6 +5,22 @@
 Admin web: `https://xland-alpha.vercel.app/admin`.
 Xem [cấu hình và vận hành Railway](docs/RAILWAY.md). Northflank được giữ để rollback.
 
+## Backend local cho mobile debug
+
+Trong thư mục `xland-server`, chạy:
+
+```powershell
+npm run dev:mobile
+```
+
+API: `http://localhost:3002/api/v1`; readiness: `http://localhost:3002/health/ready`.
+Trong Android Studio chọn **Xland Local → Pixel 9 Pro → Run/Debug**; emulator
+kết nối `http://10.0.2.2:3002/api/v1`. Lệnh tự tải cấu hình riêng hiện có và bật
+lớp quy hoạch. Database vẫn là Supabase mẫu, không migrate/seed khi khởi động.
+Giữ terminal mở; sửa source tự khởi động lại API, `Ctrl+C` để dừng.
+Nếu thiếu dependencies, chạy `npm ci` trước. Xem
+[hướng dẫn local đầy đủ](../xland-mobile/docs/LOCAL_DEVELOPMENT.md).
+
 Admin fullstack (22/10/2026): namespace mới `/api/v1/admin`, migration `0012_admin_workspace.sql`, PostgreSQL RBAC/audit và upload Supabase. Chạy `npm run admin:dev` ở cổng 3005; `npm run test:admin` kiểm thử với PostgreSQL cô lập. Tài khoản đã provision theo yêu cầu: `admin / 123456`. Xem [kế hoạch, API và vận hành Admin](../xland-website/xland/docs/ADMIN.md). Các API mobile hiện hữu giữ nguyên.
 
 ## Admin audit fixes — 22 October 2026

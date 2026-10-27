@@ -552,6 +552,13 @@ Highlight mapHighlight(Object? input) {
 Property mapProperty(Object? input) {
   final value = wireObject(input);
   return Property(
+    parentPropertyId: wireNullable(value['parentPropertyId'], wireString),
+    hasSubplots: value.containsKey('hasSubplots')
+        ? wireBool(value['hasSubplots'])
+        : false,
+    isCorner: value.containsKey('isCorner')
+        ? wireBool(value['isCorner'])
+        : false,
     id: (wireString)(wireField(value, 'id')),
     code: (wireString)(wireField(value, 'code')),
     title: (wireString)(wireField(value, 'title')),
@@ -1090,6 +1097,7 @@ UserProfile mapUserProfile(Object? input) {
   return UserProfile(
     id: (wireString)(wireField(value, 'id')),
     displayName: (wireString)(wireField(value, 'displayName')),
+    address: wireNullable(value['address'], wireString),
     avatarUrl: ((Object? value) =>
         wireNullable(value, wireUri))(wireField(value, 'avatarUrl')),
     contactPhone: ((Object? value) =>

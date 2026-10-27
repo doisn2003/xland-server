@@ -32,10 +32,11 @@ export function apiRouter(service:CoreService,avatarOrigins:readonly string[]=[]
   router.use((req,_res,next)=>{
     if(req.method!=='GET')parse(z.object({}).strict(),req.query);
     if(req.method==='DELETE')parse(z.object({}).strict(),req.body??{});
-    if(req.method==='GET'&&![/^\/(properties(\/count)?|feed|clubs|events)$/, /^\/me\/(saved-videos|following|event-registrations|saved-events|bookings|support-requests|finance-plans)$/, /^\/catalog\/locations$/, /^\/properties\/[^/]+\/(availability|area)$/, /^\/consultants\/[^/]+\/(videos|properties|reviews|availability)$/, /^\/authors\/[^/]+\/videos$/, /^\/videos\/[^/]+\/comments$/, /^\/bookings\/[^/]+\/payments$/].some(p=>p.test(req.path)))parse(z.object({}).strict(),req.query);
+    if(req.method==='GET'&&![/^\/(properties(\/count)?|feed|clubs|events)$/, /^\/me\/(saved-videos|following|event-registrations|saved-events|bookings|support-requests|finance-plans)$/, /^\/catalog\/locations$/, /^\/properties\/[^/]+\/(availability|area|children)$/, /^\/consultants\/[^/]+\/(videos|properties|reviews|availability)$/, /^\/authors\/[^/]+\/videos$/, /^\/videos\/[^/]+\/comments$/, /^\/bookings\/[^/]+\/payments$/].some(p=>p.test(req.path)))parse(z.object({}).strict(),req.query);
     next();
   });
   if(areaMaps)router.use(areaMapApiRouter(service,areaMaps));
+  router.get('/properties/:propertyId/children',async(req,res)=>res.json(await service.read(identity(res),c=>service.properties.children(c,id(req,'propertyId'),parse(pagination.strict(),req.query),identity(res)?.userId??null))));
   router.post('/auth/sessions',async(req,res)=>{
     const input=parse(loginSchema,req.body);
     const result=await service.auth.login(input,req.ip??'unknown');res.setHeader('Cache-Control','no-store');res.json({data:result});

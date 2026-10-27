@@ -6,19 +6,36 @@ import type { Wire } from '../repositories/properties.js';
 import { page,type PageQuery } from '../repositories/page.js';
 import { missing,invalid,DomainError } from '../domain/errors.js';
 import type { supportInput } from '../schemas/http.js';
+import type { AvatarStorage,AvatarInput } from './avatar-storage.js';
 
 export class AccountService {
-  constructor(readonly core:CoreService,readonly avatarOrigins:readonly string[]=[]){}
+  constructor(readonly core:CoreService,readonly avatarOrigins:readonly string[]=[],readonly avatars?:AvatarStorage){}
   async profile(identity:Identity|null,input:Wire):Promise<Wire> {
     const user=this.core.user(identity);
-    await this.core.write(identity,async c=>{
-      if(input.avatarUrl!==undefined&&input.avatarUrl!==null){
-        const url=new URL(String(input.avatarUrl));if(url.protocol!=='https:'||url.username||url.password||!this.avatarOrigins.includes(url.origin))throw new DomainError(400,'INVALID_INPUT','Nguồn ảnh đại diện chưa được cho phép');
+    if(input.avatarUrl!==undefined&&input.avatarUrl!==null){
+      const url=new URL(String(input.avatarUrl));if(url.protocol!=='https:'||url.username||url.password||(!this.avatarOrigins.includes(url.origin)&&!this.avatars?.owns(url.href,user)))throw new DomainError(400,'INVALID_INPUT','Nguồn ảnh đại diện chưa được cho phép');
+    }
+    let uploaded:string|undefined;
+    if(input.avatar){
+      if(!this.avatars)throw new DomainError(503,'STORAGE_NOT_CONFIGURED','Chưa cấu hình Supabase Storage ở backend');
+      uploaded=await this.avatars.upload(user,input.avatar as AvatarInput);
+      input={...input,avatarUrl:uploaded};
+    }
+    let previousAvatar:string|undefined;
+    try{await this.core.write(identity,async c=>{
+      if('avatarUrl'in input){
+        const prior=(await c.query('SELECT avatar_url FROM xland.user_profiles WHERE id=$1 FOR UPDATE',[user])).rows[0];
+        previousAvatar=prior?.avatar_url??undefined;
       }
       if('displayName'in input)await c.query('UPDATE xland.user_profiles SET display_name=$1,updated_at=now() WHERE id=$2',[input.displayName,user]);
       if('avatarUrl'in input)await c.query('UPDATE xland.user_profiles SET avatar_url=$1,updated_at=now() WHERE id=$2',[input.avatarUrl,user]);
       if('contactPhone'in input){await c.query('UPDATE xland.user_contacts SET phone=$1,updated_at=now() WHERE user_id=$2',[input.contactPhone,user]);await c.query('UPDATE xland.user_profiles SET updated_at=now() WHERE id=$1',[user]);}
-    });
+      if('address'in input){await c.query('UPDATE xland.user_contacts SET address=$1,updated_at=now() WHERE user_id=$2',[input.address||null,user]);await c.query('UPDATE xland.user_profiles SET updated_at=now() WHERE id=$1',[user]);}
+    });}catch(error){
+      if(uploaded)await this.avatars?.remove(uploaded,user).catch(()=>{});
+      throw error;
+    }
+    if(previousAvatar&&previousAvatar!==input.avatarUrl)await this.avatars?.remove(previousAvatar,user).catch(()=>{});
     return this.core.auth.profile(user);
   }
   async settings(identity:Identity|null,input?:Wire):Promise<Wire> {

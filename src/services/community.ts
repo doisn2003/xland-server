@@ -27,7 +27,7 @@ export class CommunityService {
   });}
   async event(c:PoolClient,r:Wire):Promise<Wire>{
     const used=(await c.query('SELECT xland.event_attendee_count($1) used,EXISTS(SELECT 1 FROM xland.saved_events WHERE event_id=$1) saved',[r.id])).rows[0];
-    const closed=r.status==='closed'||(r.ends_at as Date)<=this.core.now();
+    const closed=r.status!=='cancelled'&&(r.status==='closed'||(r.starts_at as Date)<=this.core.now());
     const remaining=closed||r.status==='cancelled'?0:Math.max(0,Number(r.max_slots)-used.used);
     return {id:r.id,title:r.title,tags:r.tags,media:r.media,startsAt:(r.starts_at as Date).toISOString(),endsAt:(r.ends_at as Date).toISOString(),timeZone:r.time_zone,venueName:r.venue_name,address:r.address,maxSlots:r.max_slots,remainingSlots:remaining,durationMinutes:r.duration_mins,ticketPriceVnd:r.ticket_price,
       status:closed?'closed':r.status==='open'&&remaining===0?'sold_out':r.status,agenda:r.agenda,speakers:r.speakers,benefits:r.benefits,isSaved:used.saved,isIllustrative:r.is_illustrative};
@@ -36,7 +36,7 @@ export class CommunityService {
   async events(identity:Identity|null,q:PageQuery&{status?:string|undefined},saved=false):Promise<Wire>{
     if(saved)this.core.user(identity);
     return this.core.read(identity,c=>{
-      const status=`CASE WHEN t.ends_at<=now() AND t.status<>'cancelled' THEN 'closed' WHEN t.status='open' AND xland.event_attendee_count(t.id)>=t.max_slots THEN 'sold_out' ELSE t.status END`;
+      const status=`CASE WHEN t.starts_at<=now() AND t.status<>'cancelled' THEN 'closed' WHEN t.status='open' AND xland.event_attendee_count(t.id)>=t.max_slots THEN 'sold_out' ELSE t.status END`;
       return page(c,this.core.cursor,saved?'saved-events':'events',{user:identity?.userId??null,status:q.status??null},q,'t.*',saved?'xland.events t JOIN xland.saved_events s ON s.event_id=t.id':'xland.events t',q.status?`${status}=$1`:'true',q.status?[q.status]:[],saved?'s.created_at':'t.starts_at',saved?'DESC':'ASC','timestamptz',r=>this.event(c,r));
     });
   }

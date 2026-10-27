@@ -18,7 +18,14 @@ export type PropertyQuery=z.infer<typeof propertyQuery>;
 export const feedQuery=pagination.extend({feedScope:z.enum(['recommended','following']).default('recommended'),region:z.enum(['north','central','south']).optional(),category:z.enum(['residential','industrial','agricultural','other']).optional()}).strict();
 export const bookingInput=z.object({propertyId:uuid,slotId:uuid,sourceVideoId:uuid.nullable().optional(),attendeeCount:z.number().int().min(1).max(100),transportMode:z.enum(['self_arranged','needs_assistance']),requestDocuments:z.boolean(),requestLoanAdvice:z.boolean(),contactName:text(100),contactPhone:phone,note:text(2000).nullable().optional()}).strict();
 export const supportInput=z.object({kind:z.enum(['chat','legal_review','loan_advice','consultant_appointment','location_inquiry']),propertyId:uuid.nullable().optional(),consultantId:uuid.nullable().optional(),message:text(2000),contactName:text(100),contactPhone:phone,consentToShareContact:z.literal(true)}).strict();
-export const profileInput=z.object({displayName:text(100).optional(),avatarUrl:z.url().nullable().optional(),contactPhone:phone.nullable().optional()}).strict().refine(v=>Object.keys(v).length>0);
+const optionalProfileText=(max:number)=>z.string().trim().max(max).refine(v=>!/[<>\u0000]/.test(v));
+export const profileInput=z.object({
+  displayName:optionalProfileText(100).optional(),
+  avatarUrl:z.url().nullable().optional(),
+  avatar:z.object({mimeType:z.enum(['image/jpeg','image/png','image/webp']),bytesBase64:z.string().min(1).max(6990508)}).strict().optional(),
+  contactPhone:z.union([phone,z.literal('').transform(()=>null)]).nullable().optional(),
+  address:optionalProfileText(500).nullable().optional(),
+}).strict().refine(v=>!(v.avatar!==undefined&&v.avatarUrl!==undefined),{path:['avatar'],message:'Không thể vừa tải vừa đặt hoặc xóa ảnh đại diện'});
 export const settingsInput=z.object({notificationConsent:z.boolean().optional(),feedAutoplay:z.boolean().optional(),feedMutedByDefault:z.boolean().optional()}).strict().refine(v=>Object.keys(v).length>0);
 const date=z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(v=>{const d=new Date(v+'T00:00:00Z');return !Number.isNaN(d.getTime())&&d.toISOString().slice(0,10)===v;});
 export const dates=z.object({fromDate:date,toDate:date}).strict().refine(v=>{const delta=Date.parse(v.toDate)-Date.parse(v.fromDate);return delta>=0&&delta<31*86400000;});

@@ -3,7 +3,7 @@ export interface Entity {
   edit?:string[]; readonly?:string[]; filter?:string[];
 }
 export const entities:Record<string,Entity> = {
-  properties:{table:'properties',title:'Lô đất',columns:['code','title','province','area_m2','price_total','status','approval_status'],search:['code','title','province','district'],create:true,filter:['status','approval_status','consultant_id']},
+  properties:{table:'properties',title:'Lô đất',columns:['code','title','province','area_m2','price_total','status','approval_status'],search:['code','title','province','district'],create:true,filter:['status','approval_status','consultant_id','parent_property_id','has_subplots']},
   videos:{table:'videos',title:'Video feeds',columns:['caption','property_id','author_id','approval_status','published_at','deleted_at'],search:['caption'],create:true,readonly:['view_count'],filter:['property_id','approval_status']},
   consultants:{table:'consultants',title:'Tư vấn viên',columns:['name','role','location','is_verified','rating'],search:['name','role','location'],create:true,readonly:['video_count','follower_count','rating','next_available_slot'],filter:[]},
   bookings:{table:'site_visit_bookings',title:'Lịch xem thực địa',columns:['customer_name','customer_phone','property_id','requested_starts_at','attendee_count','status'],search:['customer_name','customer_phone','note'],edit:['consultant_id','status','confirmed_starts_at','confirmed_meeting_label'],filter:['status','property_id','consultant_id']},
@@ -29,5 +29,5 @@ export const enums:Record<string,string[]> = {
   'amenities.category':['utility','traffic','living'],icon_type:['school','hospital','market','road','other'],
   mime_type:['application/pdf','image/jpeg','image/png'],access_level:['public_redacted','authenticated','granted'],
 };
-export const references:Record<string,string> = {property_id:'properties',consultant_id:'consultants',author_id:'users',user_id:'users',recipient_id:'users',support_recipient_id:'users',actor_id:'users',media_id:'media',source_video_id:'videos',slot_id:'slots',event_id:'events'};
+export const references:Record<string,string> = {parent_property_id:'properties',property_id:'properties',consultant_id:'consultants',author_id:'users',user_id:'users',recipient_id:'users',support_recipient_id:'users',actor_id:'users',media_id:'media',source_video_id:'videos',slot_id:'slots',event_id:'events'};
 export const automatic=new Set(['id','created_at','updated_at','price_per_m2','event_date','start_time','end_time','visit_date','time_slot']);

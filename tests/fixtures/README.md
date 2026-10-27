@@ -13,6 +13,12 @@ silently falls back. Updating the contract requires reviewing and repinning the
 snapshot and checksums. These checks are not a substitute for running Dart or a
 mobile device test.
 
+The 2026-10-26 optional profile feature repins `account.dart` and
+`domain_mappers.dart` from the sibling mobile working tree. Their manifest entries
+record the feature and new checksums; the other files retain the baseline commit.
+The historical JSON examples are extended with nullable `address` in the runtime
+contract test, preserving their original source checksums.
+
 Run `npm test`, `npm run test:admin`, `npm run test:integration` and
 `npm run test:contract` from the backend root with the locked Node/npm versions.
 The default evidence location is `.local/evidence`; the historical Agent C

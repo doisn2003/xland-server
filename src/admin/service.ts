@@ -33,7 +33,8 @@ export class AdminService {
     try{return await this.db.transaction('xland_admin',identity.userId,async c=>{
       return work(c);
     });}catch(error){
-      const e=error as {code?:string;column?:string};
+      const e=error as {code?:string;column?:string;message?:string};
+      if(e.code==='23514'&&['parent_property_id','has_subplots','area_m2'].includes(e.column??''))fail(e.column!,e.message);
       if(e.code==='23505')conflict('Mã hoặc thứ tự đã tồn tại. Vui lòng chọn giá trị khác.');
       if(e.code==='23503')fail(e.column??'reference','Liên kết không hợp lệ hoặc đang được sử dụng.');
       if(['23514','23502','22P02','22003','22007','22008'].includes(e.code??''))fail(e.column??'record','Dữ liệu không thỏa mãn ràng buộc của hồ sơ. Kiểm tra số liệu, ngày giờ và các trường liên quan.');
@@ -201,13 +202,14 @@ export class AdminService {
     if(!hasPermission(identity.roles,key,action))throw new DomainError(403,'FORBIDDEN','Tài khoản không có quyền chỉnh sửa mục này');
     return this.transaction(identity,async c=>{
       const recordId=id??randomUUID();const fields=await this.fields(c,key);
+      if(key==='properties')await c.query('SELECT pg_advisory_xact_lock(193726,19)');
       const {_version,contact,reason,...payload}=input;
       const media=key==='videos'?payload.media:undefined;
       if(key==='videos')delete payload.media;
       let prior:Row|undefined;
       if(!create){
         prior=(await c.query(`SELECT *,xmin::text AS _version FROM xland.${e.table} WHERE id=$1 FOR UPDATE`,[id])).rows[0];if(!prior)missing();
-        if(!_version||_version!==prior._version)conflict('Hồ sơ đã thay đổi. Tải lại trước khi lưu.');
+        if(_version&&_version!==prior._version)conflict('Hồ sơ đã thay đổi. Tải lại trước khi lưu.');
       }
       if(key==='videos'&&media){
         if(typeof media!=='object'||Array.isArray(media))fail('media');
@@ -419,7 +421,48 @@ export class AdminService {
       WHERE p.id = $1`;
       const row=(await c.query(query,[propertyId])).rows[0];
       if(!row)missing();
+      row.subdivision=(await c.query(`SELECT count(*)::int total,COALESCE(sum(area_m2),0)::text allocated_area_m2,
+        ($2::numeric-COALESCE(sum(area_m2),0))::text remaining_area_m2,
+        count(*) FILTER(WHERE status='listed')::int listed,count(*) FILTER(WHERE status='sold')::int sold,
+        count(*) FILTER(WHERE approval_status='pending')::int pending
+        FROM xland.properties WHERE parent_property_id=$1`,[propertyId,row.area_m2])).rows[0];
+      row.parent=row.parent_property_id?(await c.query('SELECT id,code,title FROM xland.properties WHERE id=$1',[row.parent_property_id])).rows[0]:null;
       return row;
+    });
+  }
+  async createChild(identity:Identity,parentId:string,input:Row){
+    if(!hasPermission(identity.roles,'properties','create'))throw new DomainError(403,'FORBIDDEN','Không có quyền tạo lô con');
+    return this.transaction(identity,async c=>{
+      await c.query('SELECT pg_advisory_xact_lock(193726,19)');
+      const parent=(await c.query('SELECT *,xmin::text AS _version FROM xland.properties WHERE id=$1 FOR UPDATE',[parentId])).rows[0];
+      if(!parent)missing();
+      if(!parent.has_subplots)fail('has_subplots','Bật Nhiều lô đất con trước khi tạo lô.');
+      const {_version,...payload}=input;
+      if(!_version||_version!==parent._version)conflict('Hồ sơ cha đã thay đổi. Tải lại studio trước khi tạo lô.');
+      for(const field of ['code','title','area_m2','price_total'])if(payload[field]===undefined)fail(field,'Điền mã, tên, diện tích và giá riêng của lô con.');
+      for(const field of ['parent_property_id','approval_status','has_subplots','status'])if(field in payload)fail(field,'Trạng thái và quan hệ của lô mới do hệ thống thiết lập.');
+      const fields=await this.fields(c,'properties');
+      const inherited=Object.fromEntries(fields.filter(f=>!f.readonly).map(f=>[f.name,parent[f.name]]));
+      const values=this.validate(fields,{...inherited,...payload,parent_property_id:parentId,has_subplots:false,is_corner:payload.is_corner??false,approval_status:'pending',status:'paused'},true);
+      // Inherit location unchanged; later edits use the ordinary validated endpoint.
+      for(const field of ['province','province_code','district','district_code','catalog_version','lat','lng','approximate_lat','approximate_lng','approximate_radius_m'])
+        if(field in payload)fail(field,'Chỉnh vị trí trong hồ sơ lô con sau khi tạo.');
+      const id=randomUUID();
+      await this.write(c,'properties',id,values,true);
+      for(const [table,overrides] of [
+        ['property_media',{}],['property_legal_items',{status:'pending',checked_date:null}],
+        ['property_documents',{}],['property_nearby_amenities',{}],
+      ] as const){
+        const rows=(await c.query(`SELECT * FROM xland.${table} WHERE property_id=$1${table==='property_media'?" AND usage IN ('gallery','area')":''}`,[parentId])).rows;
+        for(const row of rows){
+          const {id:oldId,created_at,updated_at,...copy}=row;void oldId;void created_at;void updated_at;
+          await this.write(c,table,randomUUID(),{...copy,...overrides,property_id:id},true);
+        }
+      }
+      // Invalidate concurrent studio creates and stale parent forms as one atomic operation.
+      await c.query('UPDATE xland.properties SET updated_at=now() WHERE id=$1',[parentId]);
+      await this.audit(c,identity,'create-child','properties',id,['parent_property_id',...Object.keys(payload)]);
+      return (await c.query(`SELECT ${readColumns(fields)},xmin::text AS _version FROM xland.properties WHERE id=$1`,[id])).rows[0];
     });
   }
   async reorderMedia(identity:Identity,propertyId:string,items:{id:string;sort_order:number}[]){
@@ -437,7 +480,7 @@ export class AdminService {
   }
   async delete(identity:Identity,key:string,id:string){
     if(!hasPermission(identity.roles,key,'delete'))throw new DomainError(403,'FORBIDDEN','Yêu cầu quyền Super Admin để thực hiện thao tác xóa');
-    const deletableEntities=['media','legal','documents','amenities'];
+    const deletableEntities=['media','legal','documents','amenities','properties','consultants','clubs','events','videos','slots','support'];
     if(!deletableEntities.includes(key))throw new DomainError(405,'NOT_ALLOWED','Không hỗ trợ xóa loại hồ sơ này');
     const e=this.entity(key);
     return this.transaction(identity,async c=>{
@@ -446,6 +489,58 @@ export class AdminService {
       if(key==='media'){
         const used=(await c.query('SELECT id FROM xland.videos WHERE media_id=$1',[id])).rowCount;
         if(used)conflict('Media đang được gắn với video feed; không thể xóa.');
+      }
+      if(key==='properties'){
+        const hasSubplots=(await c.query('SELECT 1 FROM xland.properties WHERE parent_property_id=$1',[id])).rowCount;
+        if(hasSubplots)conflict('Lô đất đang có các lô con trực thuộc. Hãy xóa các lô con trước.');
+        const activeBookings=(await c.query("SELECT 1 FROM xland.site_visit_bookings WHERE property_id=$1 AND status IN ('pending_confirmation','confirmed','awaiting_deposit')",[id])).rowCount;
+        if(activeBookings)conflict('Lô đất đang có lịch hẹn xem thực địa chưa hoàn tất. Không thể xóa.');
+        await c.query('DELETE FROM xland.saved_properties WHERE property_id=$1',[id]);
+        await c.query('DELETE FROM xland.saved_finance_plans WHERE property_id=$1',[id]);
+        await c.query('DELETE FROM xland.support_requests WHERE property_id=$1',[id]);
+        await c.query('DELETE FROM xland.payment_status_history WHERE intent_id IN (SELECT id FROM xland.payment_intents WHERE booking_id IN (SELECT id FROM xland.site_visit_bookings WHERE property_id=$1))',[id]);
+        await c.query('DELETE FROM xland.payment_provider_events WHERE receipt_id IN (SELECT id FROM xland.payment_receipts WHERE intent_id IN (SELECT id FROM xland.payment_intents WHERE booking_id IN (SELECT id FROM xland.site_visit_bookings WHERE property_id=$1)))',[id]);
+        await c.query('DELETE FROM xland.payment_receipts WHERE intent_id IN (SELECT id FROM xland.payment_intents WHERE booking_id IN (SELECT id FROM xland.site_visit_bookings WHERE property_id=$1))',[id]);
+        await c.query('DELETE FROM xland.payment_intents WHERE booking_id IN (SELECT id FROM xland.site_visit_bookings WHERE property_id=$1)',[id]);
+        await c.query('DELETE FROM xland.booking_status_history WHERE booking_id IN (SELECT id FROM xland.site_visit_bookings WHERE property_id=$1)',[id]);
+        await c.query('DELETE FROM xland.slot_reservations WHERE booking_id IN (SELECT id FROM xland.site_visit_bookings WHERE property_id=$1) OR slot_id IN (SELECT id FROM xland.site_visit_slots WHERE property_id=$1)',[id]);
+        await c.query('DELETE FROM xland.site_visit_bookings WHERE property_id=$1',[id]);
+        await c.query('DELETE FROM xland.site_visit_slots WHERE property_id=$1',[id]);
+        await c.query('DELETE FROM xland.saved_videos WHERE video_id IN (SELECT id FROM xland.videos WHERE property_id=$1)',[id]);
+        await c.query('DELETE FROM xland.video_comments WHERE video_id IN (SELECT id FROM xland.videos WHERE property_id=$1)',[id]);
+        await c.query('DELETE FROM xland.video_likes WHERE video_id IN (SELECT id FROM xland.videos WHERE property_id=$1)',[id]);
+        await c.query('DELETE FROM xland.videos WHERE property_id=$1',[id]);
+        await c.query('DELETE FROM xland.document_access_grants WHERE document_id IN (SELECT id FROM xland.property_documents WHERE property_id=$1)',[id]);
+        await c.query('DELETE FROM xland.property_documents WHERE property_id=$1',[id]);
+        await c.query('DELETE FROM xland.property_media WHERE property_id=$1',[id]);
+        await c.query('DELETE FROM xland.property_legal_items WHERE property_id=$1',[id]);
+        await c.query('DELETE FROM xland.property_nearby_amenities WHERE property_id=$1',[id]);
+      }
+      if(key==='consultants'){
+        const assigned=(await c.query('SELECT 1 FROM xland.properties WHERE consultant_id=$1',[id])).rowCount;
+        if(assigned)conflict('Tư vấn viên đang phụ trách lô đất. Vui lòng chuyển giao người phụ trách trước khi xóa.');
+        await c.query('UPDATE xland.site_visit_slots SET consultant_id=NULL WHERE consultant_id=$1',[id]);
+        await c.query('UPDATE xland.site_visit_bookings SET consultant_id=NULL WHERE consultant_id=$1',[id]);
+        await c.query('DELETE FROM xland.support_requests WHERE consultant_id=$1 AND property_id IS NULL',[id]);
+        await c.query('UPDATE xland.support_requests SET consultant_id=NULL WHERE consultant_id=$1',[id]);
+        await c.query('DELETE FROM xland.consultant_reviews WHERE consultant_id=$1',[id]);
+        await c.query("DELETE FROM xland.user_roles WHERE user_id=$1 AND role='consultant'",[id]);
+      }
+      if(key==='events'){
+        const hasConfirmed=(await c.query("SELECT 1 FROM xland.event_registrations WHERE event_id=$1 AND status='registered'",[id])).rowCount;
+        if(hasConfirmed)conflict('Sự kiện đã có khách đăng ký thành công. Vui lòng xử lý đăng ký trước khi xóa.');
+        await c.query('DELETE FROM xland.saved_events WHERE event_id=$1',[id]);
+        await c.query('DELETE FROM xland.event_registrations WHERE event_id=$1',[id]);
+      }
+      if(key==='slots'){
+        const used=(await c.query("SELECT 1 FROM xland.slot_reservations WHERE slot_id=$1 AND state<>'released'",[id])).rowCount;
+        if(used)conflict('Khung giờ đang có khách giữ chỗ. Không thể xóa.');
+        await c.query('DELETE FROM xland.slot_reservations WHERE slot_id=$1',[id]);
+      }
+      if(key==='videos'){
+        await c.query('DELETE FROM xland.saved_videos WHERE video_id=$1',[id]);
+        await c.query('DELETE FROM xland.video_comments WHERE video_id=$1',[id]);
+        await c.query('DELETE FROM xland.video_likes WHERE video_id=$1',[id]);
       }
       await c.query(`DELETE FROM xland.${e.table} WHERE id=$1`,[id]);
       await this.audit(c,identity,'delete',key,id,Object.keys(prior));

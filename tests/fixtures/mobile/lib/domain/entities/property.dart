@@ -30,6 +30,9 @@ final class Highlight {
 
 final class Property {
   const Property({
+    this.parentPropertyId,
+    this.hasSubplots = false,
+    this.isCorner = false,
     required this.id,
     required this.code,
     required this.title,
@@ -59,6 +62,9 @@ final class Property {
     required this.updatedAt,
     required this.isIllustrative,
   });
+  final String? parentPropertyId;
+  final bool hasSubplots;
+  final bool isCorner;
   final String id;
   final String code;
   final String title;

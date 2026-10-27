@@ -1,4 +1,6 @@
 // Candidate v0.1 C-4 (A-07); pending B review and Agent A's final hash lock.
+import 'dart:typed_data';
+
 import 'common.dart';
 import 'property.dart';
 
@@ -8,6 +10,7 @@ final class UserProfile {
     required this.displayName,
     this.avatarUrl,
     this.contactPhone,
+    this.address,
     required this.contactVerified,
     required this.updatedAt,
   });
@@ -15,6 +18,7 @@ final class UserProfile {
   final String displayName;
   final Uri? avatarUrl;
   final String? contactPhone;
+  final String? address;
   final bool contactVerified;
   final DateTime updatedAt;
 }
@@ -24,14 +28,26 @@ final class ProfileUpdate {
     this.displayName,
     this.avatarUrl,
     this.contactPhone,
+    this.address,
+    this.avatar,
+    this.clearAddress = false,
     this.clearAvatar = false,
     this.clearContactPhone = false,
   });
   final String? displayName;
   final Uri? avatarUrl;
   final String? contactPhone;
+  final String? address;
+  final AvatarUpload? avatar;
+  final bool clearAddress;
   final bool clearAvatar;
   final bool clearContactPhone;
+}
+
+final class AvatarUpload {
+  const AvatarUpload({required this.bytes, required this.mimeType});
+  final Uint8List bytes;
+  final String mimeType;
 }
 
 final class UserSettings {

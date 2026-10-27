@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {randomBytes} from 'node:crypto';
+import {randomBytes, randomUUID} from 'node:crypto';
 import {once} from 'node:events';
 import {resolve} from 'node:path';
 import {writeFile} from 'node:fs/promises';
@@ -19,6 +19,7 @@ import {provisionAdmin, provisionModerator, AdminAuth} from '../../src/admin/aut
 import {assertWire} from '../helpers/wire.ts';
 import {storageFixture} from './storage-fixture.mjs';
 import {validateStorageReferences} from '../../src/admin/uploads.ts';
+import {testSubplots} from './subplots.mjs';
 
 const local=await localPostgres({directory:resolve('.local/admin-tests'),port:55445});
 const root=new pg.Client({connectionString:local.rootUrl});let db,server,storage,databaseName,checks=0;
@@ -178,8 +179,40 @@ try{
   await req('/admin/media/'+m1.id,'DELETE',undefined,token);checks++;
   // Delete legal item -> 200
   await req('/admin/legal/'+legal.id,'DELETE',undefined,token);checks++;
-  // Delete property (unsupported entity) -> 405
-  await req('/admin/properties/'+property.id,'DELETE',undefined,token,405);checks++;
+  // Delete non-deletable entity (audit) -> 405
+  await req('/admin/audit/'+randomUUID(),'DELETE',undefined,token,405);checks++;
+  // Delete property -> 200
+  const tempProp=await req('/admin/properties','POST',{...writable('properties',source),code:'TEMP-DEL',title:'Lô xóa thử',consultant_id:consultant.id,price_total:'1000000000',approval_status:'pending'},token,201);
+  await req('/admin/properties/'+tempProp.id,'DELETE',undefined,token,200);checks++;
+  await req('/admin/properties/'+tempProp.id,'GET',undefined,token,404);checks++;
+
+  // Delete consultant assigned to property -> 409
+  await req('/admin/consultants/'+consultant.id,'DELETE',undefined,token,409);checks++;
+  // Delete standalone consultant -> 200
+  const tempConsultant=await req('/admin/consultants','POST',{name:'Tư vấn xóa thử',role:'Chuyên viên',location:'Đà Nẵng',is_verified:false,is_illustrative:true,contact:{phone:'0988888888',email_contact:'del@example.test'}},token,201);
+  await req('/admin/consultants/'+tempConsultant.id,'DELETE',undefined,token,200);checks++;
+  await req('/admin/consultants/'+tempConsultant.id,'GET',undefined,token,404);checks++;
+
+  // Delete event -> 200
+  const tempEvent=await req('/admin/events','POST',{...writable('events',eventSource),title:'Sự kiện xóa thử'},token,201);
+  await req('/admin/events/'+tempEvent.id,'DELETE',undefined,token,200);checks++;
+  await req('/admin/events/'+tempEvent.id,'GET',undefined,token,404);checks++;
+
+  // Delete slot -> 200
+  const tempSlot=await req('/admin/slots','POST',{property_id:property.id,consultant_id:consultant.id,starts_at:new Date(Date.now()+100000000).toISOString(),ends_at:new Date(Date.now()+103600000).toISOString(),max_attendees:3,max_bookings:1,status:'open',approximate_meeting_lat:'21',approximate_meeting_lng:'105',radius_m:300,label:'Điểm hẹn xóa',is_illustrative:true},token,201);
+  await req('/admin/slots/'+tempSlot.id,'DELETE',undefined,token,200);checks++;
+  await req('/admin/slots/'+tempSlot.id,'GET',undefined,token,404);checks++;
+
+  // Delete video -> 200
+  const tempVideo=await req('/admin/videos','POST',{property_id:property.id,author_id:consultant.id,caption:'Video xóa thử',published_at:new Date().toISOString(),approval_status:'approved',is_illustrative:true,media:{public_url:'https://test.supabase.co/storage/v1/object/public/test/temp-video.mp4',storage_key:'test/temp-video.mp4',alt_text:'Temp video',sort_order:2,is_illustrative:true,duration_seconds:5}},token,201);
+  await req('/admin/videos/'+tempVideo.id,'DELETE',undefined,token,200);checks++;
+  await req('/admin/videos/'+tempVideo.id,'GET',undefined,token,404);checks++;
+
+  // Delete support request -> 200
+  const tempSupportId=randomUUID();
+  await db.pool.query("INSERT INTO xland.support_requests(id,user_id,property_id,kind,status,message,contact_name,contact_phone,consent_to_share_contact) VALUES($1,$2,$3,'location_inquiry','received','Tôi cần tư vấn','Anh Nam','0911223344',true)",[tempSupportId,user.id,property.id]);
+  await req('/admin/support/'+tempSupportId,'DELETE',undefined,token,200);checks++;
+  await req('/admin/support/'+tempSupportId,'GET',undefined,token,404);checks++;
 
   // Test Phase 3: Video Moderation & Review
   await db.pool.query("UPDATE xland.videos SET deleted_at = NULL, approval_status = 'pending' WHERE id = $1", [video.id]);
@@ -247,6 +280,10 @@ try{
   // Moderator cannot DELETE anything -> 403
   await req('/admin/media/'+m2.id,'DELETE',undefined,modToken,403);checks++;
   await req('/admin/properties/'+property.id,'DELETE',undefined,modToken,403);checks++;
+  await req('/admin/consultants/'+consultant.id,'DELETE',undefined,modToken,403);checks++;
+  await req('/admin/events/'+event.id,'DELETE',undefined,modToken,403);checks++;
+  await req('/admin/videos/'+video.id,'DELETE',undefined,modToken,403);checks++;
+  await req('/admin/slots/'+slot.id,'DELETE',undefined,modToken,403);checks++;
 
   // Allowed operations for Moderator
   const modOverview=await req('/admin/overview','GET',undefined,modToken);
@@ -269,6 +306,8 @@ try{
   assert.ok(userProfile.roles.some(r=>r.role==='moderator'));checks++;
 
   const log=await req('/admin/audit?limit=50','GET',undefined,token);assert.ok(log.items.some(r=>r.entity==='properties'));assert.ok(!JSON.stringify(log).includes('0912345678'));
+  const subdivision=await testSubplots({req,db,token,source,writable,base,userToken:mobile.accessToken});
+  await writeFile('.local/admin-tests/subplots.json',JSON.stringify(subdivision));
   await assert.rejects(db.transaction('xland_api',user.id,c=>c.query('SELECT * FROM xland.admin_audit_log')),/permission denied/);checks++;
   await db.pool.query("DELETE FROM xland.user_roles WHERE user_id=$1 AND role='admin'",[admin.id]);
   access.clearCache();

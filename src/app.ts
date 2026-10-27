@@ -21,6 +21,8 @@ export function createApp(deps: AppDependencies) {
     res.setHeader('X-Request-Id', res.locals.requestId as string);
     next();
   });
+  // A 5 MiB avatar uses up to 6.67 MiB as base64. Other endpoints keep 64 KiB.
+  app.use('/api/v1/me/profile',express.json({limit:'7mb'}));
   app.use(express.json({ limit: '64kb' }));
   app.use((req,res,next)=>{
     const origin=req.headers.origin;

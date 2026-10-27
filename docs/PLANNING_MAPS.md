@@ -1,8 +1,12 @@
 # Lớp quy hoạch Hà Nội / Hải Phòng
 
 Tab Khu vực của Xland giữ nền Geoapify và thêm lớp ảnh quy hoạch XYZ PNG, công tắc,
-thanh độ đậm 0–100%, toàn màn hình, chú giải và nguồn dữ liệu. Mặc định lớp phủ tắt;
+thanh độ đậm 0–100%, toàn màn hình và chú giải. Mặc định lớp phủ tắt;
 bật lần đầu dùng độ đậm 70%. Kéo thanh không thay đổi camera hoặc tải lại ảnh.
+
+Mobile không hiển thị nhãn thương hiệu hoặc liên kết sang trang nguồn quy hoạch.
+Metadata nguồn vẫn được giữ ở API để truy xuất xuất xứ dữ liệu. Ảnh ô bản đồ được
+truyền nguyên bản; ứng dụng không thêm lớp logo/watermark lên ảnh.
 
 ## Bật nguồn ở backend
 

@@ -34,7 +34,7 @@
     {
       "path": "tests/fixtures/mobile/lib/domain/entities/property.dart",
       "source": "../xland-mobile/lib/domain/entities/property.dart",
-      "sha256": "b0b01d7e63f8e32f9f07ebbc6f1b68f136b069d5d55ffd815b49674a6d888ec1"
+      "sha256": "34a57753bc985dd832fce176b6484baf43933c93b5aea6aa5cdfb113e48bbb7b"
     },
     {
       "path": "tests/fixtures/mobile/lib/domain/entities/social.dart",
@@ -59,7 +59,8 @@
     {
       "path": "tests/fixtures/mobile/lib/domain/entities/account.dart",
       "source": "../xland-mobile/lib/domain/entities/account.dart",
-      "sha256": "5deb31c39d40d863110db9ed37529a55f35cacdcfbcdb85728869dd3bbcf9f36"
+      "sha256": "b0e93f0ef44d0103acf355f700a8f59ed09177acb66739c562f7aa6e5e2c5382",
+      "revision": "optional-user-profile-2026-10-26-working-tree"
     },
     {
       "path": "tests/fixtures/mobile/lib/domain/entities/finance.dart",
@@ -69,7 +70,9 @@
     {
       "path": "tests/fixtures/mobile/lib/data/mappers/domain_mappers.dart",
       "source": "../xland-mobile/lib/data/mappers/domain_mappers.dart",
-      "sha256": "fbbe423059c474438e2a8152eba426577d89f93e6616e4c40385edc0655285d2"
+      "sha256": "6c461a3a7cf8d4107e530b1e4dca662eec8e10680e11f8c3e0a915d4eb1c0cb9",
+      "revision": "optional-user-profile-2026-10-26-working-tree"
     }
-  ]
+  ],
+  "subplotsUpdate": "2026-10-27: additive hierarchy fields and backwards-compatible mobile mapper, current workspace snapshot"
 }

@@ -11,13 +11,14 @@ import { databaseTarget } from '../../src/config/database-target.js';
 import type { Wire } from '../../src/repositories/properties.js';
 import { sharingRouter } from '../../src/sharing/routes.js';
 import { sharingConfig } from '../../src/sharing/config.js';
+import type { AvatarStorage } from '../../src/services/avatar-storage.js';
 
-export async function testApi() {
+export async function testApi(avatars?:AvatarStorage) {
   const context=JSON.parse(await readFile(process.env.XLAND_TEST_CONTEXT??'.local/test-context.json','utf8')) as {connectionString:string;first:{id:string;username:string;password:string};second:{id:string;username:string;password:string}};
   const target=databaseTarget({TEST_DATABASE_URL:context.connectionString,TEST_DATABASE_ENVIRONMENT:'test'},true);
   const db=new Database(target.connectionString,8);const auth=new AuthService(db);await auth.initialize();
   const service=new CoreService(db,auth,new CursorCodec(randomBytes(32)),()=>new Date(),'https://xland.example.test/');
-  const server=createApp({checkReadiness:()=>db.ready(),api:apiRouter(service,['https://media.xland.test']),publicPages:sharingRouter(service,sharingConfig({PUBLIC_BASE_URL:service.publicBaseUrl})),allowedOrigins:['http://localhost:5555']}).listen(0,'127.0.0.1');await once(server,'listening');
+  const server=createApp({checkReadiness:()=>db.ready(),api:apiRouter(service,['https://media.xland.test'],undefined,undefined,avatars),publicPages:sharingRouter(service,sharingConfig({PUBLIC_BASE_URL:service.publicBaseUrl})),allowedOrigins:['http://localhost:5555']}).listen(0,'127.0.0.1');await once(server,'listening');
   const address=server.address();if(!address||typeof address==='string')throw new Error('Missing test listener');
   const base=`http://127.0.0.1:${address.port}/api/v1`;
   const request=async(path:string,method='GET',body?:unknown,token?:string,key?:string)=>{

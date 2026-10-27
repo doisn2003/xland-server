@@ -3,9 +3,10 @@ import type { Database } from './database.js';
 import type { CursorCodec } from '../services/cursor.js';
 import type { PropertyQuery } from '../schemas/http.js';
 import { DomainError, invalid, missing, unauthenticated } from '../domain/errors.js';
+import {page,type PageQuery} from './page.js';
 
 export type Wire=Record<string,unknown>;
-export const propertyColumns=['id','code','title','province','province_code','district','district_code','region','category','price_total','price_per_m2','area_m2','frontage_m','depth_m','road_width_m','direction','land_type','status','status_badge','approval_status','consultant_id','highlights','is_illustrative','updated_at','approximate_lat','approximate_lng','approximate_radius_m'];
+export const propertyColumns=['id','code','title','province','province_code','district','district_code','region','category','price_total','price_per_m2','area_m2','frontage_m','depth_m','road_width_m','direction','land_type','status','status_badge','approval_status','consultant_id','highlights','is_illustrative','updated_at','approximate_lat','approximate_lng','approximate_radius_m','parent_property_id','has_subplots','is_corner'];
 export class PropertyRepository {
   constructor(readonly db:Database,readonly cursor:CursorCodec) {}
   async map(c:PoolClient,p:Wire):Promise<Wire> {
@@ -15,7 +16,7 @@ export class PropertyRepository {
     return this.project(p,media.rows,legal.rows[0].total,legal.rows[0].verified,saved.rows[0].active);
   }
   private project(p:Wire,media:Wire[],total:number,verified:number,saved:boolean):Wire {
-    return {id:p.id,code:p.code,title:p.title,provinceCode:p.province_code,provinceName:p.province,districtCode:p.district_code,districtName:p.district,
+    return {id:p.id,code:p.code,title:p.title,parentPropertyId:p.parent_property_id,hasSubplots:p.has_subplots,isCorner:p.is_corner,provinceCode:p.province_code,provinceName:p.province,districtCode:p.district_code,districtName:p.district,
       region:p.region,category:p.category,priceTotal:p.price_total,pricePerM2:p.price_per_m2,areaM2:p.area_m2,frontageM:p.frontage_m,depthM:p.depth_m,roadWidthM:p.road_width_m,
       direction:p.direction,landType:p.land_type,status:p.status,approvalStatus:p.approval_status,sourceBadge:p.status_badge,consultantId:p.consultant_id,
       media:media.map(m=>({id:m.id,kind:m.kind,url:m.public_url,thumbnailUrl:m.thumbnail_url,durationSeconds:m.duration_seconds,altText:m.alt_text,isIllustrative:m.is_illustrative})),
@@ -38,11 +39,23 @@ export class PropertyRepository {
     const result=await c.query<Wire>(`SELECT ${propertyColumns.join(',')} FROM xland.properties WHERE id=$1`,[id]);
     if(!result.rowCount)missing();return this.map(c,result.rows[0]!);
   }
+  async children(c:PoolClient,id:string,q:PageQuery,userId:string|null):Promise<Wire> {
+    await this.get(c,id);
+    const result=await page(c,this.cursor,'property-children',{id,userId},q,
+      propertyColumns.map(n=>'t.'+n).join(','),'xland.properties t','t.parent_property_id=$1',[id],
+      't.code','ASC','text',r=>this.map(c,r),async rows=>{
+        const mapped=await this.getMany(c,rows.map(r=>String(r.id)));
+        return rows.map(r=>mapped.get(String(r.id))!);
+      });
+    const total=(await c.query('SELECT count(*)::int n FROM xland.properties WHERE parent_property_id=$1',[id])).rows[0].n;
+    return {...result,meta:{...result.meta as Wire,total}};
+  }
   criteria(q:PropertyQuery,userId:string|null):{where:string;args:unknown[];selected:number} {
     if(q.savedOnly==='true'&&!userId)unauthenticated();
     if(q.districtCode&&!q.provinceCode)invalid('districtCode');
     if(q.minPriceVnd&&q.maxPriceVnd&&BigInt(q.minPriceVnd)>BigInt(q.maxPriceVnd))invalid('maxPriceVnd');
     const clauses=[`p.status='listed'`];const args:unknown[]=[];
+    if(q.savedOnly!=='true')clauses.push('p.parent_property_id IS NULL');
     const add=(sql:string,value:unknown)=>{args.push(value);clauses.push(sql.replace('?',`$${args.length}`));};
     let selected=0;
     if(q.query){selected++;add(`(p.title ILIKE ? OR p.code ILIKE $${args.length+1} OR p.province ILIKE $${args.length+1} OR p.district ILIKE $${args.length+1})`,'%'+q.query.replace(/[\\%_]/g,'\\$&')+'%');}

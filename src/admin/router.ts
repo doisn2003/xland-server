@@ -52,6 +52,7 @@ export async function adminRouter(db:Database,auth:AuthService,env:NodeJS.Proces
     res.json({data});
   });
   router.get('/properties/:id/aggregate',async(req,res)=>res.json({data:await service.aggregate(identity(res),parse(uuid,req.params.id))}));
+  router.post('/properties/:id/children',async(req,res)=>res.status(201).json({data:await service.createChild(identity(res),parse(uuid,req.params.id),parse(z.record(z.string(),z.unknown()),req.body))}));
   router.patch('/properties/:id/media-order',async(req,res)=>{
     const body=parse(z.object({items:z.array(z.object({id:uuid,sort_order:z.number().int().nonnegative()})).min(1)}).strict(),req.body);
     res.json({data:await service.reorderMedia(identity(res),parse(uuid,req.params.id),body.items)});
