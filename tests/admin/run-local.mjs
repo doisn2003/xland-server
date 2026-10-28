@@ -320,7 +320,14 @@ try{
   await req('/admin/lookups/properties?q=QA','GET',undefined,(await req('/admin/session','POST',{username:'admin',password:'123456'})).accessToken);
   console.log(JSON.stringify({adminChecks:checks,status:'passed',schemaModules:Object.keys(schema).length,isolated:true}));
   await writeFile('.local/admin-tests/result.json',JSON.stringify({checks,status:'passed',at:new Date().toISOString()}));
-  if(process.argv.includes('--serve')){router.get('/admin-qa-ready',(_req,res)=>res.json({ready:true}));console.log('Isolated QA API ready at '+base);await new Promise(resolve=>{process.once('SIGINT',resolve);process.once('SIGTERM',resolve);});}
+  if(process.argv.includes('--serve')){
+    // HTTP checks above spend the same loopback login budget as browser tests.
+    // Start the separate browser suite with a fresh budget in this owned QA DB;
+    // preserve the production limiter and all HTTP assertions above.
+    assert.match(databaseName,/^xland_test_admin_[a-f0-9]{10}$/);
+    await db.pool.query('DELETE FROM xland.auth_rate_buckets');
+    router.get('/admin-qa-ready',(_req,res)=>res.json({ready:true}));console.log('Isolated QA API ready at '+base);await new Promise(resolve=>{process.once('SIGINT',resolve);process.once('SIGTERM',resolve);});
+  }
 }catch(e){console.error(e);process.exitCode=1;}finally{
   if(server)await new Promise(done=>server.close(done));await storage?.close();await db?.close();
   if(databaseName&&/^xland_test_admin_[a-f0-9]{10}$/.test(databaseName))await root.query(`DROP DATABASE ${databaseName}`);
