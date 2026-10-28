@@ -23,16 +23,24 @@ import {testSubplots} from './subplots.mjs';
 import {testPropertyForm} from './property-form.mjs';
 
 const local=await localPostgres({directory:resolve('.local/admin-tests'),port:55445});
-const root=new pg.Client({connectionString:local.rootUrl});let db,server,storage,databaseName,checks=0;
+const root=new pg.Client({connectionString:local.rootUrl});let db,runtimeDb,runtimeRole,server,storage,databaseName,checks=0;
 try{
   await root.connect();const name='xland_test_admin_'+randomBytes(5).toString('hex');await root.query(`CREATE DATABASE ${name}`);databaseName=name;
   const url=new URL(local.rootUrl);url.pathname='/'+name;db=new Database(url.toString());
   await migrate(db.pool);const user=randomTestAccount();await seed(db.pool,[user]);
   const admin=await provisionAdmin(db,'admin','123456');assert.equal(admin.created,true);assert.equal((await provisionAdmin(db,'admin','different-password')).created,false);
-  const auth=new AuthService(db);await auth.initialize();const core=new CoreService(db,auth,new CursorCodec(randomBytes(32)));
+  // Exercise HTTP through the same NOINHERIT login model as production.
+  // The owner pool remains available only for isolated fixture assertions.
+  runtimeRole='xland_test_runtime_'+randomBytes(5).toString('hex');const runtimePassword=randomBytes(32).toString('hex');
+  await root.query(`CREATE ROLE ${runtimeRole} LOGIN PASSWORD '${runtimePassword}' NOINHERIT NOCREATEDB NOCREATEROLE NOBYPASSRLS`);
+  await root.query(`GRANT xland_api,xland_auth,xland_admin,xland_maps,xland_payment TO ${runtimeRole} WITH INHERIT FALSE, SET TRUE`);
+  const runtimeUrl=new URL(url);runtimeUrl.username=runtimeRole;runtimeUrl.password=runtimePassword;runtimeDb=new Database(runtimeUrl.toString());
+  await assert.rejects(runtimeDb.pool.query('SELECT id FROM xland.properties'));
+  assert.equal((await runtimeDb.pool.query("SELECT count(*)::int n FROM information_schema.columns WHERE table_schema='xland'")).rows[0].n,0);
+  const auth=new AuthService(runtimeDb);await auth.initialize();const core=new CoreService(runtimeDb,auth,new CursorCodec(randomBytes(32)));
   storage=await storageFixture();
-  const access=new AdminAuth(db,auth);await access.initialize();
-  const router=Router().use('/admin',await adminRouter(db,auth,storage.env,access)).use(apiRouter(core));
+  const access=new AdminAuth(runtimeDb,auth);await access.initialize();
+  const router=Router().use('/admin',await adminRouter(runtimeDb,auth,storage.env,access)).use(apiRouter(core));
   server=createApp({checkReadiness:()=>db.ready(),api:router}).listen(process.argv.includes('--serve')?3006:0,'127.0.0.1');await once(server,'listening');
   const base=`http://127.0.0.1:${server.address().port}/api/v1`;
   const req=async(path,method='GET',body,token,expected=200)=>{const r=await fetch(base+path,{method,headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:body===undefined?undefined:JSON.stringify(body)});const json=await r.json();assert.equal(r.status,expected,`${method} ${path}: ${JSON.stringify(json)}`);checks++;return json.data;};
@@ -329,8 +337,9 @@ try{
     router.get('/admin-qa-ready',(_req,res)=>res.json({ready:true}));console.log('Isolated QA API ready at '+base);await new Promise(resolve=>{process.once('SIGINT',resolve);process.once('SIGTERM',resolve);});
   }
 }catch(e){console.error(e);process.exitCode=1;}finally{
-  if(server)await new Promise(done=>server.close(done));await storage?.close();await db?.close();
+  if(server)await new Promise(done=>server.close(done));await storage?.close();await runtimeDb?.close();await db?.close();
   if(databaseName&&/^xland_test_admin_[a-f0-9]{10}$/.test(databaseName))await root.query(`DROP DATABASE ${databaseName}`);
+  if(runtimeRole&&/^xland_test_runtime_[a-f0-9]{10}$/.test(runtimeRole))await root.query(`DROP ROLE ${runtimeRole}`);
   await root.end();await local.stop();
 }
 process.exit(process.exitCode??0);

@@ -51,8 +51,9 @@ export class AdminService {
       if(c){
         rows=await fetchRows(c);
       }else{
-        const client=await this.db.pool.connect();
-        try{rows=await fetchRows(client);}finally{client.release();}
+        // A NOINHERIT runtime login cannot see table metadata until the scoped
+        // application role is selected, just like normal admin reads.
+        rows=await this.db.transaction('xland_admin',null,fetchRows,true);
       }
       const map=new Map<string,ColumnMetadata[]>();
       for(const row of rows){
@@ -64,7 +65,8 @@ export class AdminService {
       this.columnCachePromise=null;
       return map;
     })();
-    return this.columnCachePromise;
+    try{return await this.columnCachePromise;}
+    catch(error){this.columnCachePromise=null;throw error;}
   }
   async fields(_c:PoolClient|undefined,key:string):Promise<Field[]>{
     const e=this.entity(key);
