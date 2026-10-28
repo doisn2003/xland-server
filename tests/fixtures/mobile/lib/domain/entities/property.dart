@@ -30,6 +30,10 @@ final class Highlight {
 
 final class Property {
   const Property({
+    this.communeCode,
+    this.communeName,
+    this.addressDetail,
+    this.oldAddress,
     this.parentPropertyId,
     this.hasSubplots = false,
     this.isCorner = false,
@@ -62,6 +66,16 @@ final class Property {
     required this.updatedAt,
     required this.isIllustrative,
   });
+  final String? communeCode;
+  final String? communeName;
+  final String? addressDetail;
+  final String? oldAddress;
+  String get locationLabel => [
+    addressDetail,
+    communeName,
+    if (communeCode == null) districtName,
+    provinceName,
+  ].whereType<String>().where((s) => s.trim().isNotEmpty).join(', ');
   final String? parentPropertyId;
   final bool hasSubplots;
   final bool isCorner;
@@ -102,6 +116,7 @@ final class PropertyFilter {
     this.category,
     this.provinceCode,
     this.districtCode,
+    this.communeCode,
     this.minPriceVnd,
     this.maxPriceVnd,
     required this.areaBands,
@@ -116,6 +131,7 @@ final class PropertyFilter {
   final PropertyCategory? category;
   final String? provinceCode;
   final String? districtCode;
+  final String? communeCode;
   final Vnd? minPriceVnd;
   final Vnd? maxPriceVnd;
   final List<AreaBand> areaBands;
@@ -141,11 +157,13 @@ final class FilterCatalog {
   const FilterCatalog({
     required this.provinces,
     required this.districts,
+    this.communes = const [],
     required this.minBudgetVnd,
     required this.openUpperBudgetVnd,
   });
   final List<FilterOption> provinces;
   final List<FilterOption> districts;
+  final List<FilterOption> communes;
   final Vnd minBudgetVnd;
   final Vnd openUpperBudgetVnd;
 }

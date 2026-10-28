@@ -25,7 +25,8 @@ export class Database {
   }
   async ready(): Promise<boolean> {
     return this.transaction('xland_api', null, async c => {
-      await c.query('SELECT id FROM xland.properties LIMIT 1'); return true;
+      await c.query('SELECT id,has_subplots,parent_property_id,commune_code,old_address,address_detail FROM xland.properties LIMIT 0');
+      return (await c.query('SELECT EXISTS(SELECT 1 FROM xland.geo_catalogs WHERE active) AS ready')).rows[0].ready===true;
     }).catch(() => false);
   }
   async close(): Promise<void> { await this.pool.end(); }

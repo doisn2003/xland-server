@@ -25,10 +25,11 @@ export class CoreService {
   }
   async catalog(identity:Identity|null,provinceCode?:string):Promise<Wire> {
     return this.read(identity,async c=>{
-      const provinces=await c.query(`SELECT code,name FROM xland.geo_locations WHERE kind='province' ORDER BY name,code`);
+      const provinces=await c.query(`SELECT DISTINCT ON(l.code) l.code,CASE WHEN g.active THEN l.name ELSE l.name||' (địa giới cũ)' END AS name FROM xland.geo_locations l LEFT JOIN xland.geo_catalogs g ON g.version=l.catalog_version WHERE l.kind='province' ORDER BY l.code,g.active DESC NULLS LAST,l.catalog_version DESC`);
       if(provinceCode&&!provinces.rows.some(p=>p.code===provinceCode))throw new DomainError(400,'INVALID_INPUT','Tỉnh thành không có trong catalog');
       const districts=await c.query(`SELECT code,name,parent_code FROM xland.geo_locations WHERE kind='district' AND ($1::text IS NULL OR parent_code=$1) ORDER BY name,code`,[provinceCode??null]);
-      return {provinces:provinces.rows.map(p=>({code:p.code,label:p.name,parentCode:null})),districts:districts.rows.map(d=>({code:d.code,label:d.name,parentCode:d.parent_code})),minBudgetVnd:'500000000',openUpperBudgetVnd:'10000000000'};
+      const communes=await c.query("SELECT l.code,l.name,l.parent_code FROM xland.geo_locations l JOIN xland.geo_catalogs g ON g.version=l.catalog_version AND g.active WHERE l.kind='commune' AND l.parent_code=$1 ORDER BY l.name,l.code",[provinceCode??null]);
+      return {communes:communes.rows.map(d=>({code:d.code,label:d.name,parentCode:d.parent_code})),provinces:provinces.rows.map(p=>({code:p.code,label:p.name,parentCode:null})),districts:districts.rows.map(d=>({code:d.code,label:d.name,parentCode:d.parent_code})),minBudgetVnd:'500000000',openUpperBudgetVnd:'10000000000'};
     });
   }
   async share(identity:Identity|null,kind:'properties'|'videos'|'events',id:string):Promise<Wire> {

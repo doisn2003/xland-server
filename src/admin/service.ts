@@ -34,7 +34,7 @@ export class AdminService {
       return work(c);
     });}catch(error){
       const e=error as {code?:string;column?:string;message?:string};
-      if(e.code==='23514'&&['parent_property_id','has_subplots','area_m2'].includes(e.column??''))fail(e.column!,e.message);
+      if(e.code==='23514'&&['parent_property_id','has_subplots','area_m2','land_type','category','commune_code','district_code'].includes(e.column??''))fail(e.column!,e.message);
       if(e.code==='23505')conflict('Mã hoặc thứ tự đã tồn tại. Vui lòng chọn giá trị khác.');
       if(e.code==='23503')fail(e.column??'reference','Liên kết không hợp lệ hoặc đang được sử dụng.');
       if(['23514','23502','22P02','22003','22007','22008'].includes(e.code??''))fail(e.column??'record','Dữ liệu không thỏa mãn ràng buộc của hồ sơ. Kiểm tra số liệu, ngày giờ và các trường liên quan.');
@@ -69,6 +69,7 @@ export class AdminService {
   async fields(_c:PoolClient|undefined,key:string):Promise<Field[]>{
     const e=this.entity(key);
     const map=await this.loadColumns(_c);
+    this.assertPropertySchema(map);
     return this.describeFields(key,map.get(e.table)??[]);
   }
   private describeFields(key:string,rows:ColumnMetadata[]):Field[]{
@@ -85,6 +86,7 @@ export class AdminService {
   }
   async schema(identity?:Identity){
     const map=await this.loadColumns();
+    this.assertPropertySchema(map);
     const result:Record<string,unknown>={};
     for(const [key,e] of Object.entries(entities)){
       if(identity&&!hasPermission(identity.roles,key,'read'))continue;
@@ -156,7 +158,42 @@ export class AdminService {
     const e=this.entity(key),label=e.search[0]??'id';
     return (await c.query(`SELECT id,"${label}"::text label FROM xland.${e.table} WHERE ($1='' OR "${label}"::text ILIKE $2 OR id::text=$1) OR id::text=$3 ORDER BY (id::text=$3) DESC,"${label}",id LIMIT 50`,[q,'%'+q.replace(/[\\%_]/g,'\\$&')+'%',id??''])).rows;
   });}
-  async locations(identity:Identity){return this.transaction(identity,async c=>(await c.query('SELECT * FROM xland.geo_locations ORDER BY catalog_version DESC,kind,name')).rows);}
+  private assertPropertySchema(map:Map<string,ColumnMetadata[]>){
+    const names=new Set(map.get('properties')?.map(c=>c.column_name));
+    if(['has_subplots','parent_property_id','commune_code','old_address','address_detail'].some(n=>!names.has(n)))
+      throw new DomainError(503,'SCHEMA_OUTDATED','Máy chủ chưa cập nhật cấu trúc hồ sơ. Cần chạy migration và khởi động lại backend.');
+  }
+  async locations(identity:Identity){return this.transaction(identity,async c=>(await c.query('SELECT l.*,COALESCE(g.active,false) AS current FROM xland.geo_locations l LEFT JOIN xland.geo_catalogs g ON g.version=l.catalog_version ORDER BY current DESC,l.kind,l.name')).rows);}
+  private async propertyInput(c:PoolClient,input:Row,prior?:Row):Promise<Row>{
+    const data={...input};
+    if(data.land_type!==undefined&&data.category!==undefined&&data.land_type!==data.category&&!(data.category==='industrial'&&data.land_type==='other'))
+      fail('land_type','Loại đất không thống nhất. Chỉ chọn một loại đất cho hồ sơ.');
+    if(data.land_type!==undefined||data.category!==undefined){
+      data.category=data.category??data.land_type;data.land_type=data.category==='industrial'?'other':data.category;
+    }
+    for(const [key,max] of [['address_detail',500],['old_address',1000]] as const){
+      if(typeof data[key]==='string')data[key]=(data[key] as string).trim()||null;
+      if(data[key]!=null&&(typeof data[key]!=='string'||(data[key] as string).length>max))fail(key,`Địa chỉ tối đa ${max} ký tự.`);
+    }
+    const geoKeys=['province_code','commune_code','catalog_version','district_code'];
+    const changed=!prior||geoKeys.some(k=>k in data&&data[k]!==prior[k]);
+    if(changed){
+      const merged={...prior,...data};
+      if(!merged.catalog_version){
+        merged.catalog_version=(await c.query('SELECT version FROM xland.geo_catalogs WHERE active')).rows[0]?.version;
+        data.catalog_version=merged.catalog_version;
+      }
+      const current=(await c.query('SELECT version FROM xland.geo_catalogs WHERE version=$1',[merged.catalog_version])).rowCount;
+      const locations=(await c.query('SELECT code,kind,name,parent_code,region FROM xland.geo_locations WHERE catalog_version=$1 AND code=ANY($2::text[])',[merged.catalog_version,[merged.province_code,current?merged.commune_code:merged.district_code]])).rows;
+      const province=locations.find(l=>l.kind==='province'&&l.code===merged.province_code);
+      const local=locations.find(l=>l.kind===(current?'commune':'district')&&l.code===(current?merged.commune_code:merged.district_code)&&l.parent_code===merged.province_code);
+      if(!province||!local)fail(current?'commune_code':'district_code',current?'Chọn xã/phường thuộc tỉnh/thành phố đã chọn.':'Địa chỉ cũ không hợp lệ. Hãy chọn địa giới hiện hành.');
+      data.province=province.name;
+      if(current){data.commune_name=local.name;data.region=province.region;data.district_code=null;data.district=null;}
+      else{data.district=local.name;}
+    }
+    return data;
+  }
   private validate(fields:Field[],input:Row,create:boolean):Row{
     const out:Row={};
     for(const [name,value] of Object.entries(input)){
@@ -227,15 +264,11 @@ export class AdminService {
       }else if(key!=='videos'&&media!==undefined)fail('media');
       if(contact!==undefined&&key!=='consultants')fail('contact');
       if(reason!==undefined&&key!=='bookings')fail('reason');
-      const data=this.validate(fields,payload,create);
+      const data=this.validate(fields,key==='properties'?await this.propertyInput(c,payload,prior):payload,create);
       const merged={...prior,...data};
       await validateStorageReferences(c,merged,prior);
       if(key==='properties'){
         if(Number(merged.area_m2)<=0)fail('area_m2','Diện tích phải lớn hơn 0');
-        const locations=(await c.query('SELECT code,kind,name,parent_code FROM xland.geo_locations WHERE catalog_version=$1 AND code=ANY($2::text[])',[merged.catalog_version,[merged.province_code,merged.district_code]])).rows;
-        const province=locations.find(l=>l.kind==='province'&&l.code===merged.province_code),district=locations.find(l=>l.kind==='district'&&l.code===merged.district_code&&l.parent_code===merged.province_code);
-        if(!province||!district)fail('district_code','Tỉnh/thành và quận/huyện phải thuộc cùng danh mục');
-        data.province=province.name;data.district=district.name;
         if((merged.lat==null)!==(merged.lng==null))fail('lat','Điền cả vĩ độ và kinh độ chính xác');
         const approx=[merged.approximate_lat,merged.approximate_lng,merged.approximate_radius_m];if(approx.some(v=>v!=null)&&!approx.every(v=>v!=null))fail('approximate_lat','Điền đủ tọa độ và bán kính công khai');
       }
@@ -443,9 +476,11 @@ export class AdminService {
       for(const field of ['parent_property_id','approval_status','has_subplots','status'])if(field in payload)fail(field,'Trạng thái và quan hệ của lô mới do hệ thống thiết lập.');
       const fields=await this.fields(c,'properties');
       const inherited=Object.fromEntries(fields.filter(f=>!f.readonly).map(f=>[f.name,parent[f.name]]));
-      const values=this.validate(fields,{...inherited,...payload,parent_property_id:parentId,has_subplots:false,is_corner:payload.is_corner??false,approval_status:'pending',status:'paused'},true);
+      if(payload.land_type!==undefined&&!('category' in payload))inherited.category=payload.land_type;
+      if(payload.category!==undefined&&!('land_type' in payload))inherited.land_type=payload.category;
+      const values=this.validate(fields,await this.propertyInput(c,{...inherited,...payload,parent_property_id:parentId,has_subplots:false,is_corner:payload.is_corner??false,approval_status:'pending',status:'paused'}),true);
       // Inherit location unchanged; later edits use the ordinary validated endpoint.
-      for(const field of ['province','province_code','district','district_code','catalog_version','lat','lng','approximate_lat','approximate_lng','approximate_radius_m'])
+      for(const field of ['province','province_code','district','district_code','commune_code','commune_name','catalog_version','address_detail','old_address','lat','lng','approximate_lat','approximate_lng','approximate_radius_m'])
         if(field in payload)fail(field,'Chỉnh vị trí trong hồ sơ lô con sau khi tạo.');
       const id=randomUUID();
       await this.write(c,'properties',id,values,true);

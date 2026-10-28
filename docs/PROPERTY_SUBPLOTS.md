@@ -1,6 +1,6 @@
 # Một hồ sơ — nhiều lô đất
 
-Triển khai ngày 27/10/2026 trong ba repository server, website và Flutter. Chỉ chạy migration và seed trên PostgreSQL QA cô lập; chưa triển khai database, server hoặc ứng dụng production.
+Triển khai ngày 27/10/2026 trong ba repository server, website và Flutter. Lượt sửa form sau đó đã nâng cấp database mock đang dùng và restart backend localhost; chi tiết tại [PROPERTY_FORM](PROPERTY_FORM.md). Chưa phát hành server/web/Flutter từ xa.
 
 ## Mô hình
 

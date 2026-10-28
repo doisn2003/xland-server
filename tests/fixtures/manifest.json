@@ -34,7 +34,8 @@
     {
       "path": "tests/fixtures/mobile/lib/domain/entities/property.dart",
       "source": "../xland-mobile/lib/domain/entities/property.dart",
-      "sha256": "34a57753bc985dd832fce176b6484baf43933c93b5aea6aa5cdfb113e48bbb7b"
+      "sha256": "0b1314b588f553f2d30c6aca2a4fb6db47f84f3e904d744bdcc78fe1dfc11059",
+      "revision": "property-current-address-2026-10-27-working-tree"
     },
     {
       "path": "tests/fixtures/mobile/lib/domain/entities/social.dart",
@@ -70,9 +71,10 @@
     {
       "path": "tests/fixtures/mobile/lib/data/mappers/domain_mappers.dart",
       "source": "../xland-mobile/lib/data/mappers/domain_mappers.dart",
-      "sha256": "6c461a3a7cf8d4107e530b1e4dca662eec8e10680e11f8c3e0a915d4eb1c0cb9",
-      "revision": "optional-user-profile-2026-10-26-working-tree"
+      "sha256": "ce068e6a38457acd382edba484b17b9f64bc7e449338774fb71f14b0fab9cff1",
+      "revision": "property-current-address-2026-10-27-working-tree"
     }
   ],
-  "subplotsUpdate": "2026-10-27: additive hierarchy fields and backwards-compatible mobile mapper, current workspace snapshot"
+  "subplotsUpdate": "2026-10-27: additive hierarchy fields and backwards-compatible mobile mapper, current workspace snapshot",
+  "addressUpdate": "Optional communeCode/communeName/addressDetail/oldAddress; current commune catalog and filter. Existing wire fields remain compatible."
 }

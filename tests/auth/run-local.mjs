@@ -36,6 +36,8 @@ try {
     child.once('error',reject);child.once('exit',code=>done(code??1));
   });
   testExitCode=status;
+} catch(error) {
+  console.error(JSON.stringify({event:'auth_test_failed',code:error.code??'LOCAL_AUTH_TEST_FAILED'}));
 } finally {
   await pool?.end();
   await baselinePool?.end();
@@ -43,4 +45,5 @@ try {
   await admin.end();
   await local.stop();
 }
-process.exitCode=testExitCode;
+// embedded-postgres installs a beforeExit(0) handler; preserve the test failure.
+process.exit(testExitCode);

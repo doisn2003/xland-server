@@ -23,7 +23,7 @@ function isolatedConnection(name:'XLAND_LOGIN_TEST_DB'|'XLAND_LOGIN_BASELINE_TES
 }
 
 for(const key of ['XLAND_LOGIN_BASELINE_TEST_DB','XLAND_LOGIN_TEST_DB'] as const) {
-  test(`actual runtime default-off works with ${key==='XLAND_LOGIN_TEST_DB'?'migration0009':'pre0009 schema'}; legacy session/private owner isolation remains`,async()=>{
+  test(`actual runtime default-off with ${key==='XLAND_LOGIN_TEST_DB'?'current schema preserves session/private owner isolation':'pre0009 schema fails readiness until migration'}`,async()=>{
     const connection=isolatedConnection(key),db=new Database(connection);
     const password='a19_test_password',user=randomUUID(),other=randomUUID(),username='a19_'+randomBytes(5).toString('hex');
     const hash=await argon2.hash(password);
@@ -49,6 +49,14 @@ for(const key of ['XLAND_LOGIN_BASELINE_TEST_DB','XLAND_LOGIN_TEST_DB'] as const
         assert.equal((await response.json() as {error:{code:string}}).error.code,'FEATURE_NOT_ENABLED');
       }
       assert.equal((await post('/auth/google/sessions',{idToken:'bad',userId:user})).status,400);
+      if(key==='XLAND_LOGIN_BASELINE_TEST_DB') {
+        // Current catalog/profile/session code requires later migrations. Never
+        // accept this historical schema as deployable merely because auth is off.
+        assert.equal((await fetch(root+'/health/ready')).status,503);
+        assert.equal((await fetch(root+'/api/v1/me/profile')).status,401);
+        return;
+      }
+      assert.equal((await fetch(root+'/health/ready')).status,200);
       assert.equal((await fetch(root+'/api/v1/catalog/locations')).status,200);
       assert.equal((await fetch(root+'/api/v1/me/profile')).status,401);
       const login=await post('/auth/sessions',{username,password});assert.equal(login.status,200);

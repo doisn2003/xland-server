@@ -20,6 +20,7 @@ import {assertWire} from '../helpers/wire.ts';
 import {storageFixture} from './storage-fixture.mjs';
 import {validateStorageReferences} from '../../src/admin/uploads.ts';
 import {testSubplots} from './subplots.mjs';
+import {testPropertyForm} from './property-form.mjs';
 
 const local=await localPostgres({directory:resolve('.local/admin-tests'),port:55445});
 const root=new pg.Client({connectionString:local.rootUrl});let db,server,storage,databaseName,checks=0;
@@ -306,6 +307,7 @@ try{
   assert.ok(userProfile.roles.some(r=>r.role==='moderator'));checks++;
 
   const log=await req('/admin/audit?limit=50','GET',undefined,token);assert.ok(log.items.some(r=>r.entity==='properties'));assert.ok(!JSON.stringify(log).includes('0912345678'));
+  await testPropertyForm({req,db,token,source});
   const subdivision=await testSubplots({req,db,token,source,writable,base,userToken:mobile.accessToken});
   await writeFile('.local/admin-tests/subplots.json',JSON.stringify(subdivision));
   await assert.rejects(db.transaction('xland_api',user.id,c=>c.query('SELECT * FROM xland.admin_audit_log')),/permission denied/);checks++;

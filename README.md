@@ -1,5 +1,8 @@
 # xland-server
 
+**Production 28/10/2026:** xem [runbook hiện hành](docs/PRODUCTION.md) cho rollout
+đồng bộ backend, website user/admin và mobile. Các biên bản cũ bên dưới là lịch sử.
+
 **Hosting hiện tại — 26/10/2026:** Railway phục vụ
 `https://xland-server-production.up.railway.app`.
 Admin web: `https://xland-alpha.vercel.app/admin`.

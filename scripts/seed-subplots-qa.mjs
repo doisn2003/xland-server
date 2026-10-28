@@ -5,7 +5,8 @@ export async function seedSubplotsQa(db,userId) {
   const source=(await db.pool.query('SELECT * FROM xland.properties ORDER BY id LIMIT 1')).rows[0];
   const fields=(await service.schema()).properties.fields;
   const values=Object.fromEntries(fields.filter(f=>!f.readonly).map(f=>[f.name,source[f.name]]));
-  let parent=await service.save(identity,'properties',{...values,code:'QA-GARDEN',title:'Khu vườn Hòa Lạc · 1.000 m²',area_m2:'1000',has_subplots:true,approval_status:'approved',status:'listed'});
+  const ward=(await db.pool.query("SELECT * FROM xland.geo_locations WHERE kind='commune' AND parent_code='22' AND name='Phường Hạ Long'")).rows[0];
+  let parent=await service.save(identity,'properties',{...values,code:'QA-GARDEN',title:'Khu đất Quảng Ninh · 1.000 m²',province_code:'22',commune_code:ward.code,catalog_version:ward.catalog_version,commune_name:ward.name,district_code:null,district:null,category:'industrial',land_type:'other',address_detail:'Khu phố 1',old_address:'Phường Bạch Đằng, thành phố Hạ Long, tỉnh Quảng Ninh',area_m2:'1000',has_subplots:true,approval_status:'approved',status:'listed'});
   const children=[];
   for(let i=1;i<=5;i++){
     parent=await service.get(identity,'properties',parent.id);

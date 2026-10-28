@@ -1,0 +1,16 @@
+{
+  "version": "vn-2026-09-20",
+  "revision": "8b78ba5118715e1fa81769286724db79346abf52",
+  "source": "https://raw.githubusercontent.com/thanglequoc/vietnamese-provinces-database/8b78ba5118715e1fa81769286724db79346abf52/json/simplified_json_generated_data_vn_units.json",
+  "sha256": "f624138116bde151c860cbd25a84cd6b9b38250e8a049ed371c55dee729ac286",
+  "officialReferences": [
+    "https://danhmuchanhchinh.nso.gov.vn/NghiDinh.aspx",
+    "https://chinhphu.vn/?classid=1&docid=219325&orggroupid=1&pageid=27160"
+  ],
+  "provinces": 34,
+  "communes": 3321,
+  "effectiveDate": "2026-09-20",
+  "retrievedAt": "2026-10-27",
+  "license": "MIT",
+  "note": "Region is Xland browsing taxonomy; codes, hierarchy and names are from the pinned source."
+}

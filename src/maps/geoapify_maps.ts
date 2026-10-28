@@ -14,12 +14,12 @@ const attribution = [
 const normalize = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd')
   .toLowerCase().trim().replace(/^(xa|phuong|thi tran|tinh|thanh pho|city of|province of)\s+/, '')
   .replace(/\s+(province|city)$/, '').replace(/[^a-z0-9]/g, '');
-const administrativeType = (text: string) => /^(xã|phường)\s+/iu.exec(text)?.[1]?.toLowerCase();
+const administrativeType = (text: string) => /^(xã|phường|đặc khu)\s+/iu.exec(text)?.[1]?.toLowerCase();
 export function namedArea(input?: NamedAreaInput): { label: string; key: string; commune: string; province: string } | null {
   if (!input || typeof input.commune !== 'string' || typeof input.province !== 'string') return null;
   const commune = input.commune.trim().replace(/\s+/g, ' '), province = input.province.trim().replace(/\s+/g, ' ');
   // Only administrative names, not house numbers, streets, GPS, or arbitrary geocoder queries.
-  if (!/^(xã|phường) [\p{L}\p{M}0-9 .'-]{1,90}$/iu.test(commune) ||
+  if (!/^(xã|phường|đặc khu) [\p{L}\p{M}0-9 .'-]{1,90}$/iu.test(commune) ||
       !/^[\p{L}\p{M} .'-]{2,100}$/u.test(province) || !normalize(commune) || !normalize(province)) return null;
   const key = createHash('sha256').update(`vn-named-v3|${administrativeType(commune)}|${normalize(commune)}|${normalize(province)}`).digest('hex');
   return { label: `${commune}, ${province}, Việt Nam`, key, commune, province };
@@ -115,12 +115,12 @@ export class GeoapifyAreaMapService implements AreaMapProvider {
       externalAreaMapUrl: external?.toString() ?? null, externalDirectionsUrl: directions?.toString() ?? null,
       tilePathTemplate: null, embedPageUrl: null, attribution: [],
     };
-    if (!input) return { ...base, availability: 'invalid_area', notice: 'Chưa có tên xã/phường và tỉnh/thành đầy đủ. ' + mapNotice };
+    if (!input) return { ...base, availability: 'invalid_area', notice: 'Chưa có tên xã/phường/đặc khu và tỉnh/thành đầy đủ. ' + mapNotice };
     if (!this.config.enabled) return base;
     try {
       const result = await this.resolve(input);
       if (result.availability !== 'ready' || result.latitude === null || result.longitude === null) {
-        return { ...base, availability: 'unavailable', notice: 'Chưa xác định được duy nhất xã/phường này trên bản đồ. ' + mapNotice };
+        return { ...base, availability: 'unavailable', notice: 'Chưa xác định được duy nhất xã/phường/đặc khu này trên bản đồ. ' + mapNotice };
       }
       return { ...base, availability: 'ready', provider: 'geoapify', attribution,
         notice: mapNotice, tilePathTemplate: '/maps/tiles/{z}/{x}/{y}.png',

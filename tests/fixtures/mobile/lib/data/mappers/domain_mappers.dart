@@ -552,6 +552,10 @@ Highlight mapHighlight(Object? input) {
 Property mapProperty(Object? input) {
   final value = wireObject(input);
   return Property(
+    communeCode: wireNullable(value['communeCode'], wireString),
+    communeName: wireNullable(value['communeName'], wireString),
+    addressDetail: wireNullable(value['addressDetail'], wireString),
+    oldAddress: wireNullable(value['oldAddress'], wireString),
     parentPropertyId: wireNullable(value['parentPropertyId'], wireString),
     hasSubplots: value.containsKey('hasSubplots')
         ? wireBool(value['hasSubplots'])
@@ -606,6 +610,7 @@ Property mapProperty(Object? input) {
 PropertyFilter mapPropertyFilter(Object? input) {
   final value = wireObject(input);
   return PropertyFilter(
+    communeCode: wireNullable(value['communeCode'], wireString),
     query: ((Object? value) =>
         wireNullable(value, wireString))(wireField(value, 'query')),
     regions: ((Object? value) =>
@@ -648,6 +653,9 @@ FilterOption mapFilterOption(Object? input) {
 FilterCatalog mapFilterCatalog(Object? input) {
   final value = wireObject(input);
   return FilterCatalog(
+    communes: value.containsKey('communes')
+        ? wireList(value['communes'], mapFilterOption)
+        : const [],
     provinces: ((Object? value) =>
         wireList(value, mapFilterOption))(wireField(value, 'provinces')),
     districts: ((Object? value) =>

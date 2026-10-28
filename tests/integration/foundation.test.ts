@@ -98,6 +98,8 @@ test('PostgreSQL vertical slice: auth, filter/cursor, persisted saves, legal ACL
       assert.equal((await request('/auth/sessions/current','DELETE',undefined,firstToken)).status,200);
       assert.equal((await request('/me/profile','GET',undefined,firstToken)).status,401);
       await db.pool.query("UPDATE xland.auth_sessions SET created_at=created_at-interval '2 days',expires_at=expires_at-interval '2 days' WHERE user_id=$1",[context.second.id]);
+      assert.equal((await request('/me/profile','GET',undefined,secondToken)).status,200,'long-lived sessions remain valid after two days');
+      await db.pool.query("UPDATE xland.auth_sessions SET expires_at=now()-interval '1 second' WHERE user_id=$1",[context.second.id]);
       assert.equal((await request('/me/profile','GET',undefined,secondToken)).status,401);
       for(let i=0;i<6;i++)await request('/auth/sessions','POST',{username:'missing-name',password:'incorrect-value'});
       assert.equal((await request('/auth/sessions','POST',{username:'missing-name',password:'incorrect-value'})).status,429);
